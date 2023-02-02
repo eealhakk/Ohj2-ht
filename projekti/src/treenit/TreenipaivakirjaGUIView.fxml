@@ -39,12 +39,12 @@
          </BorderPane.margin>
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;" GridPane.columnSpan="6" />
-            <Label text="Tiedosto" />
-            <Label text="Muokkaa" GridPane.columnIndex="1" />
-            <Label text="Apua" GridPane.columnIndex="2" />
+            <Label fx:id="PaaIkTiedosto" text="Tiedosto" />
+            <Label fx:id="PaaIkMuokkaa" text="Muokkaa" GridPane.columnIndex="1" />
+            <Label fx:id="PaaIkApua" text="Apua" GridPane.columnIndex="2" />
             <ListView prefHeight="200.0" prefWidth="155.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="6" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <TextField prefHeight="14.0" prefWidth="52.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <TextField fx:id="HakuPalkki" prefHeight="14.0" prefWidth="52.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <Label text="Liike" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <Label text="Toistot" GridPane.columnIndex="4" GridPane.rowIndex="1" />
             <Label text="Kg" GridPane.columnIndex="5" GridPane.rowIndex="1" />
@@ -61,17 +61,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="Tallenna" />
-                  <Button mnemonicParsing="false" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" text="Sulje" GridPane.columnIndex="3" />
-                  <Button mnemonicParsing="false" text="Uusi Liike" GridPane.columnIndex="2" />
+                  <Button fx:id="PaaIkTallenna" mnemonicParsing="false" text="Tallenna" />
+                  <Button fx:id="PaaIkUusiTreeni" mnemonicParsing="false" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
+                  <Button fx:id="PaaIkSulje" mnemonicParsing="false" text="Sulje" GridPane.columnIndex="3" />
+                  <Button fx:id="PaaIkUusiLiike" mnemonicParsing="false" text="Uusi Liike" GridPane.columnIndex="2" />
                </children>
             </GridPane>
-            <ChoiceBox prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <ListChooser rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <ListChooser rivit="Penkki&#10;incl. penkki&#10;lateral rice" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <ListChooser rivit="70, 70, 70, 70, 65&#10;70&#10;18&#10;" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <ListChooser rivit="15,15,15,14, 14&#10;15,15,15,14&#10;15,15,15,14&#10;" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
+            <ChoiceBox fx:id="PaaIkDropp" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ListChooser fx:id="PaaIkTreeniJaPaivaTaul" rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
+            <ListChooser fx:id="PaaIkLiikeTaul" rivit="Penkki&#10;incl. penkki&#10;lateral rice" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
+            <ListChooser fx:id="PaaIkKgTaul" rivit="70, 70, 70, 70, 65&#10;70&#10;18&#10;" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
+            <ListChooser fx:id="PaaIkToistotTaul" rivit="15,15,15,14, 14&#10;15,15,15,14&#10;15,15,15,14&#10;" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
          </children>
       </GridPane>
    </bottom>
