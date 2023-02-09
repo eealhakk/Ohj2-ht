@@ -18,7 +18,7 @@ public class TreenipaivakirjaMain extends Application {
         try {
             FXMLLoader ldr = new FXMLLoader(getClass().getResource("PaaIkkunaGUIView.fxml"));
             final Pane root = ldr.load();
-            //final TreenipaivakirjaGUIController treenipaivakirjaCtrl = (TreenipaivakirjaGUIController) ldr.getController();
+            //final PaaIkkunaGUIController treenipaivakirjaCtrl = (PaaIkkunaGUIController) ldr.getController();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("treenipaivakirja.css").toExternalForm());
             primaryStage.setScene(scene);
