@@ -16,7 +16,7 @@ public class TreenipaivakirjaMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("TreenipaivakirjaGUIView.fxml"));
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PaaIkkunaGUIView.fxml"));
             final Pane root = ldr.load();
             //final TreenipaivakirjaGUIController treenipaivakirjaCtrl = (TreenipaivakirjaGUIController) ldr.getController();
             Scene scene = new Scene(root);
