@@ -41,15 +41,15 @@
          </BorderPane.margin>
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;" GridPane.columnSpan="6" />
-            <Label fx:id="PaaIkTiedosto" text="Tiedosto">
+            <Label fx:id="PaaIkTiedosto" onMouseReleased="#avaaTiedosto" text="Tiedosto">
                <font>
                   <Font size="20.0" />
                </font></Label>
-            <Label fx:id="PaaIkMuokkaa" text="Muokkaa" GridPane.columnIndex="1">
+            <Label fx:id="PaaIkMuokkaa" onMouseReleased="#avaaMuokkaa" text="Muokkaa" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font></Label>
-            <Label fx:id="PaaIkApua" text="Apua" GridPane.columnIndex="2">
+            <Label fx:id="PaaIkApua" onMouseReleased="#avaaApua" text="Apua" GridPane.columnIndex="2">
                <font>
                   <Font size="20.0" />
                </font></Label>
@@ -70,7 +70,7 @@
                </font></Label>
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <ChoiceBox fx:id="PaaIkDropp" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="PaaIkDropp" onMouseReleased="#avaaAlasveto" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <ListChooser fx:id="PaaIkTreeniJaPaivaTaul" rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListChooser fx:id="PaaIkLiikeTaul" rivit="Penkki&#10;incl. penkki&#10;lateral rice" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListChooser fx:id="PaaIkKgTaul" rivit="70, 70, 70, 70, 65&#10;70&#10;18&#10;" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
@@ -88,10 +88,10 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="PaaIkTallenna" mnemonicParsing="false" text="Tallenna" />
-                        <Button fx:id="PaaIkUusiTreeni" mnemonicParsing="false" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
-                        <Button fx:id="PaaIkSulje" mnemonicParsing="false" text="Sulje" GridPane.columnIndex="3" />
-                        <Button fx:id="PaaIkUusiLiike" mnemonicParsing="false" text="Uusi Liike" GridPane.columnIndex="2" />
+                        <Button fx:id="PaaIkTallenna" mnemonicParsing="false" onMouseReleased="#avaaTallenna" text="Tallenna" />
+                        <Button fx:id="PaaIkUusiTreeni" mnemonicParsing="false" onMouseReleased="#avaaUusiTreeni" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
+                        <Button fx:id="PaaIkSulje" mnemonicParsing="false" onMouseReleased="#avaaSulje" text="Sulje" GridPane.columnIndex="3" />
+                        <Button fx:id="PaaIkUusiLiike" mnemonicParsing="false" onMouseReleased="#avaaUusiLiike" text="Uusi Liike" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>
                </children>
