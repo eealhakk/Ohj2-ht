@@ -1,5 +1,7 @@
 package treenit;
 
+import java.awt.event.ActionEvent;
+
 import fi.jyu.mit.fxgui.Dialogs;
 /**
  * @author Eeli ja Antti
@@ -9,10 +11,14 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController; //Ei vielä käytössä
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class PaaIkkunaGUIController {
 
@@ -31,10 +37,24 @@ public class PaaIkkunaGUIController {
     @FXML private Button PaaIkUusiTreeni;
     
 
-    @FXML private void avaaUusiLiike() {
-        //eiToimi();
-        ModalController.showModal(PaaIkkunaGUIController.class.getResource("treenit.UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+    @FXML void avaaUusiLiike() {
+        //Toimii: eiToimi();
+        //Ei Toimi: ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+        
+        //Ei toimi. ongelmia kohdan -- Parent root1 = (Parent) fxmlLoader.load(); -- kanssa.
+        //Caused by: java.lang.ClassCastException: class treenit.UusiLiikeGUIController cannot be cast to class fi.jyu.mit.fxgui.ModalControllerInterface (treenit.UusiLiikeGUIController and fi.jyu.mit.fxgui.ModalControllerInterface are in unnamed module of loader 'app')
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(PaaIkkunaGUIController.class.getResource("treenit.UusiLiikeGUIView.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.show();
+            } catch (Exception e) {
+                Dialogs.showMessageDialog("Ei toimi vielä!");
+        }
+        
     }
+    
 
     @FXML private void avaaTiedosto() {eiToimi();}
     
