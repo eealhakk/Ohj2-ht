@@ -6,6 +6,9 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,19 +43,28 @@
             <Insets top="5.0" />
          </BorderPane.margin>
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;" GridPane.columnSpan="6" />
-            <Label fx:id="PaaIkTiedosto" onMouseReleased="#avaaTiedosto" text="Tiedosto">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
-            <Label fx:id="PaaIkMuokkaa" onMouseReleased="#avaaMuokkaa" text="Muokkaa" GridPane.columnIndex="1">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
-            <Label fx:id="PaaIkApua" onMouseReleased="#avaaApua" text="Apua" GridPane.columnIndex="2">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #DCDCDC;" GridPane.columnSpan="6">
+               <children>
+                  <MenuBar fx:id="PaaIkMenubar" layoutX="-11.0" prefHeight="23.0" prefWidth="191.0" style="-fx-background-color: #DCDCDC;">
+                    <menus>
+                      <Menu fx:id="PaaIkTiedosto" mnemonicParsing="false" text="Tiedosto">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Close" />
+                        </items>
+                      </Menu>
+                      <Menu fx:id="PaaIkMuokkaa" mnemonicParsing="false" text="Muokkaa">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="Delete" />
+                        </items>
+                      </Menu>
+                      <Menu fx:id="PaaIkApua" mnemonicParsing="false" text="Apua">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="About" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+               </children></Pane>
             <ListView prefHeight="200.0" prefWidth="155.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="6" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <TextField fx:id="HakuPalkki" prefHeight="14.0" prefWidth="52.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />

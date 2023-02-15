@@ -1,6 +1,7 @@
 package treenit;
 
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,7 +12,7 @@ import javafx.scene.control.TextField;
  */
 
 
-public class UusiLiikeGUIController {
+public class UusiLiikeGUIController implements ModalControllerInterface<String> {
 
     @FXML private TextField uusiLiikeKg;
     @FXML private TextField uusiLiikeLiike;
@@ -32,6 +33,21 @@ public class UusiLiikeGUIController {
      */
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
+    }
+    @Override
+    public String getResult() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public void handleShown() {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public void setDefault(String oletus) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
