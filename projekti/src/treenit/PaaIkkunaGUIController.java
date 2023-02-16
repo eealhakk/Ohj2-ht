@@ -67,23 +67,11 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
         //Toimii: eiToimi();
         //Ei Toimi: 
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
-        
-        //Ei toimi. ongelmia kohdan -- Parent root1 = (Parent) fxmlLoader.load(); -- kanssa.
-        //Caused by: java.lang.ClassCastException: class treenit.UusiLiikeGUIController cannot be cast to class fi.jyu.mit.fxgui.ModalControllerInterface (treenit.UusiLiikeGUIController and fi.jyu.mit.fxgui.ModalControllerInterface are in unnamed module of loader 'app')
-        /*
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(PaaIkkunaGUIController.class.getResource("treenit.UusiLiikeGUIView.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
-            stage.show();
-            } catch (Exception e) {
-                Dialogs.showMessageDialog("Ei toimi vielä!");
-        }
-        */
-        
     }
     
+    @FXML void avaaUusiTreeni() {
+        ModalController.showModal(PaaIkkunaGUIController.class.getResource("ValitseTreeniGUIView.fxml"), "UusiTreeni", null, "");
+        }
 
     //@FXML private void avaaTiedosto() {eiToimi();}
     
@@ -93,7 +81,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
     @FXML private void avaaTallenna() {eiToimi();}
 
-    @FXML private void avaaUusiTreeni() {eiToimi();}
+
 
     //@FXML private void avaaApua() {eiToimi();}
 
