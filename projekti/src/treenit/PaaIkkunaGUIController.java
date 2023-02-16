@@ -11,6 +11,7 @@ import fi.jyu.mit.fxgui.Dialogs;
  */
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController; //Ei vielä käytössä
+import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +33,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class PaaIkkunaGUIController {
+public class PaaIkkunaGUIController implements ModalControllerInterface<String> {
 
     @FXML private TextField HakuPalkki;
     //@FXML private Label PaaIkApua;
@@ -105,6 +106,27 @@ public class PaaIkkunaGUIController {
      */
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
+    }
+
+
+    @Override
+    public String getResult() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public void handleShown() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void setDefault(String oletus) {
+        // TODO Auto-generated method stub
+        
     }
     
 
