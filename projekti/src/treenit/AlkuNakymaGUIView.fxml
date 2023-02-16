@@ -30,6 +30,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="alkuNakAnnaVuosi" onMouseClicked="#avaaAsetaVuosi" prefHeight="25.0" prefWidth="44.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextField fx:id="alkuNakAnnaVuosi" onAction="#avaaAsetaVuosi" prefHeight="25.0" prefWidth="44.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
    </children>
 </GridPane>
