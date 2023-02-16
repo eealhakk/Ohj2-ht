@@ -82,9 +82,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     
     //@FXML private void avaaMuokkaa() {eiToimi();}
 
-    @FXML private void avaaSulje() {eiToimi();}
+    @FXML private void avaaSulje() { tallentamattomatMuutokset();}
 
-    @FXML private void avaaTallenna() {tallentamattomatMuutokset();}
+    @FXML private void avaaTallenna() {eiToimi();}
 
 
 
