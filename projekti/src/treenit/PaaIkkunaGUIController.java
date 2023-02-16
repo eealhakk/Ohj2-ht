@@ -73,13 +73,16 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("ValitseTreeniGUIView.fxml"), "UusiTreeni", null, "");
         }
 
+    @FXML void tallentamattomatMuutokset() {
+        ModalController.showModal(PaaIkkunaGUIController.class.getResource("TallentamatonMuutosGUIView.fxml"), "TallentamatonMuutos", null, "");
+    }
     //@FXML private void avaaTiedosto() {eiToimi();}
     
     //@FXML private void avaaMuokkaa() {eiToimi();}
 
     @FXML private void avaaSulje() {eiToimi();}
 
-    @FXML private void avaaTallenna() {eiToimi();}
+    @FXML private void avaaTallenna() {tallentamattomatMuutokset();}
 
 
 
