@@ -3,6 +3,7 @@ package treenit;
 //import java.awt.Menu; <- ei toimi allaolevan "import javafx.scene.control.Menu;" kanssa
 import java.awt.event.ActionEvent;
 
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 /**
  * @author Eeli ja Antti
@@ -37,7 +38,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
     @FXML private TextField HakuPalkki;
     //@FXML private Label PaaIkApua;
-    @FXML private ChoiceBox<?> PaaIkDropp;
+    @FXML
+    private ComboBoxChooser<?> PaaIkDropp;
     @FXML private ListChooser<?> PaaIkKgTaul;
     @FXML private ListChooser<?> PaaIkLiikeTaul;
     //@FXML private Label PaaIkMuokkaa;
@@ -88,7 +90,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
     //@FXML private void avaaApua() {eiToimi();}
 
-    @FXML private void avaaAlasveto() {eiToimi();}
+    //@FXML private void avaaAlasveto() {
+        
+    
 
 //======================================================
     

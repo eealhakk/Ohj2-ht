@@ -1,7 +1,10 @@
 package treenit;
 
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 
         @FXML
         private ChoiceBox<?> lisaaTreeniIkValitsin;
+        
+        @FXML
+        private ComboBoxChooser<?> PaaIkDropp;
 
         @FXML
         void lisaaTreeniIkValitsinAvaa() {
@@ -34,7 +40,13 @@ import javafx.scene.input.MouseEvent;
             
         }
         
+
+        
+        
         //=================================
+        
+        
+        
         
         public void eiToimi() {
             Dialogs.showMessageDialog("Ei toimi vielä!");
