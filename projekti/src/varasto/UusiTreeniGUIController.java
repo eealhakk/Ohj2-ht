@@ -1,4 +1,4 @@
-package treenit;
+package varasto;
 
 /**
  * @author antti
