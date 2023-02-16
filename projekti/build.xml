@@ -14,6 +14,24 @@
             </manifest>
             <fileset dir="${dir.jarfile}/bin"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/org.eclipse.fx.ide.css.jfx8_3.8.0.202204150904.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Ali.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/fxgui.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Graphics.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Music.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-migrationsupport_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-params_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-commons_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-engine_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-launcher_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-runner_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-suite-api_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-suite-engine_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-suite-commons_1.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-vintage-engine_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/org.opentest4j_1.2.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/org.apiguardian.api_1.1.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/org.junit_4.13.2.v20211018-1956.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
         </jar>
     </target>
 </project>
