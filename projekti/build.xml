@@ -18,6 +18,8 @@
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/fxgui.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Graphics.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/jar/Music.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-api_5.9.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-engine_5.9.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-migrationsupport_5.9.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-jupiter-params_5.9.1.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="C:/devel/ec2212/eclipse/plugins/junit-platform-commons_1.9.1.jar"/>
