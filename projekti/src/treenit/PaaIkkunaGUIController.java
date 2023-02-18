@@ -5,11 +5,6 @@ import java.awt.event.ActionEvent;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
-/**
- * @author Eeli ja Antti
- * @version 25.1.2023
- *
- */
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
@@ -34,6 +29,12 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Treenipäiväkirjan pääikkunan muodostaja.
+ * @author Eeli ja Antti
+ * @version 18.2.2023
+ *
+ */
 public class PaaIkkunaGUIController implements ModalControllerInterface<String> {
 
     @FXML private TextField HakuPalkki;
@@ -52,17 +53,10 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     @FXML private Button PaaIkUusiTreeni;
     
     //uusia
-    @FXML
-    private Menu PaaIkApua;
-    
-    @FXML
-    private MenuBar PaaIkMenubar;
-
-    @FXML
-    private Menu PaaIkMuokkaa;
-
-    @FXML
-    private Menu PaaIkTiedosto;
+    @FXML private Menu PaaIkApua;
+    @FXML private MenuBar PaaIkMenubar;
+    @FXML private Menu PaaIkMuokkaa;
+    @FXML private Menu PaaIkTiedosto;
     
 
     @FXML void avaaUusiLiike() {

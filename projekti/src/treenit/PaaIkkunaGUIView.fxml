@@ -99,7 +99,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="PaaIkTallenna" mnemonicParsing="false" onAction="#tallentamattomatMuutokset" onMouseReleased="#avaaTallenna" text="Tallenna" />
+                        <Button fx:id="PaaIkTallenna" mnemonicParsing="false" onAction="#avaaTallenna" onMouseReleased="#avaaTallenna" text="Tallenna" />
                         <Button fx:id="PaaIkUusiTreeni" mnemonicParsing="false" onMouseReleased="#avaaUusiTreeni" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
                         <Button fx:id="PaaIkSulje" mnemonicParsing="false" onMouseReleased="#avaaSulje" text="Sulje" GridPane.columnIndex="3" />
                         <Button fx:id="PaaIkUusiLiike" mnemonicParsing="false" onMouseReleased="#avaaUusiLiike" text="Uusi Liike" GridPane.columnIndex="2" />

@@ -6,12 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 /**
- * @author antti
- * @version 9.2.2023
+ * Uusi liike-näkymän moudostaja.
+ * @author antti ja eeli
+ * @version 18.2.2023
  *
  */
-
-
 public class UusiLiikeGUIController implements ModalControllerInterface<String> {
 
     @FXML private TextField uusiLiikeKg;

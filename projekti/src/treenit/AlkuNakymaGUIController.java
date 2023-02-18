@@ -6,8 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 /**
+ * Treenipäiväkirjan alkunäkymän muodostaja.
  * @author antti ja eeli
- * @version 16.2.2023
+ * @version 18.2.2023
  *
  */
 public class AlkuNakymaGUIController  {

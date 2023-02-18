@@ -8,8 +8,9 @@ import javafx.fxml.FXMLLoader;
 
 
 /**
+ * Treenipäiväkirjan pääohjelma.
  * @author Eeli ja Antti
- * @version 16.2.2023
+ * @version 18.2.2023
  *
  */
 public class TreenipaivakirjaMain extends Application {

@@ -9,16 +9,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 
+    /** 
+     * Valitse treeni-näkymän muodostaja.
+     * @author antti ja eeli
+     * @version Feb 18, 2023
+     *
+     */
     public class ValitseTreeniGUIController implements ModalControllerInterface<String> {
 
-        @FXML
-        private ChoiceBox<?> lisaaTreeniIkValitsin;
+        @FXML private ChoiceBox<?> lisaaTreeniIkValitsin;
+        @FXML private ComboBoxChooser<?> PaaIkDropp;
         
-        @FXML
-        private ComboBoxChooser<?> PaaIkDropp;
-
-        @FXML
-        void lisaaTreeniIkValitsinAvaa() {
+        @FXML void lisaaTreeniIkValitsinAvaa() {
             eiToimi();
         }
 
@@ -40,14 +42,9 @@ import javafx.scene.input.MouseEvent;
             
         }
         
-
-        
-        
-        //=================================
-        
-        
-        
-        
+        /**
+         * Antaa vikaviestin. 
+         */
         public void eiToimi() {
             Dialogs.showMessageDialog("Ei toimi vielä!");
         }

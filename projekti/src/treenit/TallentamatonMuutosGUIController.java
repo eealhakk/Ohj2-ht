@@ -10,8 +10,9 @@ import javafx.fxml.FXML;
 
 
 /**
- * @author antti
- * @version 16.2.2023
+ * Tallentamaton muutos-näkymän muodostaja.
+ * @author antti ja eeli
+ * @version 18.2.2023
  *
  */
 public class TallentamatonMuutosGUIController implements ModalControllerInterface<String>  {
@@ -24,7 +25,7 @@ public class TallentamatonMuutosGUIController implements ModalControllerInterfac
     @FXML private void avaaTallenna() {eiToimi();}
     
     /**
-     * Kertoo, että toiminto ei toimi
+     * Näyttää vikaviestin.
      */
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
