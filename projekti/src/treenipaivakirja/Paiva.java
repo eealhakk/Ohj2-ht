@@ -23,9 +23,9 @@ public class Paiva {
         
         
     private static class Paivamaara{
-        int pp;
-        int kk;
-        int vv;
+        private int pp;
+        private int kk;
+        private int vv;
         
         public Paivamaara() {
             this.pp = 0;
@@ -34,16 +34,33 @@ public class Paiva {
         }
         
         
-        public String toString(Paivamaara pv){
-            return "" + pp + kk + vv;
+        @Override
+        public String toString(){
+            String jono = String.format("%02d",pp) + "." + String.format("%02d",kk)
+                             + "." + String.format("%04d",vv);
+            return jono;
+        }
+        
+        public void setPv(int pvm, int kk, int vuosi) {
+            this.pp = pvm;
+            this.kk = kk;
+            this.vv = vuosi;
         }
 
+    }
+    
+    public String toString(Paivamaara pv){
+        return pv.toString();
     }
     
     public int rekisteroi() {
         tunnusNro = seuraavaNro;
         seuraavaNro++;
         return tunnusNro;
+    }
+    
+    public void setPv(int pvm, int kk, int vuosi) {
+        paivamaara.setPv(pvm,kk,vuosi);
     }
     
 /*
@@ -56,6 +73,20 @@ public class Paiva {
         
     }
 */
+    /*
+     *         private int                 tunnusNro;
+        private final Paivamaara    paivamaara       = new Paivamaara();
+        private String              treeninTyyppi    = "";
+        private String              luontipv         = "";
+        private String              muokattuViimeksi = "";
+     */
+    public void tulosta(PrintStream out) {
+        out.println(String.format("%03d", tunnusNro, 3));
+        out.println("pvm:  " + paivamaara.toString() + "\n" +
+                    "luontipv  " + "( " + luontipv + " )" + "\n" +
+                    "muokattuViimeksi " + "( " +  muokattuViimeksi + " )");
+    }
+
     
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
@@ -65,6 +96,7 @@ public class Paiva {
     public static void main(String args[]) {
         Paiva eka = new Paiva();
         eka.rekisteroi();
+        eka.setPv(1,3,2023);
         
         eka.tulosta(System.out);
 
