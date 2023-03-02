@@ -142,8 +142,8 @@ public class Paiva {
         int ivv = ranL(2000,2023);
         
         paivamaara.setpp(ipp);
-        paivamaara.setpp(ikk);
-        paivamaara.setpp(ivv);
+        paivamaara.setkk(ikk);
+        paivamaara.setvv(ivv);
         treeninTyyppi = "Kuntosali";
         luontipv = "1.1.2000";
         muokattuViimeksi = "2.2.2000";
