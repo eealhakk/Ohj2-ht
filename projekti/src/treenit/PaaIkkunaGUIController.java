@@ -18,7 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import treenipaivakirja.Paiva;
+import treenipaivakirja.SailoException;
+import treenipaivakirja.Treenipaivakirja;
 //uusia
 import fi.jyu.mit.fxgui.ListChooser;
 import javafx.fxml.FXML;
@@ -90,6 +92,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
 //======================================================
     
+    private Treenipaivakirja treenipaivakirja;
+    private String treeninTunnusVuosi = "2023";  //TODO: vaihda tyyppi int
+    
     /**
      * Näyttää vikaviestin
      */
@@ -116,6 +121,79 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     public void setDefault(String oletus) {
         // TODO Auto-generated method stub
         
+    }
+
+
+    public void setTreenipaivakirja(Treenipaivakirja treenipaivakirja) {
+        // TODO Auto-generated method stub
+        this.treenipaivakirja = treenipaivakirja;
+    }
+ 
+    
+    /**
+     * Kysytään tiedoston nimi ja luetaan se
+     * @return true jos onnistui, false jos ei
+     */
+    public boolean avaa() {
+        /* try { */
+        String uusiVuosi = AlkuNakymaGUIController.kysyVuosi(null, treeninTunnusVuosi);
+        if ((uusiVuosi == null)) return false;
+        lueTiedosto(uusiVuosi);
+        return true;
+        /*
+        }catch (SailoException e) {
+            Dialogs.showMessageDialog("Virheellinen vuosi: " + e.getMessage());
+            return false;
+        }
+        */
+    }
+    
+    /**
+     * Tarkistetaan onko tallennus tehty
+     * @return true jos saa sulkea sovelluksen, false jos ei
+     */
+    public boolean voikoSulkea() {
+        tallenna();
+        return true;
+    }
+    
+    /**
+     * Tietojen tallennus
+     */
+    private void tallenna() {
+        Dialogs.showMessageDialog("Tallennetetaan! Mutta ei toimi vielä");
+    }
+
+
+    
+    /**
+     * Alustaa treenipaivakirjan lukemalla sen valitun nimisestä tiedostosta
+     * @param vuosi tiedosto josta treenipaivakirjan tiedot luetaan
+     */
+    protected void lueTiedosto(String vuosi) {
+        treeninTunnusVuosi = vuosi;
+        setTitle("treenipaivakirja - " + " vuosi: " + treeninTunnusVuosi);
+        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+        // if (virhe != null) 
+            Dialogs.showMessageDialog(virhe);
+    }
+    
+    private void setTitle(String string) {
+        ModalController.getStage(HakuPalkki).setTitle("" + string);
+    }
+
+
+
+    
+    private void uusiPaiva() {
+        Paiva uusi = new Paiva();
+        uusi.rekisteroi();
+        uusi.vastaaEsimerkkiTreeni();
+        try {
+            treenipaivakirja.lisaa(uusi);
+        }catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());    
+        }
     }
     
 

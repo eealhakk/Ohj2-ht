@@ -17,7 +17,9 @@ public class Treenipaivakirja {
     }
 
     /**
-     * Poistaa paivista,(ja muista) ne joilla on nro. TODO: Kesken
+     * TODO: Kesken
+     * 
+     * Poistaa paivista,(ja muista) ne joilla on nro. 
      * @param nro viitenumero, jonka mukaan poistetaan
      * @return montako paivaa poistettiin
      */
