@@ -9,7 +9,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -82,7 +84,7 @@
                </font></Label>
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <ListChooser fx:id="PaaIkTreeniJaPaivaTaul" rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
+            <ListChooser fx:id="PaaIkTreeniJaPaivaTaul" rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4" />
             <ListChooser fx:id="PaaIkLiikeTaul" rivit="Penkki&#10;incl. penkki&#10;lateral rice" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListChooser fx:id="PaaIkKgTaul" rivit="70, 70, 70, 70, 65&#10;70&#10;18&#10;" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListChooser fx:id="PaaIkToistotTaul" rivit="15,15,15,14, 14&#10;15,15,15,14&#10;15,15,15,14&#10;" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
@@ -108,6 +110,11 @@
                </children>
             </StackPane>
             <ComboBoxChooser fx:id="PaaIkDropp" rivit="Kissa&#10;Koira&#10;Apina" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ScrollPane fx:id="PaaIkScrollPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="6">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </bottom>

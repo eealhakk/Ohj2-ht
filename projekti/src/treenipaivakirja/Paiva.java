@@ -19,10 +19,11 @@ public class Paiva {
     
         /**
          * Muodostaja
-         */
+         
         public Paiva() {//==
             // TODO Auto-generated constructor stub
         }
+        */
         
         
     private static class Paivamaara{
@@ -181,4 +182,22 @@ public class Paiva {
 
 
     }
+
+    /**
+     * @return Tunnus numero
+     */
+    public int getTunnusNro() {
+        return tunnusNro;
+    }
+
+    /**
+     * @return päivämäärä muotoa 12.1.2022
+     */
+    public String getPvm() {
+        return this.paivamaara.toString();
+    }
+
+
+
+
 }

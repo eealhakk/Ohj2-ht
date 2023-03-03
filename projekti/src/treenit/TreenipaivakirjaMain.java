@@ -25,19 +25,21 @@ public class TreenipaivakirjaMain extends Application {
             //Lisätty
             final PaaIkkunaGUIController treenipaivakirjaCtrl = (PaaIkkunaGUIController) ldr.getController();
             
-            Scene scene = new Scene(root);
+            //lisätty final Scene...
+            final Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("treenipaivakirja.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("Treenipaivakirja");
             
             //Lisätty x2
-            Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
-            treenipaivakirjaCtrl.setTreenipaivakirja(treenipaivakirja);
-            
-            //lisätty
             primaryStage.setOnCloseRequest((event) -> {
                 if ( !treenipaivakirjaCtrl.voikoSulkea() ) event.consume();
             });
+                        
+            //lisätty
+            Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
+            treenipaivakirjaCtrl.setTreenipaivakirja(treenipaivakirja);
+
             
             primaryStage.show();
             //Lisätty

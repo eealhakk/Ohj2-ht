@@ -16,10 +16,12 @@ import treenipaivakirja.Treenipaivakirja;
  */
 public class AlkuNakymaGUIController implements ModalControllerInterface<String>  {
     @FXML private TextField alkuNakAnnaVuosi;
+    private String vastaus = null;
     
     @FXML private void avaaAsetaVuosi() {
-        ModalController.showModal(AlkuNakymaGUIController.class.getResource("PaaIkkunaGUIView.fxml"), "PaaIkkuna", null, "");
-      
+        //ModalController.showModal(AlkuNakymaGUIController.class.getResource("PaaIkkunaGUIView.fxml"), "PaaIkkuna", null, "");
+        vastaus = alkuNakAnnaVuosi.getText();
+        ModalController.closeStage(alkuNakAnnaVuosi);
     }
     
     /**
@@ -44,8 +46,7 @@ public class AlkuNakymaGUIController implements ModalControllerInterface<String>
 
     @Override
     public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return vastaus;
     }
 
     @Override

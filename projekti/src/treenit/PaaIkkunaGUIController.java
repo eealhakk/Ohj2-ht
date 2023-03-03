@@ -2,25 +2,31 @@ package treenit;
 
 //import java.awt.Menu; <- ei toimi allaolevan "import javafx.scene.control.Menu;" kanssa
 import java.awt.event.ActionEvent;
+import java.io.PrintStream;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import treenipaivakirja.Paiva;
-import treenipaivakirja.SailoException;
-import treenipaivakirja.Treenipaivakirja;
+
+
 //uusia
 import fi.jyu.mit.fxgui.ListChooser;
 import javafx.fxml.FXML;
@@ -30,6 +36,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import treenipaivakirja.Paiva;
+import treenipaivakirja.Treenipaivakirja;
+import treenipaivakirja.SailoException;
+
 
 /**
  * Treenipäiväkirjan pääikkunan muodostaja.
@@ -37,7 +48,7 @@ import javafx.scene.input.MouseEvent;
  * @version 18.2.2023
  *
  */
-public class PaaIkkunaGUIController implements ModalControllerInterface<String> {
+public class PaaIkkunaGUIController implements ModalControllerInterface<String>, Initializable  {
 
     @FXML private TextField HakuPalkki;
     //@FXML private Label PaaIkApua;
@@ -50,7 +61,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     @FXML private Button PaaIkTallenna;
     //@FXML private Label PaaIkTiedosto;
     @FXML private ListChooser<?> PaaIkToistotTaul;
-    @FXML private ListChooser<?> PaaIkTreeniJaPaivaTaul;
+    @FXML private ListChooser<Paiva> PaaIkTreeniJaPaivaTaul;
     @FXML private Button PaaIkUusiLiike;
     @FXML private Button PaaIkUusiTreeni;
     
@@ -61,6 +72,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     @FXML private Menu PaaIkTiedosto;
     
 
+    @FXML private ScrollPane PaaIkScrollPane;
+    
+
     @FXML void avaaUusiLiike() {
         //Toimii: eiToimi();
         //Ei Toimi: 
@@ -68,12 +82,28 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     }
     
     @FXML void avaaUusiTreeni() {
-        ModalController.showModal(PaaIkkunaGUIController.class.getResource("ValitseTreeniGUIView.fxml"), "UusiTreeni", null, "");
+        uusiPaiva();
+        //ModalController.showModal(PaaIkkunaGUIController.class.getResource("ValitseTreeniGUIView.fxml"), "UusiTreeni", null, "");
         }
 
     @FXML void tallentamattomatMuutokset() {
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("TallentamatonMuutosGUIView.fxml"), "TallentamatonMuutos", null, "");
     }
+    
+    /*
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();      
+    }
+     */
+    
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        // TODO Auto-generated method stub
+        alusta();
+        
+    }
+    
     //@FXML private void avaaTiedosto() {eiToimi();}
     
     //@FXML private void avaaMuokkaa() {eiToimi();}
@@ -93,7 +123,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 //======================================================
     
     private Treenipaivakirja treenipaivakirja;
-    private String treeninTunnusVuosi = "2023";  //TODO: vaihda tyyppi int
+    private String treeninTunnusVuosi = "2023";  //TODO: vaihda tyyppi int ja metodit vastaanottamaan int mitkä käyttää tätät arvoa
+    private TextArea areaPaiva = new TextArea();
+    private Paiva paivaKohdalla;
     
     /**
      * Näyttää vikaviestin
@@ -101,7 +133,39 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
+    
+    
+    
+    
+    /**
+     * Alustaa myöhemmin Liike, Toistot ja Kg ikkunat??
+     * Otettu vasta pohjaksi
+     */
+    protected void alusta() {
+        PaaIkScrollPane.setContent(areaPaiva);
+        areaPaiva.setFont(new Font("Courier New", 12));
+        PaaIkScrollPane.setFitToHeight(true);
+        
+        PaaIkTreeniJaPaivaTaul.clear();
+        PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
+    }
 
+
+    /**
+     * Näyttää listasta valitun jäsenen tiedot, tilapäisesti yhteen isoon edit-kenttään
+     */
+    protected void naytaPaiva() {
+            paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject();
+
+            if (paivaKohdalla == null) return;
+
+            areaPaiva.setText("");
+            try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
+                paivaKohdalla.tulosta(os);
+            }
+        
+
+    }
 
     @Override
     public String getResult() {
@@ -125,10 +189,25 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
 
     public void setTreenipaivakirja(Treenipaivakirja treenipaivakirja) {
-        // TODO Auto-generated method stub
         this.treenipaivakirja = treenipaivakirja;
+        //Vesalla vastaavassa kohdassa naytaJasen();
     }
- 
+    
+    /**
+     * Hakee paivien tiedot listaan
+     * @param jnro paivan numero, joka aktivoidaan haun jälkeen
+     */
+    protected void hae(int jnro) {
+        PaaIkTreeniJaPaivaTaul.clear();
+
+        int index = 0;
+        for (int i = 0; i < treenipaivakirja.getPaivia(); i++) {
+            Paiva paiva = treenipaivakirja.annaPaiva(i);
+            if (paiva.getTunnusNro() == jnro) index = i;
+            PaaIkTreeniJaPaivaTaul.add("" + paiva.getPvm(), paiva);
+        }
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+    }
     
     /**
      * Kysytään tiedoston nimi ja luetaan se
@@ -184,16 +263,19 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String> 
 
 
 
-    
+    //TODO: Korjaa : Heittää nullpointer
     private void uusiPaiva() {
         Paiva uusi = new Paiva();
         uusi.rekisteroi();
         uusi.vastaaEsimerkkiTreeni();
         try {
-            treenipaivakirja.lisaa(uusi);
+            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
+            //Ei pääse Treenipaivakirjan lisaa metodiin.
         }catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());    
         }
+        
+        hae(uusi.getTunnusNro());
     }
     
 

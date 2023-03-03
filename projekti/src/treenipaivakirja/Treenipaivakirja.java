@@ -27,6 +27,31 @@ public class Treenipaivakirja {
         return 0;
     }
     
+    /**
+     * Lisää kerhoon uuden jäsenen
+     * @param paiva lisättävä jäsen
+     * @throws SailoException jos lisäystä ei voida tehdä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
+     * Paiva abc = new Paiva(), ggg = new Paiva();
+     * abc.rekisteroi(); ggg.rekisteroi();
+     * treenipaivakirja.getPaivia() === 0;
+     * treenipaivakirja.lisaa(abc); treenipaivakirja.getPaivia() === 1;
+     * treenipaivakirja.lisaa(ggg); treenipaivakirja.getPaivia() === 2;
+     * treenipaivakirja.lisaa(abc); treenipaivakirja.getPaivia() === 3;
+     * treenipaivakirja.getPaivia() === 3;
+     * treenipaivakirja.annaPaiva(0) === abc;
+     * treenipaivakirja.annaPaiva(1) === ggg;
+     * treenipaivakirja.annaPaiva(2) === abc;
+     * treenipaivakirja.annaPaiva(3) === abc; #THROWS IndexOutOfBoundsException 
+     * treenipaivakirja.lisaa(abc); treenipaivakirja.getPaivia() === 4;
+     * treenipaivakirja.lisaa(abc); treenipaivakirja.getPaivia() === 5;
+     * treenipaivakirja.lisaa(abc);            #THROWS SailoException
+     * </pre>
+     */
+
     public void lisaa(Paiva paiva) throws SailoException {
         paivat.lisaa(paiva);
     }
@@ -37,7 +62,6 @@ public class Treenipaivakirja {
      * @return viite i:teen paivaan
      * @throws IndexOutOfBoundsException jos i väärin
      */
-
     public Paiva annaPaiva(int i) {
         return paivat.anna(i);
     }
