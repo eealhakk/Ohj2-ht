@@ -3,6 +3,8 @@
  */
 package treenipaivakirja;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -37,6 +39,14 @@ public class Treeni {
         int luku;
         luku = (int) (Math.random() * (max - min) + min);
         return luku;
+    }
+    
+    /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
+     */
+    public void vastaaEsimerkkiTreenityyppi() {
+        ArrayList<String> x = new ArrayList<String>(Arrays.asList("SaliTreeni","Lenkki","UintiTreeni"));
+        treeninTyyppi = x.get(ranL(1,3));
     }
     
 
