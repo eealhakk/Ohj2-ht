@@ -88,6 +88,7 @@ public class Treeni {
    
     
     /**
+     * testipääohjelma
      * @param args ei käytössä
      */
     public static void main(String[] args) {
