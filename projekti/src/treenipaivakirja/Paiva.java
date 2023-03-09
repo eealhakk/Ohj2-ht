@@ -1,6 +1,8 @@
 package treenipaivakirja;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Eeli
@@ -84,6 +86,15 @@ public class Paiva {
     }
     
     /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
+     */
+    public void vastaaEsimerkkiTreenityyppi() {
+        ArrayList<String> x = new ArrayList<String>(Arrays.asList("Kuntosali","Lenkki","Uinti"));
+        treeninTyyppi = x.get(ranL(1,3));
+    }
+    
+    
+    /**
      * @param pv päivä
      * @return päivä merkkijonona
      */
@@ -140,12 +151,12 @@ public class Paiva {
     public void vastaaEsimerkkiTreeni() {
         int ipp = ranL(1,31);
         int ikk = ranL(1,12);
-        int ivv = ranL(2000,2023);
+        int ivv = ranL(2022,2023);
         
         paivamaara.setpp(ipp);
         paivamaara.setkk(ikk);
         paivamaara.setvv(ivv);
-        treeninTyyppi = "Kuntosali";
+        vastaaEsimerkkiTreenityyppi();
         luontipv = "1.1.2000";
         muokattuViimeksi = "2.2.2000";
     }
@@ -157,6 +168,7 @@ public class Paiva {
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", tunnusNro, 3));
         out.println("pvm:  " + paivamaara.toString() + "\n" +
+                    "Treenin tyyppi: "+ treeninTyyppi + "\n" + 
                     "luontipv  " + "( " + luontipv + " )" + "\n" +
                     "muokattuViimeksi " + "( " +  muokattuViimeksi + " )");
     }
