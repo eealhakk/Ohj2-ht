@@ -7,6 +7,7 @@ package treenipaivakirja;
  */
 public class Treenipaivakirja {
     private final Paivat paivat = new Paivat();
+    private final Treenit treenit = new Treenit();
         
     /**
      * Palautaa treenipaivakirjan paivat
