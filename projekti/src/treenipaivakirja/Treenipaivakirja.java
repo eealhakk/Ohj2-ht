@@ -56,6 +56,13 @@ public class Treenipaivakirja {
     public void lisaa(Paiva paiva) throws SailoException {
         paivat.lisaa(paiva);
     }
+    
+    //TODO: Saako metodeja kuormitettua eli tässä esim lisaa mutta toinen ottaa Paiva tyyppiä ja toinen Treeni tyyppiä
+    // Vastaus joo?
+    public void lisaa(Treeni treeni)throws SailoException {
+        //Alustava treenin lisäys
+        treenit.lisaa(treeni);
+    }
 
     /**
      * Palauttaa i:n paivan

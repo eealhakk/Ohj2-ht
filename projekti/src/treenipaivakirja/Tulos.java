@@ -4,12 +4,14 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 /**
- * @author antti
+ * @author antti ja eeli
  * @version Mar 9, 2023
  *
  */
 public class Tulos {
     private int            tunnusNro        = 0;
+    //Lisätty hiljattain. onko tarvetta?
+    private int            paivaNro;
     private static int     seuraavaNro      = 1;
     private String paiva = "1.1.2000";
     private int liike;
@@ -21,12 +23,37 @@ public class Tulos {
     public Tulos() {
         //
     }
+    
+    /**
+     * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on
+     * TODO: Tähän lisätään ehkä myös sarja ja toisto/toistot?
+     * @param paiva mikä paiva kyseessä
+     */
+    public Tulos(int paiva) {
+        this.paivaNro = paiva;
+        //this.toistoNro = toisto;
+        //this.sarjaNro = sarja;
+    }
+    
+    /**
+     * @return Tunnus numero
+     */
+    public int getTunnusNro() {
+        return this.tunnusNro;
+    }
+    
+    /**
+     * @return Paiva numero
+     */
+    public int getPaivaNro() {
+        return this.paivaNro;
+    }
 
     /**
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + " " + this.sarja);
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja);
     }
     
     /**
@@ -87,18 +114,12 @@ public class Tulos {
     public void vastaaEsimerkkiTulos() {
         //liike = Liike.vastaaEsimerkkiLiiketyyppi()
     }
-    
-    /**
-     * @return Tunnus numero
-     */
-    public int getTunnusNro() {
-        return tunnusNro;
-    }
 
-    public void vastaaTulos() {
+    public void vastaaTulos(int nro) {
         paiva = "20.10.2015";
-        sarja = 10;
-        liike = 10;
+        sarja = ranL(1,6);
+        liike = ranL(5,15);     
+        paivaNro = nro;
     }
     
     /**
@@ -114,10 +135,12 @@ public class Tulos {
         tulos.tulosta(System.out);
         tulos2.tulosta(System.out);
         
-        tulos.vastaaTulos(); //tulos.taytatulosTiedoilla();
+        System.out.println("=============");
+        
+        tulos.vastaaTulos(1); //tulos.taytatulosTiedoilla();
         tulos.tulosta(System.out);
         
-        tulos2.vastaaTulos(); //tulos.taytatulosTiedoilla();
+        tulos2.vastaaTulos(0); //tulos.taytatulosTiedoilla();
         tulos2.tulosta(System.out);
         }
 

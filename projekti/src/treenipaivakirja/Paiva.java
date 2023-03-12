@@ -180,6 +180,15 @@ public class Paiva {
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
     }
+    
+    @Override
+    public String toString() {
+        return ("=/="+String.format("%03d", tunnusNro, 3) +
+                "Treenin tyyppi: "+ treeninTyyppi + "\n" + 
+                "luontipv  " + "( " + luontipv + " )" + "\n" +
+                "muokattuViimeksi " + "( " +  muokattuViimeksi +
+                " )" + "=/=");
+    }
 
     
     /**
