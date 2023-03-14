@@ -1,5 +1,7 @@
 package treenipaivakirja;
 
+import java.util.List;
+
 /**
  * @author Eeli
  * @version 1 Mar 2023
@@ -7,7 +9,10 @@ package treenipaivakirja;
  */
 public class Treenipaivakirja {
     private final Paivat paivat = new Paivat();
+    /* TODO: Tämä tulossa
     private final Treenit treenit = new Treenit();
+    */
+    private final Tulokset tulokset = new Tulokset();
         
     /**
      * Palautaa treenipaivakirjan paivat
@@ -16,6 +21,53 @@ public class Treenipaivakirja {
     public int getPaivia() {
         return paivat.getlkm();
     }
+    
+    /**
+     * Palauttaa i:n paivan
+     * @param i monesko paiva palautetaan
+     * @return viite i:teen paivaan
+     * @throws IndexOutOfBoundsException jos i väärin
+     */
+    public Paiva annaPaiva(int i) throws IndexOutOfBoundsException{
+        return paivat.anna(i);
+    }
+    
+    /**
+     * Haetaan kaikki jäsen harrastukset
+     * @param paiva päivä jolle tuloksia haetaan
+     * @return tietorakenne jossa viiteet löydetteyihin tuloksiin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     *  Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
+     *  Paiva aku1 = new Paiva(), aku2 = new Paiva(), aku3 = new Paiva();
+     *  aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi();
+     *  int id1 = aku1.getTunnusNro();
+     *  int id2 = aku2.getTunnusNro();
+     *  Tulos pitsi11 = new Tulos(id1); treenipaivakirja.lisaa(pitsi11);
+     *  Tulos pitsi12 = new Tulos(id1); treenipaivakirja.lisaa(pitsi12);
+     *  Tulos pitsi21 = new Tulos(id2); treenipaivakirja.lisaa(pitsi21);
+     *  Tulos pitsi22 = new Tulos(id2); treenipaivakirja.lisaa(pitsi22);
+     *  Tulos pitsi23 = new Tulos(id2); treenipaivakirja.lisaa(pitsi23);
+     *  
+     *  List<Tulos> loytyneet;
+     *  loytyneet = treenipaivakirja.annaTulokset(aku3);
+     *  loytyneet.size() === 0; 
+     *  loytyneet = treenipaivakirja.annaTulokset(aku1);
+     *  loytyneet.size() === 2; 
+     *  loytyneet.get(0) == pitsi11 === true;
+     *  loytyneet.get(1) == pitsi12 === true;
+     *  loytyneet = treenipaivakirja.annaTulokset(aku2);
+     *  loytyneet.size() === 3; 
+     *  loytyneet.get(0) == pitsi21 === true;
+     * </pre> 
+     */
+    public List<Tulos> annaTulokset(Paiva paiva) {
+        return tulokset.annaTulokset(paiva.getTunnusNro());
+    }
+    
+
 
     /**
      * TODO: Kesken
@@ -29,8 +81,8 @@ public class Treenipaivakirja {
     }
     
     /**
-     * Lisää kerhoon uuden jäsenen
-     * @param paiva lisättävä jäsen
+     * Lisää treenipaivakirjaan uuden paivan
+     * @param paiva lisättävä päivä
      * @throws SailoException jos lisäystä ei voida tehdä
      * @example
      * <pre name="test">
@@ -57,22 +109,35 @@ public class Treenipaivakirja {
         paivat.lisaa(paiva);
     }
     
+    /**
+     * Listään uusi tulos treenipaivakirjaan
+     * @param tul lisättävä tulos 
+     */
+    public void lisaa(Tulos tul) {
+        tulokset.lisaa(tul);
+    }
+
+    
+    /**
+     * TODO: Sama idea kuin paiva lisaa
+     * @param tulos Tulos
+     */
+    public void tulos(Tulos tulos){
+        //Alustava treenin lisäys
+        tulokset.lisaa(tulos);
+    }
+    
+    
+    /*
     //TODO: Saako metodeja kuormitettua eli tässä esim lisaa mutta toinen ottaa Paiva tyyppiä ja toinen Treeni tyyppiä
     // Vastaus joo?
     public void lisaa(Treeni treeni)throws SailoException {
         //Alustava treenin lisäys
         treenit.lisaa(treeni);
     }
+    
+    
 
-    /**
-     * Palauttaa i:n paivan
-     * @param i monesko paiva palautetaan
-     * @return viite i:teen paivaan
-     * @throws IndexOutOfBoundsException jos i väärin
-     */
-    public Paiva annaPaiva(int i) {
-        return paivat.anna(i);
-    }
     
     /**
      * Lukee paivan tiedot tiedostosta
@@ -115,9 +180,9 @@ public class Treenipaivakirja {
             System.out.println("============= Treenipaivakirja testi =================");
 
             for (int i = 0; i < treeniKerta.getPaivia(); i++) {
-                Paiva jasen = treeniKerta.annaPaiva(i);
+                Paiva paiva = treeniKerta.annaPaiva(i);
                 System.out.println("Jäsen paikassa: " + i);
-                jasen.tulosta(System.out);
+                paiva.tulosta(System.out);
             }
 
         } catch (SailoException ex) {

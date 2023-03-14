@@ -55,13 +55,48 @@ public class Tulokset implements Iterable<Tulos>{
         throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
     }
     
-    
+    /**
+     * Iteraattori kaikkien harrastusten läpikäymiseen
+     * @return harrastusiteraattori
+     * 
+     * @example
+     * <pre name="test">
+     * #PACKAGEIMPORT
+     * #import java.util.*;
+     * 
+     *  Tulokset tulokset = new Tulokset();
+     *  Tulos pitsi21 = new Tulos(2); tulokset.lisaa(pitsi21);
+     *  Tulos pitsi11 = new Tulos(1); tulokset.lisaa(pitsi11);
+     *  Tulos pitsi22 = new Tulos(2); tulokset.lisaa(pitsi22);
+     *  Tulos pitsi12 = new Tulos(1); tulokset.lisaa(pitsi12);
+     *  Tulos pitsi23 = new Tulos(2); tulokset.lisaa(pitsi23);
+     * 
+     *  Iterator<Tulos> i2=tulokset.iterator();
+     *  i2.next() === pitsi21;
+     *  i2.next() === pitsi11;
+     *  i2.next() === pitsi22;
+     *  i2.next() === pitsi12;
+     *  i2.next() === pitsi23;
+     *  i2.next() === pitsi12;  #THROWS NoSuchElementException  
+     *  
+     *  int n = 0;
+     *  int jnrot[] = {2,1,2,1,2};
+     *  
+     *  for ( Tulos har:tulokset ) { 
+     *    har.getPaivaNro() === jnrot[n]; n++;  
+     *  }
+     *  
+     *  n === 5;
+     *  
+     * </pre>
+     */
     @Override
     public Iterator<Tulos> iterator() {
         return alkiot.iterator();
     }
     
     //========
+    
     
     /**
      * Haetaan kaikki paiva :n tulokset

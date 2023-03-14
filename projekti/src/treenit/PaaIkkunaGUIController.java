@@ -4,6 +4,7 @@ package treenit;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.ComboBoxChooser;
@@ -39,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import treenipaivakirja.Paiva;
 import treenipaivakirja.Treenipaivakirja;
+import treenipaivakirja.Tulos;
 import treenipaivakirja.SailoException;
 
 
@@ -78,6 +80,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML void avaaUusiLiike() {
         //Toimii: eiToimi();
         //Ei Toimi: 
+        uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
     }
     
@@ -123,8 +126,11 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //======================================================
     
     private Treenipaivakirja treenipaivakirja;
-    private String treeninTunnusVuosi = "2023";  //TODO: vaihda tyyppi int ja metodit vastaanottamaan int mitkä käyttää tätät arvoa
+    //toString(System.currentTimeMillis());//
+    //TODO: vaihda tyyppi int ja metodit vastaanottamaan int mitkä käyttää tätät arvoa
+    private String treeninTunnusVuosi = "2023";  
     private TextArea areaPaiva = new TextArea();
+    //TODO: Tämä jossainkohtaa lokaaliksi muuttujiski aliohjelmiin
     private Paiva paivaKohdalla;
     
     /**
@@ -152,7 +158,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
     /**
-     * Näyttää listasta valitun jäsenen tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Kun klikkaa hiirellä niin kutsuu aikanaan tätä.
      */
     protected void naytaPaiva() {
             paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject();
@@ -161,11 +168,24 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
             areaPaiva.setText("");
             try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
-                paivaKohdalla.tulosta(os);
+                tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
             }
-        
-
     }
+    
+    /**
+     * Tulostaa paivan tiedot
+     * @param os tietovirta johon tulostetaan
+     * @param paiva tulostettava jäsen
+     */
+    public void tulosta(PrintStream os, final Paiva paiva) {
+        os.println("----------------------------------------------");
+        paiva.tulosta(os);
+        os.println("----------------------------------------------");
+        List<Tulos> tulokset = treenipaivakirja.annaTulokset(paiva);   
+        for (Tulos har:tulokset)
+            har.tulosta(os);  
+    }
+
 
     @Override
     public String getResult() {
@@ -206,7 +226,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             if (paiva.getTunnusNro() == jnro) index = i;
             PaaIkTreeniJaPaivaTaul.add("" + paiva.getPvm(), paiva);
         }
-        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää paivan -> (jäsenen)
     }
     
     /**
@@ -263,7 +283,10 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
 
-    //TODO: Korjaa : Heittää nullpointer
+    //: Heittää nullpointer -> korjattu
+    /** 
+     * Tekee uuden Paivan editointia varten 
+     */ 
     private void uusiPaiva() {
         Paiva uusi = new Paiva();
         uusi.rekisteroi();
@@ -277,6 +300,20 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         
         hae(uusi.getTunnusNro());
     }
+    
+    /** 
+     * Tekee uuden tyhjän harrastuksen editointia varten 
+     */ 
+    public void uusiTulos() { 
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();  
+        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
+        treenipaivakirja.lisaa(tul);  
+        hae(paivaKohdalla.getTunnusNro());          
+    } 
+
     
 
 }
