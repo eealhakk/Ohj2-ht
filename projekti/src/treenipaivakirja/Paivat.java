@@ -72,7 +72,7 @@ public class Paivat {
      * @param args ei käytössä
      */
     public static void main(String args[]) {
-        Paivat jasenet = new Paivat();
+        Paivat paivat = new Paivat();
 
         Paiva sali_Treeni = new Paiva(), juoksu_Treeni = new Paiva();
         sali_Treeni.rekisteroi();
@@ -81,15 +81,15 @@ public class Paivat {
         juoksu_Treeni.vastaaEsimerkkiTreeni();
 
         try {
-            jasenet.lisaa(sali_Treeni);
-            jasenet.lisaa(juoksu_Treeni);
+            paivat.lisaa(sali_Treeni);
+            paivat.lisaa(juoksu_Treeni);
 
             System.out.println("============= Paivat testi =================");
 
-            for (int i = 0; i < jasenet.getlkm(); i++) {
-                Paiva jasen = jasenet.anna(i);
+            for (int i = 0; i < paivat.getlkm(); i++) {
+                Paiva paiva = paivat.anna(i);
                 System.out.println("Jäsen nro: " + i);
-                jasen.tulosta(System.out);
+                paiva.tulosta(System.out);
             }
 
         } catch (SailoException ex) {

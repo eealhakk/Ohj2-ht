@@ -14,6 +14,7 @@ public class Tulos {
     private int            paivaNro;
     private static int     seuraavaNro      = 1;
     private String paiva = "1.1.2000";
+    //Näihin viitenumero kyseisen tuloksen liikkeeseen ja sarjaan
     private int liike;
     private int sarja;
     
