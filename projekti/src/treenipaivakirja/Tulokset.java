@@ -139,7 +139,7 @@ public class Tulokset implements Iterable<Tulos>{
      */
     public static void main(String[] args) {
     // TODO Auto-generated method stub
-        Tulokset harrasteet = new Tulokset();
+        Tulokset tulokset = new Tulokset();
         Tulos pitsi1 = new Tulos();
         pitsi1.vastaaTulos(2);
         Tulos pitsi2 = new Tulos();
@@ -149,15 +149,15 @@ public class Tulokset implements Iterable<Tulos>{
         Tulos pitsi4 = new Tulos();
         pitsi4.vastaaTulos(2);
 
-        harrasteet.lisaa(pitsi1);
-        harrasteet.lisaa(pitsi2);
-        harrasteet.lisaa(pitsi3);
-        harrasteet.lisaa(pitsi2);
-        harrasteet.lisaa(pitsi4);
+        tulokset.lisaa(pitsi1);
+        tulokset.lisaa(pitsi2);
+        tulokset.lisaa(pitsi3);
+        tulokset.lisaa(pitsi2);
+        tulokset.lisaa(pitsi4);
 
         System.out.println("============= Tulokset testi =================");
 
-        List<Tulos> tulokset2 = harrasteet.annaTulokset(2);
+        List<Tulos> tulokset2 = tulokset.annaTulokset(2);
 
         for (Tulos har : tulokset2) {
             System.out.print(har.getPaivaNro() + " ");

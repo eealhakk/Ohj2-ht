@@ -158,7 +158,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
     /**
-     * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kentgit tään
      * Kun klikkaa hiirellä niin kutsuu aikanaan tätä.
      */
     protected void naytaPaiva() {
