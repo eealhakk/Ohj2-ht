@@ -95,8 +95,6 @@ public class Tulokset implements Iterable<Tulos>{
         return alkiot.iterator();
     }
     
-    //========
-    
     
     /**
      * Haetaan kaikki paiva :n tulokset
@@ -134,10 +132,6 @@ public class Tulokset implements Iterable<Tulos>{
             }
         return loydetyt;
     }
-
-    
-    //========
-    
 
 
     /**

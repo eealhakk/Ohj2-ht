@@ -208,6 +208,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
 
 
+    /**
+     * @param treenipaivakirja Asettaa treenipaivakirjan
+     */
     public void setTreenipaivakirja(Treenipaivakirja treenipaivakirja) {
         this.treenipaivakirja = treenipaivakirja;
         //Vesalla vastaavassa kohdassa naytaJasen();

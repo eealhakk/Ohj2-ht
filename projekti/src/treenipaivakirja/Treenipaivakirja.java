@@ -13,6 +13,7 @@ public class Treenipaivakirja {
     private final Treenit treenit = new Treenit();
     */
     private final Tulokset tulokset = new Tulokset();
+    
         
     /**
      * Palautaa treenipaivakirjan paivat
@@ -41,10 +42,10 @@ public class Treenipaivakirja {
      * #import java.util.*;
      * 
      *  Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
-     *  Paiva aku1 = new Paiva(), aku2 = new Paiva(), aku3 = new Paiva();
-     *  aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi();
-     *  int id1 = aku1.getTunnusNro();
-     *  int id2 = aku2.getTunnusNro();
+     *  Paiva otus1 = new Paiva(), otus2 = new Paiva(), otus3 = new Paiva();
+     *  otus1.rekisteroi(); otus2.rekisteroi(); otus3.rekisteroi();
+     *  int id1 = otus1.getTunnusNro();
+     *  int id2 = otus2.getTunnusNro();
      *  Tulos pitsi11 = new Tulos(id1); treenipaivakirja.lisaa(pitsi11);
      *  Tulos pitsi12 = new Tulos(id1); treenipaivakirja.lisaa(pitsi12);
      *  Tulos pitsi21 = new Tulos(id2); treenipaivakirja.lisaa(pitsi21);
@@ -52,13 +53,13 @@ public class Treenipaivakirja {
      *  Tulos pitsi23 = new Tulos(id2); treenipaivakirja.lisaa(pitsi23);
      *  
      *  List<Tulos> loytyneet;
-     *  loytyneet = treenipaivakirja.annaTulokset(aku3);
+     *  loytyneet = treenipaivakirja.annaTulokset(otus3);
      *  loytyneet.size() === 0; 
-     *  loytyneet = treenipaivakirja.annaTulokset(aku1);
+     *  loytyneet = treenipaivakirja.annaTulokset(otus1);
      *  loytyneet.size() === 2; 
      *  loytyneet.get(0) == pitsi11 === true;
      *  loytyneet.get(1) == pitsi12 === true;
-     *  loytyneet = treenipaivakirja.annaTulokset(aku2);
+     *  loytyneet = treenipaivakirja.annaTulokset(otus2);
      *  loytyneet.size() === 3; 
      *  loytyneet.get(0) == pitsi21 === true;
      * </pre> 
@@ -66,11 +67,9 @@ public class Treenipaivakirja {
     public List<Tulos> annaTulokset(Paiva paiva) {
         return tulokset.annaTulokset(paiva.getTunnusNro());
     }
-    
-
 
     /**
-     * TODO: Kesken
+     * TODO: Tulossa / Kesken
      * 
      * Poistaa paivista,(ja muista) ne joilla on nro. 
      * @param nro viitenumero, jonka mukaan poistetaan
@@ -136,13 +135,14 @@ public class Treenipaivakirja {
         treenit.lisaa(treeni);
     }
     
-    
-
-    
     /**
      * Lukee paivan tiedot tiedostosta
      * @param nimi jota käyteään lukemisessa
      * @throws SailoException jos lukeminen epäonnistuu
+     */
+    /**
+     * @param nimi nimi
+     * @throws SailoException poikkeuskäsittelijä...
      */
     public void lueTiedostosta(String nimi) throws SailoException {
         paivat.lueTiedostosta(nimi);
@@ -187,8 +187,6 @@ public class Treenipaivakirja {
 
         } catch (SailoException ex) {
             System.out.println(ex.getMessage());
-        }
-
-        
+        }   
     }
 }
