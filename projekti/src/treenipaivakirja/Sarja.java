@@ -6,7 +6,7 @@ import java.io.*;
 
 
 /**
- * @author Antti
+ * @author Antti ja eeli
  * @version Mar 9, 2023
  *
  */
@@ -82,7 +82,7 @@ public class Sarja {
     /**
      * 
      */
-    public void vastaasarja() {
+    public void vastaaSarja() {
         paino = ranL(25,100);
         toistot = ranL(2, 12);
     }
@@ -101,10 +101,10 @@ public class Sarja {
         sarja.tulosta(System.out);
         sarja2.tulosta(System.out);
         
-        sarja.vastaasarja(); //sarja.taytasarjaTiedoilla();
+        sarja.vastaaSarja(); //sarja.taytasarjaTiedoilla();
         sarja.tulosta(System.out);
         
-        sarja2.vastaasarja(); //sarja.taytasarjaTiedoilla();
+        sarja2.vastaaSarja(); //sarja.taytasarjaTiedoilla();
         sarja2.tulosta(System.out);
 
 
