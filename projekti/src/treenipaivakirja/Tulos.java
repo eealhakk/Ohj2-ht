@@ -18,7 +18,7 @@ public class Tulos {
     private int sarja;
     
     /**
-     * Alustaa tulosn tiedot tyhjäksi
+     * Toistaiseksi ei tarvetta 
      */
     public Tulos() {
         //
@@ -50,6 +50,7 @@ public class Tulos {
     }
 
     /**
+     * Tulostaa tiedot
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
@@ -63,14 +64,6 @@ public class Tulos {
         tulosta(new PrintStream(os));
     }
     
-    /*
-    /**
-     * @param os Tietovirta johon tulostetaan
-     
-    public void tulosta(OutputStream os) {
-        tulosta(new PrintStream(os));
-    }
-    */
 
 
     /**
@@ -108,13 +101,11 @@ public class Tulos {
         return luku;
     }
     
-    /**
-     * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
-     */
-    public void vastaaEsimerkkiTulos() {
-        //liike = Liike.vastaaEsimerkkiLiiketyyppi()
-    }
 
+    /**
+     * Vastaa esimerkkitulostuksen
+     * @param nro päivän numero
+     */
     public void vastaaTulos(int nro) {
         paiva = "20.10.2015";
         sarja = ranL(1,6);

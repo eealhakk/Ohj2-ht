@@ -19,7 +19,7 @@ public class Tulokset implements Iterable<Tulos>{
     
     
     /**
-     * Alustetaan tulos alustavasti tyhjäksi
+     * Ei tarvita vielä
      */
     public Tulokset() {
         //
@@ -56,8 +56,8 @@ public class Tulokset implements Iterable<Tulos>{
     }
     
     /**
-     * Iteraattori kaikkien harrastusten läpikäymiseen
-     * @return harrastusiteraattori
+     * Iteraattori kaikkien tulosten läpikäymiseen
+     * @return tulositeraattori
      * 
      * @example
      * <pre name="test">
@@ -163,9 +163,9 @@ public class Tulokset implements Iterable<Tulos>{
 
         System.out.println("============= Tulokset testi =================");
 
-        List<Tulos> harrastukset2 = harrasteet.annaTulokset(2);
+        List<Tulos> tulokset2 = harrasteet.annaTulokset(2);
 
-        for (Tulos har : harrastukset2) {
+        for (Tulos har : tulokset2) {
             System.out.print(har.getPaivaNro() + " ");
             har.tulosta(System.out);
         }
