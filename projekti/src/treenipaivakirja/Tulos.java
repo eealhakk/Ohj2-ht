@@ -2,6 +2,10 @@ package treenipaivakirja;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author antti ja eeli
@@ -16,8 +20,20 @@ public class Tulos {
     private String paiva = "1.1.2000";
     //Näihin viitenumero kyseisen tuloksen liikkeeseen ja sarjaan
     private int liike;
-    private int sarja;
+    private int sarja1;
     
+    private int sarja2;
+    private int sarja3;
+    private int sarja4;
+    private int sarja5;
+
+
+    /*
+    @Override
+    public boolean equals(Object tulos) {
+        return this.toString().equals(tulos.toString());
+    }
+    */
     /**
      * Toistaiseksi ei tarvetta 
      */
@@ -44,6 +60,18 @@ public class Tulos {
     }
     
     /**
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * @param nr asetettava tunnusnumero
+     * 
+     * Lisätty SQL yhteydessä 3/4/23
+     */
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+    }
+    
+    /**
      * @return Paiva numero
      */
     public int getPaivaNro() {
@@ -55,7 +83,7 @@ public class Tulos {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja);
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja1);
     }
     
     /**
@@ -109,11 +137,107 @@ public class Tulos {
      */
     public void vastaaTulos(int nro) {
         paiva = "20.10.2015";
-        sarja = ranL(1,6);
+        sarja1 = ranL(1,6);
         liike = ranL(5,15);     
         paivaNro = nro;
     }
     
+    /*//The type Tulos should also implement hashCode() since it overrides Object.equals()
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return super.hashCode();
+    }
+    */
+    //Tietokantaan liittyväkoodi
+    //====================================================
+    
+    /**
+     * Antaa tietokannan luontilausekkeen tulostaululle
+     * @return tulsotaulun luontilauseke
+     */
+    
+    public String annaLuontilauseke() {
+        return "CREATE TABLE Tulokset (" +
+                "tulosID INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                "paiva VARCHAR(20) NOT NULL, " +
+                "liike VARCHAR(100), " +
+                "sarja1 INTEGER, " +
+                "sarja2 INTEGER, " +
+                "sarja3 INTEGER, " +
+                "sarja4 INTEGER, " +
+                "sarja5 INTEGER, " +
+                // "PRIMARY KEY (tulosID)" + 
+                ")";
+    }
+    
+    
+    /**
+     * Antaa tuloksen lisäyslausekkeen
+     * @param con tietokantayhteys
+     * @return tuloksen lisäyslauseke
+     * @throws SQLException Jos lausekkeen luonnissa on ongelmia
+     */
+    
+   public PreparedStatement annaLisayslauseke(Connection con)
+           throws SQLException {
+       PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
+               "(tulosID, paiva, liike, sarja1, sarja2, sarja3, " +
+               "sarja4, sarja5) " +
+               "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+       
+       // Syötetään kentät näin välttääksemme SQL injektiot.
+       // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
+       // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
+       if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
+       sql.setInt(2, paivaNro);
+       sql.setInt(3, seuraavaNro);
+       sql.setString(4, paiva);
+       sql.setInt(5, liike);
+       sql.setInt(6, sarja1);
+       sql.setInt(7, sarja2);
+       sql.setInt(8, sarja3);
+       sql.setInt(9, sarja4);
+       sql.setInt(10, sarja5);
+
+
+       
+       return sql;
+   }
+   
+
+   /**
+    * Tarkistetaan onko id muuttunut lisäyksessä
+    * @param rs lisäyslauseen ResultSet
+    * @throws SQLException jos tulee jotakin vikaa
+    */
+   public void tarkistaId(ResultSet rs) throws SQLException {
+       if ( !rs.next() ) return;
+       int id = rs.getInt(1);
+       if ( id == tunnusNro ) return;
+       setTunnusNro(id);
+   }
+   
+   /** 
+    * Ottaa jäsenen tiedot ResultSetistä
+    * @param tulokset mistä tiedot otetaan
+    * @throws SQLException jos jokin menee väärin
+    */
+   public void parse(ResultSet tulokset) throws SQLException {
+       setTunnusNro(tulokset.getInt("jasenID"));
+       paivaNro = tulokset.getInt("paiva");
+       seuraavaNro = tulokset.getInt("seuraavaNro");
+       paiva = tulokset.getString("katuosoite");
+       liike = tulokset.getInt("postinumero");
+       sarja1 = tulokset.getInt("postiosoite");
+       sarja2 =tulokset.getInt("kotipuhelin");
+       sarja3 = tulokset.getInt("tyopuhelin");
+       sarja4 = tulokset.getInt("autopuhelin"); 
+       sarja5 = tulokset.getInt("liittymisvuosi");
+   }
+   
+    //====================================================
+
     /**
      * testipääohjelma
      * @param args ei käytössä

@@ -32,6 +32,11 @@ public class Tulokset implements Iterable<Tulos>{
     public void lisaa(Tulos tul) {
         alkiot.add(tul);
     }
+    //SQL
+    //===========================================
+    
+    
+    //===========================================
 
 
     /**
