@@ -3,6 +3,7 @@ package treenipaivakirja;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,10 @@ public class Paiva {
             this.kk = 0;
             this.vv = 2000;
         }
+        
+        
+        
+        
         
         //Setit
         public void setpp(int pp) {
@@ -250,18 +255,16 @@ public class Paiva {
      */
     public PreparedStatement annaLisayslauseke(Connection con)
             throws SQLException {
-        PreparedStatement sql = con.prepareStatement("INSERT INTO Jasenet" +
-                "(jasenID, nimi, hetu, katuosoite, postinumero, postiosoite, " +
-                "kotipuhelin, tyopuhelin, autopuhelin, liittymisvuosi, " +
-                "jmaksu, maksu, lisatietoja) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement sql = con.prepareStatement("INSERT INTO Treenit" +
+                "(tunnusNro, paivamaara, treeninTyyppi, luontipv, muokattuViimeksi" +
+                "VALUES (?, ?, ?, ?, ?, ?)");
         
         // Syötetään kentät näin välttääksemme SQL injektiot.
         // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
         // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
         if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
         sql.setLong(2, tunnusNro);
-        //sql.setLong(3, paivamaara);
+        sql.setObject(3, paivamaara);
         sql.setString(4, treeninTyyppi);
         sql.setString(5, luontipv);
         sql.setString(6, muokattuViimeksi);
@@ -270,6 +273,77 @@ public class Paiva {
     }
 
     
+    /**
+     * Tarkistetaan onko id muuttunut lisäyksessä
+     * @param rs lisäyslauseen ResultSet
+     * @throws SQLException jos tulee jotakin vikaa
+     */
+    public void tarkistaId(ResultSet rs) throws SQLException {
+        if ( !rs.next() ) return;
+        int id = rs.getInt(1);
+        if ( id == tunnusNro ) return;
+        setTunnusNro(id);
+    }
+    
+    
+    private void setTunnusNro(int nr) {
+        tunnusNro = nr;
+        if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
+        
+    }
+    
+    //TODO: laita toimimaan
+//    /**
+//     * @return paivamäärä
+//     * LISÄTTY SQL OHESSA
+//     */
+//    public Object getPaivamaara(String jono) {
+//        return paivamaara;
+//    }
+//    
+    
+    /** 
+     * Ottaa jäsenen tiedot ResultSetistä
+     * @param tulokset mistä tiedot otetaan
+     * @throws SQLException jos jokin menee väärin
+     */
+    public void parse(ResultSet tulokset) throws SQLException {
+        setTunnusNro(tulokset.getInt("tunnusNro"));
+        //paivamaara = tulokset.getPaivamaara("päivämäärä");
+        treeninTyyppi = tulokset.getString("treeninTyyppi");
+        luontipv = tulokset.getString("luontipv");
+        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
+    }
+    
+    
+    
+    /**
+     * Antaa jäsenen päivityslausekkeen
+     * @param con tietokantayhteys
+     * @return jäsenen päivityslauseke
+     * @throws SQLException Jos lausekkeen luonnissa on ongelmia
+     */
+    @SuppressWarnings("unused")
+    public PreparedStatement annaPaivityslauseke(Connection con)
+            throws SQLException {
+        return null;
+    }
+    
+    
+    /**
+     * Antaa jäsenen poistolausekkeen
+     * @param con tietokantayhteys
+     * @return jäsenen poistolauseke
+     * @throws SQLException Jos lausekkeen luonnissa on ongelmia
+     */
+    @SuppressWarnings("unused")
+    public PreparedStatement annaPoistolauseke(Connection con)
+            throws SQLException {
+        return null;
+    }
+    
+    
+
     /**
      * @param args ei käytössä
      */
