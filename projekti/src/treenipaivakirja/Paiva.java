@@ -1,6 +1,9 @@
 package treenipaivakirja;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -189,6 +192,82 @@ public class Paiva {
                 "muokattuViimeksi " + "( " +  muokattuViimeksi +
                 " )" + "=/=");
     }
+    
+    @Override
+    public boolean equals(Object paiva) {
+        return this.toString().equals(paiva.toString());
+    }
+    
+    
+    /**
+     * @return Tunnus numero
+     */
+    public int getTunnusNro() {
+        return tunnusNro;
+    }
+    
+
+    /**
+     * @return päivämäärä muotoa 12.1.2022
+     */
+    public String getPvm() {
+        return this.paivamaara.toString();
+    }
+    
+
+    @Override
+    public int hashCode() {
+        // TODO Auto-generated method stub
+        return super.hashCode();
+    }
+    
+    
+    // Tietokantaan liittyvää koodia
+    //------------------------------------------------------------------------------------
+    
+    
+    /**
+     * Antaa tietokannan luontilausekkeen päivätaululle
+     * @return päivätaulun luontilauseke
+     */
+    public String annaLuontilauseke() {
+        return "CREATE TABLE Paivat (" +
+                "tunnusNro INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                "paivamaara VARCHAR(100) NOT NULL, " +
+                "treeninTyyppi VARCHAR(100) NOT NULL, " +
+                "luontiPV VARCHAR(100) NOT NULL, " +
+                "muokattuViimeksi VARCHAR(100) NOT NULL, " +
+                // "PRIMARY KEY (paivaID)" + 
+                ")";
+    }
+    
+    
+    /**
+     * Antaa jäsenen lisäyslausekkeen
+     * @param con tietokantayhteys
+     * @return jäsenen lisäyslauseke
+     * @throws SQLException Jos lausekkeen luonnissa on ongelmia
+     */
+    public PreparedStatement annaLisayslauseke(Connection con)
+            throws SQLException {
+        PreparedStatement sql = con.prepareStatement("INSERT INTO Jasenet" +
+                "(jasenID, nimi, hetu, katuosoite, postinumero, postiosoite, " +
+                "kotipuhelin, tyopuhelin, autopuhelin, liittymisvuosi, " +
+                "jmaksu, maksu, lisatietoja) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        // Syötetään kentät näin välttääksemme SQL injektiot.
+        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
+        // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
+        if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
+        sql.setLong(2, tunnusNro);
+        //sql.setLong(3, paivamaara);
+        sql.setString(4, treeninTyyppi);
+        sql.setString(5, luontipv);
+        sql.setString(6, muokattuViimeksi);
+        
+        return sql;
+    }
 
     
     /**
@@ -204,19 +283,7 @@ public class Paiva {
 
     }
 
-    /**
-     * @return Tunnus numero
-     */
-    public int getTunnusNro() {
-        return tunnusNro;
-    }
-
-    /**
-     * @return päivämäärä muotoa 12.1.2022
-     */
-    public String getPvm() {
-        return this.paivamaara.toString();
-    }
+   
 
 
 
