@@ -170,7 +170,7 @@ public class Tulos {
                 "sarja2 INTEGER, " +
                 "sarja3 INTEGER, " +
                 "sarja4 INTEGER, " +
-                "sarja5 INTEGER, " +
+                "sarja5 INTEGER " +
                 // "PRIMARY KEY (tulosID)" + 
                 ")";
     }
