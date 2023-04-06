@@ -1,7 +1,16 @@
 package treenipaivakirja;
 
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
- * @author Eeli
+ * @author Eeli ja Antti
  * @version 1 Mar 2023
  *
  */
@@ -10,6 +19,9 @@ public class Paivat {
     private int              lkm           = 0;
     private String           tiedostonNimi = "";
     private Paiva            alkiot[]      = new Paiva[MAX_PAIVIA];
+    
+    private Kanta kanta;
+    private static Paiva apupaiva = new Paiva();
 
 
     /**
@@ -20,14 +32,47 @@ public class Paivat {
     }
     
     /**
+     * @param paiva pv
+     * @throws SailoException poikkeus
+     * @throws SQLException poikkeus
+     */
+    public Paivat(String paiva) throws SailoException, SQLException {
+        kanta = Kanta.alustaKanta(paiva);
+        try ( Connection con = kanta.annaKantayhteys() ) {
+            DatabaseMetaData meta = con.getMetaData();
+            try ( ResultSet taulu = meta.getTables(null, null, "Jasenet", null) ) {
+                if ( !taulu.next() ) {
+                // Luodaan Jasenet taulu
+                try ( PreparedStatement sql = con.prepareStatement(apupaiva.annaLuontilauseke()) ) {
+                sql.execute();
+                }
+                }
+            }
+                
+                }
+            catch (SQLException e) {
+                throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+                }
+    
+    }
+    
+    
+    /**
      * @param paiva päivä luokka
      * @throws SailoException poikkeus
+     * @throws SQLException poikkeus
      */
-    public void lisaa(Paiva paiva) throws SailoException {
-        if (lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
-        alkiot[lkm] = paiva;
-        lkm++;
+    public void lisaa(Paiva paiva) throws SailoException, SQLException {
+        try (Connection con = kanta.annaKantayhteys(); PreparedStatement sql = paiva.annaLisayslauseke(con) ){
+            sql.executeUpdate();
+            try ( ResultSet rs = sql.getGeneratedKeys() ) {
+            paiva.tarkistaId(rs);
+        }
+        } catch (SQLException e) {
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+            }
     }
+        
     
 
     /**
@@ -40,6 +85,36 @@ public class Paivat {
         if (i < 0 || lkm <= i)
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return alkiot[i];
+    }
+    
+    /**
+     * @param hakuehto hakuehto
+     * @param k etsittävän kentän indeksi
+     * @return jäsenet listassa
+     * @throws SailoException poikkeus
+     * @throws SQLException poikkeus
+     */
+    public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException, SQLException {
+        String ehto = hakuehto;
+        String kysymys = apupaiva.getKysymys(k);
+        if ( k < 0 ) { kysymys = apupaiva.getKysymys(0); ehto = ""; }
+     // Avataan yhteys tietokantaan try .. with lohkossa.
+        try ( Connection con = kanta.annaKantayhteys();
+                PreparedStatement sql = con.prepareStatement("SELECT * FROM Jasenet WHERE " + kysymys + " LIKE ?") ) {
+            ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
+            
+            sql.setString(1, "%" + ehto + "%");
+            try ( ResultSet tulokset = sql.executeQuery() ) {
+            while ( tulokset.next() ) {
+            Paiva p = new Paiva();
+            p.parse(tulokset);
+            loytyneet.add(p);
+            }
+            return loytyneet;
+            } catch ( SQLException e ) {
+                throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+                }
+        }
     }
     
     /**
@@ -69,35 +144,41 @@ public class Paivat {
     }
     
     /**
-     * @param args ei käytössä
-     */
-    public static void main(String args[]) {
-        Paivat paivat = new Paivat();
-
-        Paiva sali_Treeni = new Paiva(), juoksu_Treeni = new Paiva();
-        sali_Treeni.rekisteroi();
-        sali_Treeni.vastaaEsimerkkiTreeni();
-        juoksu_Treeni.rekisteroi();
-        juoksu_Treeni.vastaaEsimerkkiTreeni();
-
-        try {
-            paivat.lisaa(sali_Treeni);
-            paivat.lisaa(juoksu_Treeni);
-
-            System.out.println("============= Paivat testi =================");
-
-            for (int i = 0; i < paivat.getlkm(); i++) {
-                Paiva paiva = paivat.anna(i);
-                System.out.println("Jäsen nro: " + i);
-                paiva.tulosta(System.out);
+    * Testiohjelma jäsenistölle
+    * @param args ei käytössä
+     * @throws SQLException poikkeus
+    */
+    public static void main(String args[]) throws SQLException  {
+    try {
+    new File("kokeilu.db").delete();
+    Paivat paivat = new Paivat("kokeilu");
+    
+    Paiva eka = new Paiva(), toka = new Paiva();
+                eka.vastaaEsimerkkiTreeni();
+                //toka.rekisteroi();
+                toka.vastaaEsimerkkiTreeni();
+                
+                paivat.lisaa(eka);
+                paivat.lisaa(toka);
+                toka.tulosta(System.out);
+                
+                System.out.println("============= Jäsenet testi =================");
+    
+                int i = 0;
+                for (Paiva paiva:paivat.etsi("", -1)) {
+                    System.out.println("Treeni nro: " + i++);
+                    paiva.tulosta(System.out);
+                }
+                
+                new File("kokeilu.db").delete();
+            } catch ( SailoException ex ) {
+                System.out.println(ex.getMessage());
             }
-
-        } catch (SailoException ex) {
-            System.out.println(ex.getMessage());
         }
+    
     }
 
 
 
 
-}
+

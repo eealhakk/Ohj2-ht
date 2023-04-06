@@ -147,6 +147,22 @@ public class Paiva {
         return super.hashCode();
     }
     
+    /**
+     * Palauttaa k:tta jäsenen kenttää vastaavan kysymyksen
+     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
+     * @return k:netta kenttää vastaava kysymys
+     */
+    public String getKysymys(int k) {
+        switch ( k ) {
+            case 0: return "tunnusNro";
+            case 1: return "paivamaara";
+            case 2: return "treeninTyyppi";
+            case 3: return "luontiPv";
+            case 4: return "muokattuViimeksi";
+            default: return "Äääliö";
+        }
+    }
+
     
     
     // Tietokantaan liittyvää koodia
@@ -280,6 +296,7 @@ public class Paiva {
 
     }
 
+    
  
    
 
