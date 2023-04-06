@@ -16,8 +16,8 @@ import java.util.HashMap;
  *      ...
  *    }  
  * </pre>
- * @author vesal
- * @version 7.2.2015
+ * @author Eeli ja Antti
+ * @version 6.4.2023
  *
  */
 public class Kanta {

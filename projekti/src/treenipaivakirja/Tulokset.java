@@ -1,5 +1,12 @@
 package treenipaivakirja;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static treenipaivakirja.Kanta.alustaKanta;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,17 +19,42 @@ import java.util.List;
  */
 public class Tulokset implements Iterable<Tulos>{
     private String tiedostonNimi = "";
+    //SQLite
+    private Kanta kanta;
     
     /** Taulukko harrastuksista */
     private final Collection<Tulos> alkiot        = new ArrayList<Tulos>();
+    private static Tulos aputulos = new Tulos();
 
     
     
     /**
-     * Ei tarvita vielä
+     * Tarkistetaan että kannassa jäsenten tarvitsema taulu
+     * @param nimi tietokannan nimi
+     * @throws SailoException jos jokin menee pieleen
      */
-    public Tulokset() {
-        //
+    public Tulokset(String nimi) throws SailoException {
+        kanta = alustaKanta(nimi);
+        try ( Connection con = kanta.annaKantayhteys() ) {
+            // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
+            // Jasenet nimistä taulua olemassa.
+            // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko
+            // mahdollisesti olemassa olevalla taululla oikea rakenne,
+            // käyttäjä saa kuulla siitä virheilmoituksen kautta
+            DatabaseMetaData meta = con.getMetaData();
+            
+            try ( ResultSet taulu = meta.getTables(null, null, "Jasenet", null) ) {
+                if ( !taulu.next() ) {
+                    // Luodaan Jasenet taulu
+                    try ( PreparedStatement sql = con.prepareStatement(aputulos.annaLuontilauseke()) ) {
+                        sql.execute();
+                    }
+                }
+            }
+            
+        } catch ( SQLException e ) {
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+        }
     }
     
     /**
@@ -32,11 +64,6 @@ public class Tulokset implements Iterable<Tulos>{
     public void lisaa(Tulos tul) {
         alkiot.add(tul);
     }
-    //SQL
-    //===========================================
-    
-    
-    //===========================================
 
 
     /**

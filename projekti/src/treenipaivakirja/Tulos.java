@@ -224,16 +224,16 @@ public class Tulos {
     * @throws SQLException jos jokin menee väärin
     */
    public void parse(ResultSet tulokset) throws SQLException {
-       setTunnusNro(tulokset.getInt("jasenID"));
+       setTunnusNro(tulokset.getInt("tulosID"));
        paivaNro = tulokset.getInt("paiva");
        seuraavaNro = tulokset.getInt("seuraavaNro");
-       paiva = tulokset.getString("katuosoite");
-       liike = tulokset.getInt("postinumero");
-       sarja1 = tulokset.getInt("postiosoite");
-       sarja2 =tulokset.getInt("kotipuhelin");
-       sarja3 = tulokset.getInt("tyopuhelin");
-       sarja4 = tulokset.getInt("autopuhelin"); 
-       sarja5 = tulokset.getInt("liittymisvuosi");
+       paiva = tulokset.getString("paivamaara");
+       liike = tulokset.getInt("liike");
+       sarja1 = tulokset.getInt("sarja1");
+       sarja2 =tulokset.getInt("sarja2");
+       sarja3 = tulokset.getInt("sarja3");
+       sarja4 = tulokset.getInt("sarja4"); 
+       sarja5 = tulokset.getInt("sarja5");
    }
    
     //====================================================
