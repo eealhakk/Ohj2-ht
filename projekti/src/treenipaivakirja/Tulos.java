@@ -142,6 +142,10 @@ public class Tulos {
         paivaNro = nro;
     }
     
+    public void vastaaTulos() {
+        vastaaTulos(12);
+    }
+    
     /*//The type Tulos should also implement hashCode() since it overrides Object.equals()
     @Override
     public int hashCode() {
@@ -234,6 +238,28 @@ public class Tulos {
        sarja3 = tulokset.getInt("sarja3");
        sarja4 = tulokset.getInt("sarja4"); 
        sarja5 = tulokset.getInt("sarja5");
+   }
+   
+   /**
+    * SQL
+    * Palauttaa k:tta jäsenen kenttää vastaavan kysymyksen
+    * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
+    * @return k:netta kenttää vastaava kysymys
+    */
+   public String getKysymys(int k) {
+       switch ( k ) {
+           case 0: return "tulosID";
+           case 1: return "paiva";
+           case 2: return "seuraavaNro";
+           case 3: return "paivamaara";
+           case 4: return "liike";
+           case 5: return "sarja1";
+           case 6: return "sarja2";
+           case 7: return "sarja3";
+           case 8: return "sarja4";
+           case 9: return "sarja5";
+           default: return "Väärin meno urpo";
+       }
    }
    
     //====================================================
