@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class Paiva {
         private int                 tunnusNro;
-        private final Paivamaara    paivamaara       = new Paivamaara();
+        private String              paivamaara       = "";
         private String              treeninTyyppi    = "";
         private String              luontipv         = "";
         private String              muokattuViimeksi = "";
@@ -32,53 +32,7 @@ public class Paiva {
         */
         
         
-    private static class Paivamaara{
-        private int pp;
-        private int kk;
-        private int vv;
-        
-        public Paivamaara() {
-            this.pp = 0;
-            this.kk = 0;
-            this.vv = 2000;
-        }
-        
-        
-        
-        
-        
-        //Setit
-        public void setpp(int pp) {
-            this.pp = pp;
-        }
-        
-        public void setkk(int ikk) {
-            this.kk = ikk;
-        }
-        
-        public void setvv(int ivv) {
-            this.vv = ivv;
-        }
-        
-        public void setPv(int pvm, int kk, int vuosi) {
-            this.pp = pvm;
-            this.kk = kk;
-            this.vv = vuosi;
-        }
-        //Setit loppuu
-        
-        @Override
-        public String toString(){
-            String jono = String.format("%02d",pp) + 
-                    "." + String.format("%02d",kk) + 
-                    "." + String.format("%04d",vv);
-            return jono;
-        }
-        
 
-
-    }//==
-    
     //TODO: Tämän voi luultavasti siirtää muualle
     /**
      * palauttaa random luvun min ja max välistä. (min ja max) ei ole välillä
@@ -106,7 +60,7 @@ public class Paiva {
      * @param pv päivä
      * @return päivä merkkijonona
      */
-    public String toString(Paivamaara pv){
+    public String toString(String pv){
         return pv.toString();
     }
     
@@ -119,39 +73,6 @@ public class Paiva {
         return tunnusNro;
     }
     
-    //Setit
-    /**
-     * @param ipp asettaa päivän
-     */
-    public void setpp(int ipp) {
-        paivamaara.setpp(ipp);
-    }
-    
-    /**
-     * @param ikk asettaa kuukauden
-     */
-    public void setkk(int ikk) {
-        paivamaara.setkk(ikk);
-    }
-    
-    /**
-     * @param ivv asettaa vuoden
-     */
-    public void setvv(int ivv) {
-        paivamaara.setvv(ivv);
-    }
-        
-    /**
-     * Asettaa päivämäärän
-     * @param pvm päivä
-     * @param kk kuukausi
-     * @param vv vuosi
-     */
-    public void setPv(int pvm, int kk, int vv) {
-        paivamaara.setPv(pvm,kk,vv);
-    }
-    //Setit loppuu
-    
 
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
@@ -160,20 +81,20 @@ public class Paiva {
         int ipp = ranL(1,31);
         int ikk = ranL(1,12);
         int ivv = ranL(2022,2023);
-        
-        paivamaara.setpp(ipp);
-        paivamaara.setkk(ikk);
-        paivamaara.setvv(ivv);
+        paivamaara = ipp + "." + ikk + "." + ivv;
         vastaaEsimerkkiTreenityyppi();
         luontipv = "1.1.2000";
         muokattuViimeksi = "2.2.2000";
+        
     }
     
+
 
     /**
      * @param out output
      */
     public void tulosta(PrintStream out) {
+        vastaaEsimerkkiTreeni();
         out.println(String.format("%03d", tunnusNro, 3));
         out.println("pvm:  " + paivamaara.toString() + "\n" +
                     "Treenin tyyppi: "+ treeninTyyppi + "\n" + 
@@ -225,6 +146,7 @@ public class Paiva {
         // TODO Auto-generated method stub
         return super.hashCode();
     }
+    
     
     
     // Tietokantaan liittyvää koodia
@@ -292,15 +214,7 @@ public class Paiva {
         
     }
     
-    //TODO: laita toimimaan
-//    /**
-//     * @return paivamäärä
-//     * LISÄTTY SQL OHESSA
-//     */
-//    public Object getPaivamaara(String jono) {
-//        return paivamaara;
-//    }
-//    
+    
     
     /** 
      * Ottaa jäsenen tiedot ResultSetistä
@@ -309,7 +223,7 @@ public class Paiva {
      */
     public void parse(ResultSet tulokset) throws SQLException {
         setTunnusNro(tulokset.getInt("tunnusNro"));
-        //paivamaara = tulokset.getPaivamaara("päivämäärä");
+        paivamaara = tulokset.getString("päivämäärä");
         treeninTyyppi = tulokset.getString("treeninTyyppi");
         luontipv = tulokset.getString("luontipv");
         muokattuViimeksi = tulokset.getString("muokattuViimeksi");
@@ -343,6 +257,15 @@ public class Paiva {
     }
     
     
+    /**
+     * @param pvm pvm 
+     * @param kk kk
+     * @param vuosi vuosi
+     */
+    public void setPv(int pvm, int kk, int vuosi) {
+        paivamaara = pvm + "." + kk + "." + vuosi;
+    }
+    
 
     /**
      * @param args ei käytössä
@@ -357,6 +280,7 @@ public class Paiva {
 
     }
 
+ 
    
 
 
