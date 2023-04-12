@@ -166,11 +166,11 @@ public class Tulos {
                 "tulosID INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "paiva VARCHAR(20) NOT NULL, " +
                 "liike VARCHAR(100), " +
-                "sarja1 INTEGER, " +
-                "sarja2 INTEGER, " +
-                "sarja3 INTEGER, " +
-                "sarja4 INTEGER, " +
-                "sarja5 INTEGER " +
+                "sarja1 INTEGER " +
+//                "sarja2 INTEGER, " +
+//                "sarja3 INTEGER, " +
+//                "sarja4 INTEGER, " +
+//                "sarja5 INTEGER " +
                 // "PRIMARY KEY (tulosID)" + 
                 ")";
     }
@@ -186,23 +186,22 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(tulosID, paiva, liike, sarja1, sarja2, sarja3, " +
-               "sarja4, sarja5) " +
-               "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+               "(tulosID, paiva, liike, sarja1) " + //, sarja2, sarja3, " + "sarja4, sarja5
+               "VALUES (?, ?, ?, ?)"); //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
        // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
        if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
-       sql.setInt(2, paivaNro);
-       sql.setInt(3, seuraavaNro);
-       sql.setString(4, paiva);
-       sql.setInt(5, liike);
-       sql.setInt(6, sarja1);
-       sql.setInt(7, sarja2);
-       sql.setInt(8, sarja3);
-       sql.setInt(9, sarja4);
-       sql.setInt(10, sarja5);
+//       sql.setInt(2, paivaNro);
+//       sql.setInt(3, seuraavaNro);
+       sql.setString(2, paiva);
+       sql.setInt(3, liike);
+       sql.setInt(4, sarja1);
+//       sql.setInt(7, sarja2);
+//       sql.setInt(8, sarja3);
+//       sql.setInt(9, sarja4);   //<-------TODO:--------Liikaa suhteessa VALUES määrään - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
+//       sql.setInt(10, sarja5);
 
 
        
@@ -230,18 +229,18 @@ public class Tulos {
    public void parse(ResultSet tulokset) throws SQLException {
        setTunnusNro(tulokset.getInt("tulosID"));
        paivaNro = tulokset.getInt("paiva");
-       seuraavaNro = tulokset.getInt("seuraavaNro");
-       paiva = tulokset.getString("paivamaara");
+//       seuraavaNro = tulokset.getInt("seuraavaNro");
+       paiva = tulokset.getString("paiva");
        liike = tulokset.getInt("liike");
        sarja1 = tulokset.getInt("sarja1");
-       sarja2 =tulokset.getInt("sarja2");
-       sarja3 = tulokset.getInt("sarja3");
-       sarja4 = tulokset.getInt("sarja4"); 
-       sarja5 = tulokset.getInt("sarja5");
+//       sarja2 =tulokset.getInt("sarja2");
+//       sarja3 = tulokset.getInt("sarja3");
+//       sarja4 = tulokset.getInt("sarja4"); 
+//       sarja5 = tulokset.getInt("sarja5");
    }
    
    /**
-    * SQL
+    * SQL   //TODO: Muuta kaikki sarjat myöhemmin yhdeksi sarjaksi
     * Palauttaa k:tta jäsenen kenttää vastaavan kysymyksen
     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
     * @return k:netta kenttää vastaava kysymys
@@ -249,15 +248,15 @@ public class Tulos {
    public String getKysymys(int k) {
        switch ( k ) {
            case 0: return "tulosID";
+//           case 1: return "paiva";
+//           case 2: return "seuraavaNro";
            case 1: return "paiva";
-           case 2: return "seuraavaNro";
-           case 3: return "paivamaara";
-           case 4: return "liike";
-           case 5: return "sarja1";
-           case 6: return "sarja2";
-           case 7: return "sarja3";
-           case 8: return "sarja4";
-           case 9: return "sarja5";
+           case 2: return "liike";
+           case 3: return "sarja1";
+//           case 6: return "sarja2";
+//           case 7: return "sarja3";
+//           case 8: return "sarja4";
+//           case 9: return "sarja5";
            default: return "Väärin meno urpo";
        }
    }

@@ -8,12 +8,14 @@ import java.util.List;
  *
  */
 public class Treenipaivakirja {
+    //Vaihdetaan toteutus vastaamaan tuloksen toteuttamistapaa
     private final Paivat paivat = new Paivat();
     /* TODO: Tämä tulossa
     private final Treenit treenit = new Treenit();
     */
-    private final Tulokset tulokset = new Tulokset();
-    
+    //SQL
+    //private final Tulokset tulokset = new Tulokset();
+    private Tulokset tulokset;
         
     /**
      * Palautaa treenipaivakirjan paivat
@@ -143,18 +145,33 @@ public class Treenipaivakirja {
     /**
      * @param nimi nimi
      * @throws SailoException poikkeuskäsittelijä...
-     */
+     
     public void lueTiedostosta(String nimi) throws SailoException {
         paivat.lueTiedostosta(nimi);
     }
+    */
     
     /**
-     * Tallettaa kerhon tiedot tiedostoon
+     * SQL
+     * Luo tietokannan. Jos annettu tiedosto on jo olemassa ja
+     * sisältää tarvitut taulut, ei luoda mitään
+     * @param nimi tietokannan nimi
+     * @throws SailoException jos tietokannan luominen epäonnistuu
+     */
+    public void lueTiedostosta(String nimi) throws SailoException {
+        tulokset = new Tulokset(nimi);
+        //harrastukset = new  Harrastukset(nimi);
+    }
+    
+    /**
+     * Tallettaa treenipaivakirjan tiedot tiedostoon
      * @throws SailoException jos tallettamisessa ongelmia
      */
     public void talleta() throws SailoException {
-        paivat.tallenna();
+        //Poistettu käytöstä SQL yhteydessä
+        //paivat.tallenna();
         // TODO: -> yritä tallettaa toinen vaikka toinen epäonnistuisi
+        return;
     }
 
     /**
