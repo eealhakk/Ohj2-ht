@@ -73,7 +73,7 @@ public class Kanta {
     public Connection annaKantayhteys() throws SQLException {
         String sDriver = "org.sqlite.JDBC";
         try {
-            Class.forName(sDriver);//TODO: Virhe tässä <-----------------------------------------
+            Class.forName(sDriver);
         } catch (ClassNotFoundException e) {
             System.err.println("Virhe luokan " + sDriver + "lataamisessa: " + e.getMessage());
         }

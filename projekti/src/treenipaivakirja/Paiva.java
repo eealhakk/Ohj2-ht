@@ -174,16 +174,17 @@ public class Paiva {
      * @return päivätaulun luontilauseke
      */
     public String annaLuontilauseke() {
-        return "CREATE TABLE Paivat (" +
-                "tunnusNro INTEGER PRIMARY KEY AUTOINCREMENT , " +
+        return  "CREATE TABLE Paivat (" +
+                "tunnusNro INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "paivamaara VARCHAR(100) NOT NULL, " +
-                "treeninTyyppi VARCHAR(100) NOT NULL, " +
-                "luontiPV VARCHAR(100) NOT NULL, " +
-                "muokattuViimeksi VARCHAR(100) NOT NULL, " +
-                // "PRIMARY KEY (paivaID)" + 
+                "treeninTyyppi VARCHAR(100), " +
+                "luontipv VARCHAR(100), " +
+                "muokattuViimeksi VARCHAR(100)" +
+                // "PRIMARY KEY (jasenID)" + 
                 ")";
     }
-    
+
+
     
     /**
      * Antaa jäsenen lisäyslausekkeen
@@ -195,7 +196,7 @@ public class Paiva {
             throws SQLException {
         PreparedStatement sql = con.prepareStatement("INSERT INTO Treenit" +
                 "(tunnusNro, paivamaara, treeninTyyppi, luontipv, muokattuViimeksi" +
-                "VALUES (?, ?, ?, ?, ?, ?)");
+                "VALUES (?, ?, ?, ?, ?)");
         
         // Syötetään kentät näin välttääksemme SQL injektiot.
         // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
