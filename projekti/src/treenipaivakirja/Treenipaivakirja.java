@@ -1,12 +1,11 @@
 package treenipaivakirja;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
-import kerho.Collection;
-import kerho.Harrastus;
-import kerho.Jasen;
-import kerho.SailoException;
+import treenipaivakirja.Paiva;
+import treenipaivakirja.SailoException;
 
 /**
  * @author Eeli
@@ -45,6 +44,7 @@ public class Treenipaivakirja {
      * Haetaan kaikki jäsen harrastukset
      * @param paiva päivä jolle tuloksia haetaan
      * @return tietorakenne jossa viiteet löydetteyihin tuloksiin
+     * @throws SailoException poikkeus
      * @example
      * <pre name="test">
      * #import java.util.*;
@@ -72,7 +72,7 @@ public class Treenipaivakirja {
      *  loytyneet.get(0) == pitsi21 === true;
      * </pre> 
      */
-    public List<Tulos> annaTulokset(Paiva paiva) {
+    public List<Tulos> annaTulokset(Paiva paiva) throws SailoException {
         return tulokset.annaTulokset(paiva.getTunnusNro());
     }
 
@@ -237,9 +237,9 @@ public class Treenipaivakirja {
          
                     System.out.println("============= Kerhon testi =================");
                     
-                    Collection<Paiva> jasenet = treenipaivakirja.etsi("", -1);
+                    Collection<Paiva> paivat = treenipaivakirja.etsi("", -1);
                     int i = 0;
-                    for (Paiva paiva : jasenet) {
+                    for (Paiva paiva : paivat) {
                         System.out.println("Jäsen paikassa: " + i);
                         paiva.tulosta(System.out);
                         List<Tulos> loytyneet = treenipaivakirja.annaTulokset(paiva);
