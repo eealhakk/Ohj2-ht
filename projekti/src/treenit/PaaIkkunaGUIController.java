@@ -160,12 +160,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     /**
      * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kentgit tään
      * Kun klikkaa hiirellä niin kutsuu aikanaan tätä.
-     * @throws SailoException poikkeus
      */
-    protected void naytaPaiva() throws SailoException {
+    protected void naytaPaiva(){
             paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject();
 
-            if (paivaKohdalla == null) return;
+            if (paivaKohdalla == null) {
+                //areaPaiva.clear();
+                return;
+            }
 
             areaPaiva.setText("");
             try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
@@ -177,9 +179,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * Tulostaa paivan tiedot
      * @param os tietovirta johon tulostetaan
      * @param paiva tulostettava jäsen
-     * @throws SailoException poikkeus
      */
-    public void tulosta(PrintStream os, final Paiva paiva) throws SailoException {
+    public void tulosta(PrintStream os, final Paiva paiva){
         os.println("----------------------------------------------");
         paiva.tulosta(os);
         os.println("----------------------------------------------");
