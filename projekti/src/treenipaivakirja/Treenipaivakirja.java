@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
+//import treenipaivakirja.Harrastus;
+//import kerho.Jasen;
 import treenipaivakirja.Paiva;
 import treenipaivakirja.SailoException;
 
@@ -83,7 +85,7 @@ public class Treenipaivakirja {
      * @param nro viitenumero, jonka mukaan poistetaan
      * @return montako paivaa poistettiin
      */
-    public int poista(int nro) {
+    public int poista(@SuppressWarnings("unused") int nro) {
         return 0;
     }
     
@@ -151,17 +153,43 @@ public class Treenipaivakirja {
     public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {   //Kesken, paiva pitää täydentää
         return paivat.etsi(hakuehto,k);
     }
+    
+    /**
+     * Haetaan kaikki jäsen harrastukset
+     * @param tulos jäsen jolle harrastuksia haetaan
+     * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
+     * @throws SailoException jos harrastusten hakeminen tietokannasta epäonnistuu
+     * <pre name="test">
+     * #THROWS SailoException
+     * Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); 
+     * kerho.lisaa(aku1);
+     * Harrastus har = new Harrastus(); 
+     * har.vastaaPitsinNyplays(aku1.getTunnusNro()); 
+     * kerho.lisaa(har);
+     * kerho.annaHarrastukset(aku1).get(0) === har;
+     *
+     * Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); 
+     * kerho.lisaa(aku2);
+     * kerho.annaHarrastukset(aku2).size() === 0;
+     * </pre>
+     */
+    public List<Tulos> annaHarrastukset(Tulos tulos) throws SailoException {
+        return tulokset.annaTulokset(tulos.getTunnusNro());
+    }
+    
 
     
     /**
      * TODO: Sama idea kuin paiva lisaa
-     * @param tulos Tulos
-     
-    public void tulos(Tulos tulos){
+     *  tulos Tulos
+     * @param tulos x
+     * @throws SailoException -
+     */
+    public void tulos(Tulos tulos) throws SailoException{
         //Alustava treenin lisäys
         tulokset.lisaa(tulos);
     }
-    */
+    
     
     
     /*
@@ -173,25 +201,13 @@ public class Treenipaivakirja {
     }
     
     /**
-     * Lukee paivan tiedot tiedostosta
-     * @param nimi jota käyteään lukemisessa
-     * @throws SailoException jos lukeminen epäonnistuu
-     */
-    /**
-     * @param nimi nimi
-     * @throws SailoException poikkeuskäsittelijä...
-     
-    public void lueTiedostosta(String nimi) throws SailoException {
-        paivat.lueTiedostosta(nimi);
-    }
-    */
-    
-    /**
+     * 
+     *
+     * @param nimi tietokannan nimi
+     * @throws SailoException jos tietokannan luominen epäonnistuu
      * SQL
      * Luo tietokannan. Jos annettu tiedosto on jo olemassa ja
      * sisältää tarvitut taulut, ei luoda mitään
-     * @param nimi tietokannan nimi
-     * @throws SailoException jos tietokannan luominen epäonnistuu
      */
     public void lueTiedostosta(String nimi) throws SailoException {
         paivat = new Paivat(nimi);
@@ -253,32 +269,5 @@ public class Treenipaivakirja {
                 }
                 
                 new File("kokeilu.db").delete();
-            
-        
-//        Treenipaivakirja treeniKerta = new Treenipaivakirja();
-//
-//        try {
-//            // treenipaivakirja.lueTiedostosta("kelmit"); <- ?? paivat.dat?
-//
-//            Paiva sali_treeni = new Paiva(), sali_treeni2 = new Paiva();
-//            sali_treeni.rekisteroi();
-//            sali_treeni.vastaaEsimerkkiTreeni();
-//            sali_treeni2.rekisteroi();
-//            sali_treeni2.vastaaEsimerkkiTreeni();
-//
-//            treeniKerta.lisaa(sali_treeni);
-//            treeniKerta.lisaa(sali_treeni2);
-//
-//            System.out.println("============= Treenipaivakirja testi =================");
-//
-//            for (int i = 0; i < treeniKerta.getPaivia(); i++) {
-//                Paiva paiva = treeniKerta.annaPaiva(i);
-//                System.out.println("Jäsen paikassa: " + i);
-//                paiva.tulosta(System.out);
-//            }
-//
-//        } catch (SailoException ex) {
-//            System.out.println(ex.getMessage());
-//        }   
     }
 }

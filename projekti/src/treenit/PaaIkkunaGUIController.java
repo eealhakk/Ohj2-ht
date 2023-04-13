@@ -4,6 +4,7 @@ package treenit;
 import java.awt.event.ActionEvent;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -174,6 +175,17 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
                 tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
             }
     }
+    /*
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+    */
     
     /**
      * Tulostaa paivan tiedot
@@ -231,7 +243,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     /**
      * Hakee paivien tiedot listaan
      * @param jnro paivan numero, joka aktivoidaan haun jälkeen
-     */
+     
     protected void hae(int jnro) {
         PaaIkTreeniJaPaivaTaul.clear();
 
@@ -242,6 +254,40 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             PaaIkTreeniJaPaivaTaul.add("" + paiva.getPvm(), paiva);
         }
         PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää paivan -> (jäsenen)
+    }
+    */
+    
+
+    /**
+     * Hakee Paivan tiedot listaan
+     * TODO: Tähän kohtaan sijoitetaan liike, toistot, kg arvot
+     * @param jnro Paivan numero, joka aktivoidaan haun jälkeen
+     */
+    protected void hae(int jnro) {
+        int k = PaaIkDropp.getSelectionModel().getSelectedIndex();
+        String ehto = HakuPalkki.getText(); 
+        if (k > 0 || ehto.length() > 0)
+            //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
+        //else
+            
+            //naytaVirhe(null);
+        
+        PaaIkTreeniJaPaivaTaul.clear();
+
+        int index = 0;
+        Collection<Paiva> paivat;
+        try {
+            paivat = treenipaivakirja.etsi(ehto, k);
+            int i = 0;
+            for (Paiva paiva:paivat) {
+                if (paiva.getTunnusNro() == jnro) index = i;
+                PaaIkTreeniJaPaivaTaul.add(paiva.getPvm(), paiva);
+                i++;
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Paivan hakemisessa ongelmia! " + ex.getMessage());
+        }
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
     
     /**
@@ -273,24 +319,50 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     /**
      * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tallennetetaan! Mutta ei toimi vielä");
+    private String tallenna() {
+        try {
+            treenipaivakirja.talleta();
+            return null;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
     }
 
 
     
+//    /**
+//     * Alustaa treenipaivakirjan lukemalla sen valitun nimisestä tiedostosta
+//     * @param vuosi tiedosto josta treenipaivakirjan tiedot luetaan
+//     */
+//    protected void lueTiedosto(String vuosi) {
+//        treeninTunnusVuosi = vuosi;
+//        setTitle("treenipaivakirja - " + " vuosi: " + treeninTunnusVuosi);
+//        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+//        // if (virhe != null) 
+//            Dialogs.showMessageDialog(virhe);
+//    }
     /**
-     * Alustaa treenipaivakirjan lukemalla sen valitun nimisestä tiedostosta
-     * @param vuosi tiedosto josta treenipaivakirjan tiedot luetaan
+     * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
+     * @param nimi tiedosto josta kerhon tiedot luetaan
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected void lueTiedosto(String vuosi) {
-        treeninTunnusVuosi = vuosi;
-        setTitle("treenipaivakirja - " + " vuosi: " + treeninTunnusVuosi);
-        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
-        // if (virhe != null) 
-            Dialogs.showMessageDialog(virhe);
-    }
+    protected String lueTiedosto(String nimi) {
+        treeninTunnusVuosi = nimi;
+        setTitle("Treenipaivakirja - " + treeninTunnusVuosi);
+        try {
+            treenipaivakirja.lueTiedostosta(nimi);
+            hae(0);
+            return null;
+        } catch (SailoException e) {
+            hae(0);
+            String virhe = e.getMessage(); 
+            if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+            return virhe;
+        }
+     }
     
     private void setTitle(String string) {
         ModalController.getStage(HakuPalkki).setTitle("" + string);
@@ -304,13 +376,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      */ 
     private void uusiPaiva() {
         Paiva uusi = new Paiva();
-        uusi.rekisteroi();
+        //uusi.rekisteroi();
         uusi.vastaaEsimerkkiTreeni();
         try {
             treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
             //Ei pääse Treenipaivakirjan lisaa metodiin.
         }catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());    
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
+            return;
         }
         
         hae(uusi.getTunnusNro());
