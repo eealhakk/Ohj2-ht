@@ -26,21 +26,27 @@ public class Paivat {
 
     /**
      * Muodostaja
-     */
+     
     public Paivat() {
         // Atribuuttien oma alustus riittänee
     }
+    */
     
     /**
      * @param paiva pv
      * @throws SailoException poikkeus
-     * @throws SQLException poikkeus
      */
-    public Paivat(String paiva) throws SailoException, SQLException {
+    public Paivat(String paiva) throws SailoException {
         kanta = Kanta.alustaKanta(paiva);
         try ( Connection con = kanta.annaKantayhteys() ) {
+            // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
+            // Jasenet nimistä taulua olemassa.
+            // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko
+            // mahdollisesti olemassa olevalla taululla oikea rakenne,
+            // käyttäjä saa kuulla siitä virheilmoituksen kautta
             DatabaseMetaData meta = con.getMetaData();
-            try ( ResultSet taulu = meta.getTables(null, null, "Jasenet", null) ) {
+            
+            try ( ResultSet taulu = meta.getTables(null, null, "Paivat", null) ) {
                 if ( !taulu.next() ) {
                     // Luodaan Jasenet taulu
                     try ( PreparedStatement sql = con.prepareStatement(apupaiva.annaLuontilauseke()) ) {
@@ -60,9 +66,8 @@ public class Paivat {
     /**
      * @param paiva päivä luokka
      * @throws SailoException poikkeus
-     * @throws SQLException poikkeus
      */
-    public void lisaa(Paiva paiva) throws SailoException, SQLException {
+    public void lisaa(Paiva paiva) throws SailoException{
         try (Connection con = kanta.annaKantayhteys(); PreparedStatement sql = paiva.annaLisayslauseke(con) ){
             sql.executeUpdate();
             try ( ResultSet rs = sql.getGeneratedKeys() ) {
@@ -92,28 +97,27 @@ public class Paivat {
      * @param k etsittävän kentän indeksi
      * @return jäsenet listassa
      * @throws SailoException poikkeus
-     * @throws SQLException poikkeus
      */
-    public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException, SQLException {
+    public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {
         String ehto = hakuehto;
         String kysymys = apupaiva.getKysymys(k);
         if ( k < 0 ) { kysymys = apupaiva.getKysymys(0); ehto = ""; }
-     // Avataan yhteys tietokantaan try .. with lohkossa.
+        // Avataan yhteys tietokantaan try .. with lohkossa.
         try ( Connection con = kanta.annaKantayhteys();
-                PreparedStatement sql = con.prepareStatement("SELECT * FROM Jasenet WHERE " + kysymys + " LIKE ?") ) {
+              PreparedStatement sql = con.prepareStatement("SELECT * FROM Paivat WHERE " + kysymys + " LIKE ?") ) {
             ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
             
             sql.setString(1, "%" + ehto + "%");
             try ( ResultSet tulokset = sql.executeQuery() ) {
-            while ( tulokset.next() ) {
-            Paiva p = new Paiva();
-            p.parse(tulokset);
-            loytyneet.add(p);
+                while ( tulokset.next() ) {
+                    Paiva j = new Paiva();
+                    j.parse(tulokset);
+                    loytyneet.add(j);
+                }
             }
             return loytyneet;
-            } catch ( SQLException e ) {
-                throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-                }
+        } catch ( SQLException e ) {
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }
     
@@ -121,19 +125,21 @@ public class Paivat {
      * Lukee jäsenistön tiedostosta.  //TODO: Kesken
      * @param hakemisto tiedoston hakemisto
      * @throws SailoException jos lukeminen epäonnistuu
-     */
+     
     public void lueTiedostosta(String hakemisto) throws SailoException {
         tiedostonNimi = hakemisto + "/nimet.dat";
         throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
     }
+    */
     
     /**
      * Tallentaa paivat tiedostoon.  //TODO: Kesken
      * @throws SailoException jos tallennus epäonnistuu
-     */
+     
     public void tallenna()throws SailoException {
         throw new SailoException("Ei osata vielä tallentaa!" + tiedostonNimi);
     }
+    */
     
     /**
      * Palauttaa treenipaivakirjan paivien lukumäärän
@@ -146,9 +152,8 @@ public class Paivat {
     /**
     * Testiohjelma jäsenistölle
     * @param args ei käytössä
-     * @throws SQLException poikkeus
     */
-    public static void main(String args[]) throws SQLException  {
+    public static void main(String args[]){
         
         try {
             new File("paivatkokeilu2.db").delete();

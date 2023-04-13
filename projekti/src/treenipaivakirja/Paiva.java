@@ -175,11 +175,9 @@ public class Paiva {
      */
     public String annaLuontilauseke() {
         return  "CREATE TABLE Paivat (" +
-                "paivaID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "paivaID INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "paivamaara VARCHAR(100) NOT NULL, " +
-                "treeninTyyppi VARCHAR(100) " +
-//                "luontipv VARCHAR(100), " +
-//                "muokattuViimeksi VARCHAR(100)" +
+                "treeninTyyppi VARCHAR(100)" +
                 // "PRIMARY KEY (jasenID)" + 
                 ")";
     }
@@ -195,16 +193,16 @@ public class Paiva {
     public PreparedStatement annaLisayslauseke(Connection con)
             throws SQLException {
         PreparedStatement sql = con.prepareStatement("INSERT INTO Paivat" +
-                "(paivaID, paivamaara, treeninTyyppi" + //, luontipv, muokattuViimeksi
-                "VALUES (?, ?, ?, ?)"); //Vähennetty yksi
+                "(paivaID, paivamaara, treeninTyyppi)" + //, luontipv, muokattuViimeksi
+                "VALUES (?, ?, ?)"); //Vähennetty yksi
         
         // Syötetään kentät näin välttääksemme SQL injektiot.
         // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
         // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
         if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
-        sql.setLong(2, tunnusNro);
-        sql.setObject(3, paivamaara);
-        sql.setString(4, treeninTyyppi);
+        sql.setString(2, paivamaara);
+        sql.setString(3, treeninTyyppi);
+//        sql.setString(4, treeninTyyppi);
 //        sql.setString(5, luontipv);
 //        sql.setString(6, muokattuViimeksi);
         
@@ -240,7 +238,7 @@ public class Paiva {
      */
     public void parse(ResultSet tulokset) throws SQLException {
         setTunnusNro(tulokset.getInt("paivaID"));
-        paivamaara = tulokset.getString("päivämäärä");
+        paivamaara = tulokset.getString("paivamaara");
         treeninTyyppi = tulokset.getString("treeninTyyppi");
 //        luontipv = tulokset.getString("luontipv");
 //        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
