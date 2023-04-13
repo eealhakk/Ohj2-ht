@@ -181,9 +181,18 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         os.println("----------------------------------------------");
         paiva.tulosta(os);
         os.println("----------------------------------------------");
-        List<Tulos> tulokset = treenipaivakirja.annaTulokset(paiva);   
-        for (Tulos har:tulokset)
-            har.tulosta(os);  
+
+        try {
+            List<Tulos> tulokset;
+            tulokset = treenipaivakirja.annaTulokset(paiva);
+            
+            for (Tulos har:tulokset)
+                har.tulosta(os);  
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            Dialogs.showMessageDialog("Paivien hakemisessa ongelmia! " + e.getMessage());
+        }   
+
     }
 
 
@@ -313,7 +322,12 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         Tulos tul = new Tulos();  
         tul.rekisteroi();  
         tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
-        treenipaivakirja.lisaa(tul);  
+        try {
+            treenipaivakirja.lisaa(tul);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
         hae(paivaKohdalla.getTunnusNro());          
     } 
 

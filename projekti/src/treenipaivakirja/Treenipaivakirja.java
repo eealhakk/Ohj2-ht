@@ -126,26 +126,26 @@ public class Treenipaivakirja {
     }
     
     /**
-     * Palauttaa jäsenet listassa
+     * Palauttaa paivat listassa
      * @param hakuehto hakuehto  
      * @param k etsittävän kentän indeksi 
-     * @return jäsenet listassa
+     * @return paivat listassa
      * @throws SailoException jos tietokannan kanssa ongelmia
      * @example
      * <pre name="test">
      * #THROWS SailoException
-     * Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); 
-     * Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); 
-     * kerho.lisaa(aku1);
-     * kerho.lisaa(aku2);
-     * kerho.lisaa(aku2);  #THROWS SailoException // samaa ei saa laittaa kahdesti
-     * Collection<Jasen> loytyneet = kerho.etsi(aku1.getNimi(), 1);
+     * Paiva aku1 = new Paiva(); aku1.vastaaAkuAnkka(); 
+     * Paiva aku2 = new Paiva(); aku2.vastaaAkuAnkka(); 
+     * treenipaivakirja.lisaa(aku1);
+     * treenipaivakirja.lisaa(aku2);
+     * treenipaivakirja.lisaa(aku2);  #THROWS SailoException // samaa ei saa laittaa kahdesti
+     * Collection<Paiva> loytyneet = treenipaivakirja.etsi(aku1.getNimi(), 1);
      * loytyneet.size() === 1;
      * loytyneet.iterator().next() === aku1;
-     * loytyneet = kerho.etsi(aku2.getNimi(), 1);
+     * loytyneet = treenipaivakirja.etsi(aku2.getNimi(), 1);
      * loytyneet.size() === 1;
      * loytyneet.iterator().next() === aku2;
-     * kerho.etsi("", 15); #THROWS SailoException
+     * treenipaivakirja.etsi("", 15); #THROWS SailoException
      * </pre>
      */
     public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {   //Kesken, paiva pitää täydentää
@@ -235,7 +235,7 @@ public class Treenipaivakirja {
                     Tulos pitsi22 = new Tulos(id2); pitsi22.vastaaTulos(id2);  treenipaivakirja.lisaa(pitsi22);
                     Tulos pitsi23 = new Tulos(id2); pitsi23.vastaaTulos(id2);  treenipaivakirja.lisaa(pitsi23);
          
-                    System.out.println("============= Kerhon testi =================");
+                    System.out.println("============= treenipaivakirjan testi =================");
                     
                     Collection<Paiva> paivat = treenipaivakirja.etsi("", -1);
                     int i = 0;
