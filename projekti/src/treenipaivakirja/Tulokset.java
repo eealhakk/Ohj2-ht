@@ -95,8 +95,8 @@ public class Tulokset implements Iterable<Tulos>{
     */
     
     /**
-     * Lisää uuden jäsenen tietorakenteeseen.  Ottaa jäsenen omistukseensa.
-     * @param tulos lisätäävän jäsenen viite.  Huom tietorakenne muuttuu omistajaksi
+     * Lisää uuden tuloksen tietorakenteeseen.  Ottaa tuloksen omistukseensa.
+     * @param tulos lisätäävän tuloksen viite.  Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
      * @example
      * <pre name="test">
@@ -310,7 +310,7 @@ public class Tulokset implements Iterable<Tulos>{
      */
     public static void main(String args[])  {
         try {
-            Tulokset harrasteet = new Tulokset("kokeilu");
+            Tulokset harrasteet = new Tulokset("treenikokeiluTulokset");
             Tulos pitsi1 = new Tulos();
             pitsi1.vastaaTulos(2);
             Tulos pitsi2 = new Tulos();
@@ -337,7 +337,7 @@ public class Tulokset implements Iterable<Tulos>{
                 har.tulosta(System.out);
             }
             
-            new File("kokeilu.db").delete();
+            new File("kokeiluTulokset.db").delete();
         } catch (SailoException ex) {
             System.out.println(ex.getMessage());
         }

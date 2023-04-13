@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  */
 public class Tulos {
-    private int            tunnusNro        = 0;
+    private int            tunnusNro;
     //Lisätty hiljattain. onko tarvetta?
     private int            paivaNro;
     private static int     seuraavaNro      = 1;
@@ -21,11 +21,11 @@ public class Tulos {
     //Näihin viitenumero kyseisen tuloksen liikkeeseen ja sarjaan
     private int liike;
     private int sarja1;
-    
-    private int sarja2;
-    private int sarja3;
-    private int sarja4;
-    private int sarja5;
+//    
+//    private int sarja2;
+//    private int sarja3;
+//    private int sarja4;
+//    private int sarja5;
 
 
     /*
@@ -100,10 +100,10 @@ public class Tulos {
      * @return tulosn uusi tunnusNro
      * @example
      * <pre name="test">
-     *   tulos tulos1 = new tulos();
+     *   Tulos tulos1 = new Tulos();
      *   tulos1.getTunnusNro() === 0;
      *   tulos1.rekisteroi();
-     *   tulos tulos2 = new tulos();
+     *   Tulos tulos2 = new Tulos();
      *   tulos2.rekisteroi();
      *   int n1 = tulos1.getTunnusNro();
      *   int n2 = tulos2.getTunnusNro();
@@ -228,7 +228,7 @@ public class Tulos {
     */
    public void parse(ResultSet tulokset) throws SQLException {
        setTunnusNro(tulokset.getInt("tulosID"));
-       paivaNro = tulokset.getInt("paiva");
+       paivaNro = tulokset.getInt("paiva"); //<--------------------PaivaID
 //       seuraavaNro = tulokset.getInt("seuraavaNro");
        paiva = tulokset.getString("paiva");
        liike = tulokset.getInt("liike");

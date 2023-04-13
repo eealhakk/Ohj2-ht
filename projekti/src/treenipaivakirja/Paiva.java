@@ -154,11 +154,11 @@ public class Paiva {
      */
     public String getKysymys(int k) {
         switch ( k ) {
-            case 0: return "tunnusNro";
+            case 0: return "paivaID";
             case 1: return "paivamaara";
             case 2: return "treeninTyyppi";
-            case 3: return "luontiPv";
-            case 4: return "muokattuViimeksi";
+//            case 3: return "luontiPv";
+//            case 4: return "muokattuViimeksi";
             default: return "Äääliö";
         }
     }
@@ -175,11 +175,11 @@ public class Paiva {
      */
     public String annaLuontilauseke() {
         return  "CREATE TABLE Paivat (" +
-                "tunnusNro INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "paivaID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "paivamaara VARCHAR(100) NOT NULL, " +
-                "treeninTyyppi VARCHAR(100), " +
-                "luontipv VARCHAR(100), " +
-                "muokattuViimeksi VARCHAR(100)" +
+                "treeninTyyppi VARCHAR(100) " +
+//                "luontipv VARCHAR(100), " +
+//                "muokattuViimeksi VARCHAR(100)" +
                 // "PRIMARY KEY (jasenID)" + 
                 ")";
     }
@@ -194,9 +194,9 @@ public class Paiva {
      */
     public PreparedStatement annaLisayslauseke(Connection con)
             throws SQLException {
-        PreparedStatement sql = con.prepareStatement("INSERT INTO Treenit" +
-                "(tunnusNro, paivamaara, treeninTyyppi, luontipv, muokattuViimeksi" +
-                "VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement sql = con.prepareStatement("INSERT INTO Paivat" +
+                "(paivaID, paivamaara, treeninTyyppi" + //, luontipv, muokattuViimeksi
+                "VALUES (?, ?, ?, ?)"); //Vähennetty yksi
         
         // Syötetään kentät näin välttääksemme SQL injektiot.
         // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
@@ -205,8 +205,8 @@ public class Paiva {
         sql.setLong(2, tunnusNro);
         sql.setObject(3, paivamaara);
         sql.setString(4, treeninTyyppi);
-        sql.setString(5, luontipv);
-        sql.setString(6, muokattuViimeksi);
+//        sql.setString(5, luontipv);
+//        sql.setString(6, muokattuViimeksi);
         
         return sql;
     }
@@ -239,11 +239,11 @@ public class Paiva {
      * @throws SQLException jos jokin menee väärin
      */
     public void parse(ResultSet tulokset) throws SQLException {
-        setTunnusNro(tulokset.getInt("tunnusNro"));
+        setTunnusNro(tulokset.getInt("paivaID"));
         paivamaara = tulokset.getString("päivämäärä");
         treeninTyyppi = tulokset.getString("treeninTyyppi");
-        luontipv = tulokset.getString("luontipv");
-        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
+//        luontipv = tulokset.getString("luontipv");
+//        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
     }
     
     
@@ -296,12 +296,4 @@ public class Paiva {
 
 
     }
-
-    
- 
-   
-
-
-
-
 }

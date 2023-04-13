@@ -42,10 +42,10 @@ public class Paivat {
             DatabaseMetaData meta = con.getMetaData();
             try ( ResultSet taulu = meta.getTables(null, null, "Jasenet", null) ) {
                 if ( !taulu.next() ) {
-                // Luodaan Jasenet taulu
-                try ( PreparedStatement sql = con.prepareStatement(apupaiva.annaLuontilauseke()) ) {
-                sql.execute();
-                }
+                    // Luodaan Jasenet taulu
+                    try ( PreparedStatement sql = con.prepareStatement(apupaiva.annaLuontilauseke()) ) {
+                    sql.execute();
+                    }
                 }
             }
                 
@@ -67,7 +67,7 @@ public class Paivat {
             sql.executeUpdate();
             try ( ResultSet rs = sql.getGeneratedKeys() ) {
             paiva.tarkistaId(rs);
-        }
+            }
         } catch (SQLException e) {
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
             }
@@ -149,34 +149,36 @@ public class Paivat {
      * @throws SQLException poikkeus
     */
     public static void main(String args[]) throws SQLException  {
-    try {
-    new File("kokeilu.db").delete();
-    Paivat paivat = new Paivat("kokeilu");
+        
+        try {
+            new File("paivatkokeilu2.db").delete();
+            Paivat paivat = new Paivat("paivatkokeilu2");
+            
+            Paiva eka = new Paiva(), toka = new Paiva();
+            eka.vastaaEsimerkkiTreeni();
+            //toka.rekisteroi();
+            toka.vastaaEsimerkkiTreeni();
+            
+            paivat.lisaa(eka);
+            paivat.lisaa(toka);
+            toka.tulosta(System.out);
+            
+            System.out.println("============= Jäsenet testi =================");
     
-    Paiva eka = new Paiva(), toka = new Paiva();
-                eka.vastaaEsimerkkiTreeni();
-                //toka.rekisteroi();
-                toka.vastaaEsimerkkiTreeni();
-                
-                paivat.lisaa(eka);
-                paivat.lisaa(toka);
-                toka.tulosta(System.out);
-                
-                System.out.println("============= Jäsenet testi =================");
-    
-                int i = 0;
-                for (Paiva paiva:paivat.etsi("", -1)) {
-                    System.out.println("Treeni nro: " + i++);
-                    paiva.tulosta(System.out);
-                }
-                
-                new File("kokeilu.db").delete();
-            } catch ( SailoException ex ) {
-                System.out.println(ex.getMessage());
+            int i = 0;
+            for (Paiva paiva:paivat.etsi("", -1)) {
+                System.out.println("Treeni nro: " + i++);
+                paiva.tulosta(System.out);
             }
+            
+            new File("paivatkokeilu2.db").delete();
+        } catch ( SailoException ex ) {
+            System.out.println(ex.getMessage());
         }
-    
+        
     }
+    
+}
 
 
 
