@@ -22,17 +22,6 @@ public class Paiva {
         
         private static int seuraavaNro    = 1;
     
-    
-        /**
-         * Muodostaja
-         
-        public Paiva() {//==
-            // TODO Auto-generated constructor stub
-        }
-        */
-        
-        
-
     //TODO: Tämän voi luultavasti siirtää muualle
     /**
      * palauttaa random luvun min ja max välistä. (min ja max) ei ole välillä
@@ -65,7 +54,19 @@ public class Paiva {
     }
     
     /**
+     * Antaa paivalle seuraavan rekisterinumeron.
      * @return rekisteröi uuden alkion
+     * @example
+     * <pre name="test">
+     *   Paiva aku1 = new Paiva();
+     *   aku1.getTunnusNro() === 0;
+     *   aku1.rekisteroi();
+     *   Paiva aku2 = new Paiva();
+     *   aku2.rekisteroi();
+     *   int n1 = aku1.getTunnusNro();
+     *   int n2 = aku2.getTunnusNro();
+     *   n1 === n2-1;
+     * </pre>
      */
     public int rekisteroi() {
         tunnusNro = seuraavaNro;
@@ -104,7 +105,8 @@ public class Paiva {
 
     
     /**
-     * @param os -
+     * Tulostetaan paivan tiedot
+     * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
@@ -143,12 +145,11 @@ public class Paiva {
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
         return super.hashCode();
     }
     
     /**
-     * Palauttaa k:tta jäsenen kenttää vastaavan kysymyksen
+     * Palauttaa k:tta paivan kenttää vastaavan kysymyksen
      * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
      * @return k:netta kenttää vastaava kysymys
      */
@@ -163,11 +164,8 @@ public class Paiva {
         }
     }
 
-    
-    
     // Tietokantaan liittyvää koodia
     //------------------------------------------------------------------------------------
-    
     
     /**
      * Antaa tietokannan luontilausekkeen päivätaululle
@@ -185,9 +183,9 @@ public class Paiva {
 
     
     /**
-     * Antaa jäsenen lisäyslausekkeen
+     * Antaa paivan lisäyslausekkeen
      * @param con tietokantayhteys
-     * @return jäsenen lisäyslauseke
+     * @return paivan lisäyslauseke
      * @throws SQLException Jos lausekkeen luonnissa on ongelmia
      */
     public PreparedStatement annaLisayslauseke(Connection con)
@@ -202,14 +200,11 @@ public class Paiva {
         if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
         sql.setString(2, paivamaara);
         sql.setString(3, treeninTyyppi);
-//        sql.setString(4, treeninTyyppi);
-//        sql.setString(5, luontipv);
-//        sql.setString(6, muokattuViimeksi);
-        
+//        sql.setString(4, luontipv);
+//        sql.setString(5, muokattuViimeksi);
         return sql;
     }
 
-    
     /**
      * Tarkistetaan onko id muuttunut lisäyksessä
      * @param rs lisäyslauseen ResultSet
@@ -222,7 +217,10 @@ public class Paiva {
         setTunnusNro(id);
     }
     
-    
+    /**
+     * Asettaa tunnusnumeron
+     * @param nr nykyinen arvo?
+     */
     private void setTunnusNro(int nr) {
         tunnusNro = nr;
         if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
@@ -232,7 +230,7 @@ public class Paiva {
     
     
     /** 
-     * Ottaa jäsenen tiedot ResultSetistä
+     * Ottaa paivan tiedot ResultSetistä
      * @param tulokset mistä tiedot otetaan
      * @throws SQLException jos jokin menee väärin
      */
@@ -244,12 +242,10 @@ public class Paiva {
 //        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
     }
     
-    
-    
     /**
-     * Antaa jäsenen päivityslausekkeen
+     * Antaa paivan päivityslausekkeen
      * @param con tietokantayhteys
-     * @return jäsenen päivityslauseke
+     * @return paivan päivityslauseke
      * @throws SQLException Jos lausekkeen luonnissa on ongelmia
      */
     @SuppressWarnings("unused")
@@ -258,11 +254,10 @@ public class Paiva {
         return null;
     }
     
-    
     /**
-     * Antaa jäsenen poistolausekkeen
+     * Antaa paivan poistolausekkeen
      * @param con tietokantayhteys
-     * @return jäsenen poistolauseke
+     * @return paivan poistolauseke
      * @throws SQLException Jos lausekkeen luonnissa on ongelmia
      */
     @SuppressWarnings("unused")
@@ -270,9 +265,9 @@ public class Paiva {
             throws SQLException {
         return null;
     }
-    
-    
+      
     /**
+     * Asettaa p
      * @param pvm pvm 
      * @param kk kk
      * @param vuosi vuosi
@@ -281,17 +276,15 @@ public class Paiva {
         paivamaara = pvm + "." + kk + "." + vuosi;
     }
     
-
     /**
+     * Testiohjelma päiville
      * @param args ei käytössä
      */
     public static void main(String args[]) {
         Paiva eka = new Paiva();
         eka.rekisteroi();
         eka.setPv(1,3,2023);
-        
+   
         eka.tulosta(System.out);
-
-
     }
 }

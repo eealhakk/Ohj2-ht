@@ -16,15 +16,12 @@ public class Liike {
         private static int seuraavaNro    = 1;
     
     
-        /**
-         * Muodostaja
-         
-        public Liikkee() {//==
-            // TODO Auto-generated constructor stub
-        }
-        */
+
         
         
+    /**
+     * Muodostaja
+     */
     public Liike() {
         //
     }
@@ -81,7 +78,8 @@ public class Liike {
 
     
     /**
-     * @param os -
+     * Tulostetaan liikkeen tiedot
+     * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
         tulosta(new PrintStream(os));
