@@ -81,6 +81,7 @@ public class Tulokset implements Iterable<Tulos>{
             }
             
         } catch ( SQLException e ) {
+            System.out.println("Ongelmia tietokannan kanssa:" + e.getMessage());    //TODO: Poista myöhemmin!
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }
@@ -135,6 +136,7 @@ public class Tulokset implements Iterable<Tulos>{
             }   
             
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }
@@ -238,7 +240,7 @@ public class Tulokset implements Iterable<Tulos>{
         List<Tulos> loydetyt = new ArrayList<Tulos>();
         
         try ( Connection con = kanta.annaKantayhteys();
-              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE tulosID = ?")
+              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
                 ) {
             sql.setInt(1, tunnusnro);
             try ( ResultSet tulokset = sql.executeQuery() )  {
@@ -250,6 +252,7 @@ public class Tulokset implements Iterable<Tulos>{
             }
             
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
         return loydetyt;
@@ -291,6 +294,7 @@ public class Tulokset implements Iterable<Tulos>{
             
             new File("kokeiluTulokset.db").delete();
         } catch (SailoException ex) {
+            ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
     

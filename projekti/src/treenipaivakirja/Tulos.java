@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
  * @author antti ja eeli
  * @version Mar 9, 2023
@@ -164,9 +166,10 @@ public class Tulos {
     public String annaLuontilauseke() {
         return "CREATE TABLE Tulokset (" +
                 "tulosID INTEGER PRIMARY KEY AUTOINCREMENT , " +
-                "paiva VARCHAR(20) NOT NULL, " +
+                "paivaID INTEGER, " +
                 "liike VARCHAR(100), " +
                 "sarja1 INTEGER " +
+                //"FOREIGN KEY (paivaID) REFERENCES Paivat(paivaID)" +
 //                "sarja2 INTEGER, " +
 //                "sarja3 INTEGER, " +
 //                "sarja4 INTEGER, " +
@@ -186,18 +189,18 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(tulosID, paiva, liike, sarja1) " + //, sarja2, sarja3, " + "sarja4, sarja5
-               "VALUES (?, ?, ?, ?)"); //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
+               "(paivaID, liike, sarja1) " + //, sarja2, sarja3, " + "sarja4, sarja5
+               "VALUES (?, ?, ?)"); //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
        // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
-       if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
+//       if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
 //       sql.setInt(2, paivaNro);
 //       sql.setInt(3, seuraavaNro);
-       sql.setString(2, paiva);
-       sql.setInt(3, liike);
-       sql.setInt(4, sarja1);
+       sql.setInt(1, paivaNro); //PaivaID
+       sql.setInt(2, liike);
+       sql.setInt(3, sarja1);
 //       sql.setInt(7, sarja2);
 //       sql.setInt(8, sarja3);
 //       sql.setInt(9, sarja4);   //<-------TODO:--------Liikaa suhteessa VALUES määrään - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
@@ -228,15 +231,43 @@ public class Tulos {
     */
    public void parse(ResultSet tulokset) throws SQLException {
        setTunnusNro(tulokset.getInt("tulosID"));
-       paivaNro = tulokset.getInt("paiva"); //<--------------------PaivaID
+       paivaNro = tulokset.getInt("paivaID"); //<--------------------PaivaID
 //       seuraavaNro = tulokset.getInt("seuraavaNro");
-       paiva = tulokset.getString("paiva");
+       //paiva = tulokset.getString("paiva");
        liike = tulokset.getInt("liike");
        sarja1 = tulokset.getInt("sarja1");
 //       sarja2 =tulokset.getInt("sarja2");
 //       sarja3 = tulokset.getInt("sarja3");
 //       sarja4 = tulokset.getInt("sarja4"); 
 //       sarja5 = tulokset.getInt("sarja5");
+   }
+   
+   /**
+    * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
+    * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
+    * @param rivi josta harrastuksen tiedot otetaan
+    * @example
+    * <pre name="test">
+    *   Harrastus harrastus = new Harrastus();
+    *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+    *   harrastus.getJasenNro() === 10;
+    *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+    *   
+    *   harrastus.rekisteroi();
+    *   int n = harrastus.getTunnusNro();
+    *   harrastus.parse(""+(n+20));
+    *   harrastus.rekisteroi();
+    *   harrastus.getTunnusNro() === n+20+1;
+    *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+    * </pre>
+    */
+   public void parse(String rivi) {
+       StringBuffer sb = new StringBuffer(rivi);
+       setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+       paivaNro = Mjonot.erota(sb, '|', paivaNro);
+       paiva = Mjonot.erota(sb, '|', paiva);
+       liike = Mjonot.erota(sb, '|', liike);
+       sarja1 = Mjonot.erota(sb, '|', sarja1);
    }
    
    /**
@@ -250,7 +281,7 @@ public class Tulos {
            case 0: return "tulosID";
 //           case 1: return "paiva";
 //           case 2: return "seuraavaNro";
-           case 1: return "paiva";
+           case 1: return "paivaID";
            case 2: return "liike";
            case 3: return "sarja1";
 //           case 6: return "sarja2";

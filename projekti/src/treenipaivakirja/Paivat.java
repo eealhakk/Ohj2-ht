@@ -57,6 +57,7 @@ public class Paivat {
                 
                 }
             catch (SQLException e) {
+                e.printStackTrace();
                 throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
     
@@ -74,6 +75,7 @@ public class Paivat {
             paiva.tarkistaId(rs);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
             }
     }
@@ -117,6 +119,7 @@ public class Paivat {
             }
             return loytyneet;
         } catch ( SQLException e ) {
+            e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }

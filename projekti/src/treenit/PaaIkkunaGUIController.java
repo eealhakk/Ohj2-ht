@@ -286,6 +286,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             }
         } catch (SailoException ex) {
             Dialogs.showMessageDialog("Paivan hakemisessa ongelmia! " + ex.getMessage());
+            ex.printStackTrace();
         }
         PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
     }
@@ -402,6 +403,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             treenipaivakirja.lisaa(tul);
         } catch (SailoException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
             Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
         }  
         hae(paivaKohdalla.getTunnusNro());          
