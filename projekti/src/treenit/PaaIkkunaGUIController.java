@@ -266,7 +266,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     protected void hae(int jnro) {
         int k = PaaIkDropp.getSelectionModel().getSelectedIndex();
         String ehto = HakuPalkki.getText(); 
-        if (k > 0 || ehto.length() > 0)
+        if (k > 0 || ehto.length() > 0);
             //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
         //else
             
