@@ -16,18 +16,11 @@ import fi.jyu.mit.ohj2.Mjonot;
  */
 public class Tulos {
     private int            tunnusNro;
-    //Lisätty hiljattain. onko tarvetta?
     private int            paivaNro;
     private static int     seuraavaNro      = 1;
     private String paiva = "1.1.2000";
-    //Näihin viitenumero kyseisen tuloksen liikkeeseen ja sarjaan
     private int liike;
     private int sarja1;
-//    
-//    private int sarja2;
-//    private int sarja3;
-//    private int sarja4;
-//    private int sarja5;
 
 
     /*
@@ -43,6 +36,7 @@ public class Tulos {
         //
     }
     
+    
     /**
      * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on
      * TODO: Tähän lisätään ehkä myös sarja ja toisto/toistot?
@@ -54,6 +48,7 @@ public class Tulos {
         //this.sarjaNro = sarja;
     }
     
+    
     /**
      * @return Tunnus numero
      */
@@ -61,17 +56,18 @@ public class Tulos {
         return this.tunnusNro;
     }
     
+    
     /**
      * Asettaa tunnusnumeron ja samalla varmistaa että
      * seuraava numero on aina suurempi kuin tähän mennessä suurin.
      * @param nr asetettava tunnusnumero
      * 
-     * Lisätty SQL yhteydessä 3/4/23
      */
     private void setTunnusNro(int nr) {
         tunnusNro = nr;
         if (tunnusNro >= seuraavaNro) seuraavaNro = tunnusNro + 1;
     }
+    
     
     /**
      * @return Paiva numero
@@ -80,6 +76,7 @@ public class Tulos {
         return this.paivaNro;
     }
 
+    
     /**
      * Tulostaa tiedot
      * @param out tietovirta johon tulostetaan
@@ -87,6 +84,7 @@ public class Tulos {
     public void tulosta(PrintStream out) {
         out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja1);
     }
+    
     
     /**
      * @param os -
@@ -117,6 +115,7 @@ public class Tulos {
         seuraavaNro++;
         return this.tunnusNro;
     }
+    
     
   //TODO: Tämän voi luultavasti siirtää muualle
     /**
@@ -248,17 +247,17 @@ public class Tulos {
     * @param rivi josta harrastuksen tiedot otetaan
     * @example
     * <pre name="test">
-    *   Harrastus harrastus = new Harrastus();
-    *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-    *   harrastus.getJasenNro() === 10;
-    *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+    *   Tulos tulos = new Tulos();
+    *   tulos.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+    *   tulos.getPaivaNro() === 10;
+    *   tulos.toString()    === "2|10|Kalastus|1949|22";
     *   
-    *   harrastus.rekisteroi();
-    *   int n = harrastus.getTunnusNro();
-    *   harrastus.parse(""+(n+20));
-    *   harrastus.rekisteroi();
-    *   harrastus.getTunnusNro() === n+20+1;
-    *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+    *   tulos.rekisteroi();
+    *   int n = tulos.getTunnusNro();
+    *   tulos.parse(""+(n+20));
+    *   tulos.rekisteroi();
+    *   tulos.getTunnusNro() === n+20+1;
+    *   tulos.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
     * </pre>
     */
    public void parse(String rivi) {
@@ -269,6 +268,8 @@ public class Tulos {
        liike = Mjonot.erota(sb, '|', liike);
        sarja1 = Mjonot.erota(sb, '|', sarja1);
    }
+   
+   
    
    /**
     * SQL   //TODO: Muuta kaikki sarjat myöhemmin yhdeksi sarjaksi
