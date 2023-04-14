@@ -201,8 +201,6 @@ public class Treenipaivakirja {
     }
     
     /**
-     * 
-     *
      * @param nimi tietokannan nimi
      * @throws SailoException jos tietokannan luominen epäonnistuu
      * SQL

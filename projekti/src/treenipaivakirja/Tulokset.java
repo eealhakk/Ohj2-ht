@@ -202,54 +202,6 @@ public class Tulokset implements Iterable<Tulos>{
     }
     
     
-    /**
-     * Palauttaa tulokset listassa
-     * @param halkioehto halkioehto  
-     * @param k etsittävän kentän indeksi 
-     * @return tulokset listassa
-     * @throws SailoException jos tietokannan kanssa ongelmia
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException
-     * Tulos alkio1 = new Tulos(); alkio1.vastaaTulos(); 
-     * Tulos alkio2 = new Tulos(); alkio2.vastaaTulos(); 
-     * tulokset.lisaa(alkio1);
-     * tulokset.lisaa(alkio2);
-     * tulokset.lisaa(alkio2);  #THROWS SailoException  // ei saa lisätä sama id:tä uudelleen
-     * Collection<Tulos> loytyneet = tulokset.etsi(alkio1.getNimi(), 1);
-     * loytyneet.size() === 1;
-     * loytyneet.iterator().next() === alkio1;
-     * loytyneet = tulokset.etsi(alkio2.getNimi(), 1);
-     * loytyneet.size() === 1;
-     * loytyneet.iterator().next() === alkio2;
-     * loytyneet = tulokset.etsi("", 15); #THROWS SailoException
-     *
-     * ftied.delete();
-     * </pre>
-     
-    public List<Tulos> annaTulokset(String halkioehto, int k) throws SailoException {
-        String ehto = halkioehto;
-        String kysymys = aputulos.getKysymys(k);
-        if ( k < 0 ) { kysymys = aputulos.getKysymys(0); ehto = ""; }
-        // Avataan yhteys tietokantaan try .. with lohkossa.
-        try ( Connection con = kanta.annaKantayhteys();
-              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE " + kysymys + " LIKE ?") ) {
-            ArrayList<Tulos> loytyneet = new ArrayList<Tulos>();
-            
-            sql.setString(1, "%" + ehto + "%");
-            try ( ResultSet tulokset = sql.executeQuery() ) {
-                while ( tulokset.next() ) {
-                    Tulos j = new Tulos();
-                    j.parse(tulokset);
-                    loytyneet.add(j);
-                }
-            }
-            return loytyneet;
-        } catch ( SQLException e ) {
-            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-        }
-    }
-    */
     
     /**
      * Haetaan kaikki tulos Tulokset
