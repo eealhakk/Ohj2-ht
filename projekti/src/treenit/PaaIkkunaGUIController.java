@@ -141,9 +141,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
     
-    
-    
-    
     /**
      * Alustaa myöhemmin Liike, Toistot ja Kg ikkunat??
      * Otettu vasta pohjaksi
@@ -156,7 +153,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIkTreeniJaPaivaTaul.clear();
         PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
     }
-
 
     /**
      * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kentgit tään
