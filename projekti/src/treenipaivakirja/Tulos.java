@@ -20,7 +20,7 @@ public class Tulos {
     private static int     seuraavaNro      = 1;
     private String paiva = "1.1.2000";
     private int liike;
-    private int sarja1;
+    private int sarja;
 
 
     /*
@@ -82,7 +82,7 @@ public class Tulos {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja1);
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja);
     }
     
     
@@ -96,8 +96,8 @@ public class Tulos {
 
 
     /**
-     * Antaa tuloslle seuraavan rekisterinumeron.
-     * @return tulosn uusi tunnusNro
+     * Antaa tulokselle seuraavan rekisterinumeron.
+     * @return tuloksen uusi tunnusNro
      * @example
      * <pre name="test">
      *   Tulos tulos1 = new Tulos();
@@ -117,7 +117,6 @@ public class Tulos {
     }
     
     
-  //TODO: Tämän voi luultavasti siirtää muualle
     /**
      * palauttaa random luvun min ja max välistä. (min ja max) ei ole välillä
      * @param min minimi
@@ -138,11 +137,14 @@ public class Tulos {
      */
     public void vastaaTulos(int nro) {
         paiva = "20.10.2015";
-        sarja1 = ranL(1,6);
+        sarja = ranL(1,6);
         liike = ranL(5,15);     
         paivaNro = nro;
     }
     
+    /**
+     * Vastaa tuloksen.
+     */
     public void vastaaTulos() {
         vastaaTulos(12);
     }
@@ -150,7 +152,6 @@ public class Tulos {
     /*//The type Tulos should also implement hashCode() since it overrides Object.equals()
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
         return super.hashCode();
     }
     */
@@ -167,7 +168,7 @@ public class Tulos {
                 "tulosID INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "paivaID INTEGER, " +
                 "liike VARCHAR(100), " +
-                "sarja1 INTEGER " +
+                "sarja INTEGER " +
                 //"FOREIGN KEY (paivaID) REFERENCES Paivat(paivaID)" +
 //                "sarja2 INTEGER, " +
 //                "sarja3 INTEGER, " +
@@ -188,7 +189,7 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(paivaID, liike, sarja1) " + //, sarja2, sarja3, " + "sarja4, sarja5
+               "(paivaID, liike, sarja) " + //, sarja2, sarja3, " + "sarja4, sarja5
                "VALUES (?, ?, ?)"); //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
@@ -199,7 +200,7 @@ public class Tulos {
 //       sql.setInt(3, seuraavaNro);
        sql.setInt(1, paivaNro); //PaivaID
        sql.setInt(2, liike);
-       sql.setInt(3, sarja1);
+       sql.setInt(3, sarja);
 //       sql.setInt(7, sarja2);
 //       sql.setInt(8, sarja3);
 //       sql.setInt(9, sarja4);   //<-------TODO:--------Liikaa suhteessa VALUES määrään - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
@@ -234,7 +235,7 @@ public class Tulos {
 //       seuraavaNro = tulokset.getInt("seuraavaNro");
        //paiva = tulokset.getString("paiva");
        liike = tulokset.getInt("liike");
-       sarja1 = tulokset.getInt("sarja1");
+       sarja = tulokset.getInt("sarja");
 //       sarja2 =tulokset.getInt("sarja2");
 //       sarja3 = tulokset.getInt("sarja3");
 //       sarja4 = tulokset.getInt("sarja4"); 
@@ -248,16 +249,17 @@ public class Tulos {
     * @example
     * <pre name="test">
     *   Tulos tulos = new Tulos();
-    *   tulos.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-    *   tulos.getPaivaNro() === 10;
-    *   tulos.toString()    === "2|10|Kalastus|1949|22";
-    *   
-    *   tulos.rekisteroi();
-    *   int n = tulos.getTunnusNro();
-    *   tulos.parse(""+(n+20));
-    *   tulos.rekisteroi();
-    *   tulos.getTunnusNro() === n+20+1;
-    *   tulos.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+    *  tulos.parse("   1  |  4  |  1  |  1  |  1  ");
+    *  tulos.getTunnusNro() === 1;
+    *  tulos.getPaivaNro() === 4;
+    *  tulos.tulosta(System.out) === "1|4|1|1|1";
+    *
+    *  tulos.rekisteroi();
+    *  int n = tulos.getTunnusNro();
+    *  tulos.parse(""+(n+20));
+    *  tulos.rekisteroi();
+    *  tulos.getTunnusNro() === n+20+1;
+    *  tulos.tulosta(System.out) === ""+(n+20+1)+"|4|1|1|1";
     * </pre>
     */
    public void parse(String rivi) {
@@ -266,13 +268,13 @@ public class Tulos {
        paivaNro = Mjonot.erota(sb, '|', paivaNro);
        paiva = Mjonot.erota(sb, '|', paiva);
        liike = Mjonot.erota(sb, '|', liike);
-       sarja1 = Mjonot.erota(sb, '|', sarja1);
+       sarja = Mjonot.erota(sb, '|', sarja);
    }
    
    
    
    /**
-    * SQL   //TODO: Muuta kaikki sarjat myöhemmin yhdeksi sarjaksi
+    * SQL
     * Palauttaa k:tta jäsenen kenttää vastaavan kysymyksen
     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
     * @return k:netta kenttää vastaava kysymys
@@ -284,7 +286,7 @@ public class Tulos {
 //           case 2: return "seuraavaNro";
            case 1: return "paivaID";
            case 2: return "liike";
-           case 3: return "sarja1";
+           case 3: return "sarja";
 //           case 6: return "sarja2";
 //           case 7: return "sarja3";
 //           case 8: return "sarja4";

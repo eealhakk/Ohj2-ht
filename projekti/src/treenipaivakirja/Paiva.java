@@ -8,8 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import fi.jyu.mit.ohj2.Mjonot;
+
 /**
- * @author Eeli
+ * @author Eeli ja Antti
  * @version 1 Mar 2023
  *
  */
@@ -115,10 +117,13 @@ public class Paiva {
     @Override
     public String toString() {
         return ("=/="+String.format("%03d", tunnusNro, 3) +
-                "Treenin tyyppi: "+ treeninTyyppi + "\n" + 
-                "luontipv  " + "( " + luontipv + " )" + "\n" +
-                "muokattuViimeksi " + "( " +  muokattuViimeksi +
-                " )" + "=/=");
+                "Treenin tyyppi: "+
+                treeninTyyppi + "\n" + 
+                "luontipv  " +
+                "( " + luontipv + " )" + "\n" +
+                "muokattuViimeksi " + 
+                "( " +  muokattuViimeksi +" )" +
+                "=/=");
     }
     
     @Override
@@ -227,7 +232,18 @@ public class Paiva {
         
     }
     
-    
+    /**
+     * @param rivi jota parsitaan
+     */
+    public void parse(String rivi) {
+        var sb = new StringBuilder(rivi);
+        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
+        paivamaara = Mjonot.erota(sb, '|', paivamaara);
+        treeninTyyppi = Mjonot.erota(sb, '|', treeninTyyppi);
+        luontipv = Mjonot.erota(sb, '|', luontipv);
+        muokattuViimeksi = Mjonot.erota(sb, '|', muokattuViimeksi);
+        
+    }
     
     /** 
      * Ottaa paivan tiedot ResultSetistä
@@ -287,4 +303,6 @@ public class Paiva {
    
         eka.tulosta(System.out);
     }
+
+    
 }

@@ -210,7 +210,7 @@ public class Treenipaivakirja {
     public void lueTiedostosta(String nimi) throws SailoException {
         paivat = new Paivat(nimi);
         tulokset = new Tulokset(nimi);
-        //harrastukset = new  Harrastukset(nimi);
+        
     }
     
     /**
@@ -235,14 +235,14 @@ public class Treenipaivakirja {
                     Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
                     treenipaivakirja.lueTiedostosta("kokeilu");
          
-                    Paiva aku1 = new Paiva(), aku2 = new Paiva();
-                    aku1.vastaaEsimerkkiTreeni();
-                    aku2.vastaaEsimerkkiTreeni();
+                    Paiva eka = new Paiva(), toka = new Paiva();
+                    eka.vastaaEsimerkkiTreeni();
+                    toka.vastaaEsimerkkiTreeni();
          
-                    treenipaivakirja.lisaa(aku1);
-                    treenipaivakirja.lisaa(aku2);
-                    int id1 = aku1.getTunnusNro();
-                    int id2 = aku2.getTunnusNro();
+                    treenipaivakirja.lisaa(eka);
+                    treenipaivakirja.lisaa(toka);
+                    int id1 = eka.getTunnusNro();
+                    int id2 = toka.getTunnusNro();
                     Tulos pitsi11 = new Tulos(id1); pitsi11.vastaaTulos(id1);  treenipaivakirja.lisaa(pitsi11);
                     Tulos pitsi12 = new Tulos(id1); pitsi12.vastaaTulos(id1);  treenipaivakirja.lisaa(pitsi12);
                     Tulos pitsi21 = new Tulos(id2); pitsi21.vastaaTulos(id2);  treenipaivakirja.lisaa(pitsi21);
@@ -254,7 +254,7 @@ public class Treenipaivakirja {
                     Collection<Paiva> paivat = treenipaivakirja.etsi("", -1);
                     int i = 0;
                     for (Paiva paiva : paivat) {
-                        System.out.println("Jäsen paikassa: " + i);
+                        System.out.println("Päivä paikassa: " + i);
                         paiva.tulosta(System.out);
                         List<Tulos> loytyneet = treenipaivakirja.annaTulokset(paiva);
                         for (Tulos tulos : loytyneet)

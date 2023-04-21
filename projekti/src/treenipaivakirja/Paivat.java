@@ -1,6 +1,11 @@
 package treenipaivakirja;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -19,18 +24,18 @@ public class Paivat {
     private int              lkm           = 0;
     private String           tiedostonNimi = "";
     private Paiva            alkiot[]      = new Paiva[MAX_PAIVIA];
+    private boolean muutettu = false;
     
     private Kanta kanta;
     private static Paiva apupaiva = new Paiva();
 
 
-    /**
-     * Muodostaja
+    
      
     public Paivat() {
         // Atribuuttien oma alustus riittänee
     }
-    */
+    
     
     /**
      * @param paiva pv
@@ -64,6 +69,49 @@ public class Paivat {
     }
     
     
+    
+        
+    
+
+    /**
+     * Palauttaa viitteen i jäseneen.
+     * @param i minkä indexin jäsen halutaan
+     * @return viite jäseneen jonka idx on i
+     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella  
+     */
+    public Paiva anna(int i) throws IndexOutOfBoundsException {
+        if (i < 0 || lkm <= i)
+            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+        return alkiot[i];
+    }
+    
+    
+    
+    /**
+     * Lukee jäsenistön tiedostosta.  //TODO: Kesken
+     * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos lukeminen epäonnistuu
+     
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        tiedostonNimi = hakemisto + "/nimet.dat";
+        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+    }
+    */
+    
+  
+    
+    
+    /**
+     * Palauttaa treenipaivakirjan paivien lukumäärän
+     * @return paivien lukumäärä
+     */
+    public int getlkm() {
+        return lkm;
+    }
+    
+    
+    
+    
     /**
      * @param paiva päivä luokka
      * @throws SailoException poikkeus
@@ -79,20 +127,7 @@ public class Paivat {
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
             }
     }
-        
     
-
-    /**
-     * Palauttaa viitteen i jäseneen.
-     * @param i minkä indexin jäsen halutaan
-     * @return viite jäseneen jonka idx on i
-     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella  
-     */
-    public Paiva anna(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || lkm <= i)
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
-        return alkiot[i];
-    }
     
     /**
      * @param hakuehto hakuehto
@@ -124,49 +159,22 @@ public class Paivat {
         }
     }
     
-    /**
-     * Lukee jäsenistön tiedostosta.  //TODO: Kesken
-     * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos lukeminen epäonnistuu
-     
-    public void lueTiedostosta(String hakemisto) throws SailoException {
-        tiedostonNimi = hakemisto + "/nimet.dat";
-        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
-    }
-    */
     
-    /**
-     * Tallentaa paivat tiedostoon.  //TODO: Kesken
-     * @throws SailoException jos tallennus epäonnistuu
-     
-    public void tallenna()throws SailoException {
-        throw new SailoException("Ei osata vielä tallentaa!" + tiedostonNimi);
-    }
-    */
-    
-    /**
-     * Palauttaa treenipaivakirjan paivien lukumäärän
-     * @return paivien lukumäärä
-     */
-    public int getlkm() {
-        return lkm;
-    }
     
     /**
     * Testiohjelma jäsenistölle
     * @param args ei käytössä
     */
-    public static void main(String args[]){
-        
-        try {
-            new File("paivatkokeilu2.db").delete();
-            Paivat paivat = new Paivat("paivatkokeilu2");
+    public static void main(String args[]) {
             
+       try {
+           new File("kokeilu.db").delete();
+           Paivat paivat = new Paivat();
             Paiva eka = new Paiva(), toka = new Paiva();
+            //eka.rekisteroi();
             eka.vastaaEsimerkkiTreeni();
             //toka.rekisteroi();
             toka.vastaaEsimerkkiTreeni();
-            
             paivat.lisaa(eka);
             paivat.lisaa(toka);
             toka.tulosta(System.out);
@@ -175,11 +183,10 @@ public class Paivat {
     
             int i = 0;
             for (Paiva paiva:paivat.etsi("", -1)) {
-                System.out.println("Treeni nro: " + i++);
+                System.out.println("Päivä nro: " + i++);
                 paiva.tulosta(System.out);
             }
-            
-            new File("paivatkokeilu2.db").delete();
+            new File("kokeilu.db").delete();   
         } catch ( SailoException ex ) {
             System.out.println(ex.getMessage());
         }
