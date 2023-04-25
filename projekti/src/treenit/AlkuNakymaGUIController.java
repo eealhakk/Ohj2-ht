@@ -1,6 +1,7 @@
 package treenit;
 
 import fi.jyu.mit.fxgui.Dialogs;
+
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
@@ -21,9 +22,29 @@ public class AlkuNakymaGUIController implements ModalControllerInterface<String>
     @FXML private void avaaAsetaVuosi() {
         //ModalController.showModal(AlkuNakymaGUIController.class.getResource("PaaIkkunaGUIView.fxml"), "PaaIkkuna", null, "");
         vastaus = alkuNakAnnaVuosi.getText();
+        if (tarkistaVuosi(vastaus))
         ModalController.closeStage(alkuNakAnnaVuosi);
     }
     
+    
+    private boolean tarkistaVuosi(String vastaus1) {
+        if (vastaus1 == null || vastaus1.length() == 0) {
+            Dialogs.showMessageDialog("Anna vuosi!");
+            return false;
+        }
+        try {
+            int vuosi = Integer.parseInt(vastaus1);
+            if (vuosi < 2000 || vuosi > 2100) {
+                Dialogs.showMessageDialog("Vuosi ei ole sallitulla välillä!");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            Dialogs.showMessageDialog("Anna vuosi kokonaislukuna!");
+            return false;
+        }
+        return true;
+    }
+     
     /**
      * Palauttaa viestin, että kyseinen toiminto ei vielä tee mitään
      */
