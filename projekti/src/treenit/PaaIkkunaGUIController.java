@@ -170,6 +170,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIkTreeniJaPaivaTaul.clear();
         PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
         
+       /*   //kerhon vastaava jäsenen tiedot pääikkuna boxin alustus
        edits = UusiLiikeGUIController.luoKentat(gridJasen, new Jasen());  
        for (TextField edit: edits)  
            if ( edit != null ) {  
@@ -178,7 +179,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
                edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
                edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);});
            }
-        
+        */
         // alustetaan harrastustaulukon otsikot
         int eka = aputulos.ekaKentta(); //aputulos.ekaKentta() return 2;
         int lkm = aputulos.getKenttia(); //aputulos.getKenttia() return 5;

@@ -282,7 +282,8 @@ public class Tulos implements Cloneable, Tietue{
     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
     * @return k:netta kenttää vastaava kysymys
     */
-   public String getKysymys(int k) {
+   @Override    //Tyo7 Lisätty Override----------------------------------<----------
+public String getKysymys(int k) {
        switch ( k ) {
            case 0: return "tulosID";
 //           case 1: return "paiva";
@@ -326,7 +327,7 @@ public class Tulos implements Cloneable, Tietue{
     * Eka kenttä joka on mielekäs kysyttäväksi
     * @return eknn kentän indeksi
     */
-   //@Override  //TODO:<----Kommentoitu toistaiseksi pois vaihe 7
+   @Override
    public int ekaKentta() {
        return 1;
    }
@@ -335,7 +336,7 @@ public class Tulos implements Cloneable, Tietue{
     * Palauttaa jäsenen kenttien lukumäärän
     * @return kenttien lukumäärä
     */
-   //@Override  //TODO:<----Kommentoitu toistaiseksi pois vaihe 7
+   @Override
    public int getKenttia() {
        return 13;
    }
@@ -355,7 +356,7 @@ public class Tulos implements Cloneable, Tietue{
     *   
     * </pre>
     */
-   //@Override  TODO: <---------------Kommentoitu toistaiseksi pois
+   @Override
    public String anna(int k) {
        switch (k) {
            case 0:
