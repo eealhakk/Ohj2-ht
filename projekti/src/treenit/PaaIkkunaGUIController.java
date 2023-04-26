@@ -15,6 +15,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,7 +80,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
 
     @FXML private ScrollPane PaaIkScrollPane;
-    private int treeneja = 0;
+    private static int treeneja = 0;
 
     @FXML void avaaUusiLiike() {
         //Toimii: eiToimi();
@@ -88,6 +89,12 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
     }
+    
+    @FXML private void handleLopeta() {
+        tallenna();
+        Platform.exit();
+    } 
+
     
     @FXML void avaaUusiTreeni() {
         treeneja++;
@@ -103,7 +110,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * Tarkistaaa onko olemassa jo treeniä
      * @return true tai false 
      */
-    public boolean tarkistaTreeneja() {
+    public static boolean tarkistaTreeneja() {
         if (treeneja <= 0) { Dialogs.showMessageDialog("Lisää treeni!"); return false;}
         return true;
     }
