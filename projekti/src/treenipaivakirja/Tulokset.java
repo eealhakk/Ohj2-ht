@@ -53,6 +53,8 @@ public class Tulokset implements Iterable<Tulos>{
     private final List<Tulos> alkiot        = new ArrayList<Tulos>();
     //SQL
     private static Tulos aputulos = new Tulos();
+    //Vaihe 7
+    private static Tulos aputulos2;
 
     
     
@@ -311,6 +313,25 @@ public class Tulokset implements Iterable<Tulos>{
         }
         return loydetyt;
     }
+    /*
+    public Tulos annnTulos(int tunnusnro1, int tunnusnro2) throws SailoException {
+        try ( Connection con = kanta.annaKantayhteys();
+                PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
+                  ) {
+              sql.setInt(1, tunnusnro1);
+              try ( ResultSet tulokset = sql.executeQuery() )  {
+                  while ( tulokset.next() ) {
+                      if (if )
+                  }
+              }
+              
+          } catch (SQLException e) {
+              e.printStackTrace();
+              throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+          }
+        return;
+    }
+    */
 
 
     /**

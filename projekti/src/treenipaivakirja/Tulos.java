@@ -15,7 +15,7 @@ import kanta.Tietue;
  * @version Mar 9, 2023
  *
  */
-public class Tulos implements Cloneable, Tietue{
+public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
     private String paiva = "1.1.2000";
@@ -282,7 +282,7 @@ public class Tulos implements Cloneable, Tietue{
     * @param k kuinka monennen kentän kysymys palautetaan (0-alkuinen)
     * @return k:netta kenttää vastaava kysymys
     */
-   @Override    //Tyo7 Lisätty Override----------------------------------<----------
+   //@Override    //Tyo7 Lisätty Override----------------------------------<----------
 public String getKysymys(int k) {
        switch ( k ) {
            case 0: return "tulosID";
@@ -327,7 +327,7 @@ public String getKysymys(int k) {
     * Eka kenttä joka on mielekäs kysyttäväksi
     * @return eknn kentän indeksi
     */
-   @Override
+   //@Override
    public int ekaKentta() {
        return 1;
    }
@@ -336,9 +336,9 @@ public String getKysymys(int k) {
     * Palauttaa jäsenen kenttien lukumäärän
     * @return kenttien lukumäärä
     */
-   @Override
+   //@Override
    public int getKenttia() {
-       return 13;
+       return 4;
    }
    
    /**
@@ -356,7 +356,7 @@ public String getKysymys(int k) {
     *   
     * </pre>
     */
-   @Override
+   //@Override
    public String anna(int k) {
        switch (k) {
            case 0:
@@ -454,7 +454,7 @@ public String getKysymys(int k) {
         }
 
 
-    @Override
+    //@Override
     public String aseta(int k, String s) {
         // TODO Auto-generated method stub
         return null;

@@ -30,7 +30,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
 //uusia
 import fi.jyu.mit.fxgui.ListChooser;
 import javafx.fxml.FXML;
@@ -85,7 +84,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML void avaaUusiLiike() {
         //Toimii: eiToimi();
         //Ei Toimi: 
-        if(tarkistaTreeneja()) uusiTulos();
+        //if(tarkistaTreeneja()) uusiTulos();
+        uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
     }
     
@@ -188,7 +188,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.initTable(headings); 
         PaaIKTuloksetTaul.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
         PaaIKTuloksetTaul.setEditable(false); 
-        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä harrastuksia")); 
+        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); 
          
         // Tämä on vielä huono, ei automaattisesti muutu jos kenttiä muutetaan. 
         PaaIKTuloksetTaul.setColumnSortOrderNumber(1); 
@@ -196,28 +196,127 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.setColumnWidth(1, 60); 
         PaaIKTuloksetTaul.setColumnWidth(2, 60); 
         
+        //Ei toimi vielä
         PaaIKTuloksetTaul.setOnMouseClicked( e -> { if ( e.getClickCount() > 1 ) muokkaaTulosta(); } );
         PaaIKTuloksetTaul.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaaTulosta();}); 
 
     }
+    //Muokkaa tulosta ylipäänsä vai vain dialog boxia
     
+    /** 
+     * Tekee uuden tyhjän harrastuksen editointia varten 
+     
+    public void uusiTulos() { 
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();  
+        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
+        try {
+            treenipaivakirja.lisaa(tul);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        hae(paivaKohdalla.getTunnusNro());          
+    } 
+    */
+    //vaihe7
+    private void naytaTulokset(Paiva paiva) {
+        //Vanha
+        PaaIKTuloksetTaul.clear();
+        if ( paiva == null ) return;
+        
+        try {
+            List<Tulos> tulokset = treenipaivakirja.annaTulokset(paiva);
+            if ( tulokset.size() == 0 ) return;
+            //PaaIKTuloksetTaul.add(tulokset); 
+            for (Tulos har: tulokset)
+                naytaHarrastus(har);
+
+        } catch (SailoException e) {
+            //naytaVirhe(e.getMessage());
+        }   
+    }
+    
+    private void naytaHarrastus(Tulos tul) {
+        int kenttia = tul.getKenttia(); 
+        String[] rivi = new String[kenttia-tul.ekaKentta()]; 
+        for (int i=0, k=tul.ekaKentta(); k < kenttia; i++, k++) 
+            rivi[i] = tul.anna(k); 
+        PaaIKTuloksetTaul.add(tul, rivi);
+    }
+
+    
+    /**
+     * Tekee uuden tyhjän harrastuksen editointia varten
+     */
+    public void uusiTulos() { 
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();  
+        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
+        try {
+            treenipaivakirja.lisaa(tul);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        hae(paivaKohdalla.getTunnusNro());          
+    } 
+
+
+        /*
+        if ( paivaKohdalla == null ) return;
+        try {
+            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
+            uusi = TietueDialogController.kysyTietue(null, uusi, 0, "Uusi tulos");
+            if ( uusi == null ) return;
+            uusi.rekisteroi();
+            treenipaivakirja.lisaa(uusi);
+            naytaTulokset(paivaKohdalla); 
+            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi 
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
+        }
+        */
+        
+    
+     
     private void muokkaaTulosta() {
+        /*
         int r = PaaIKTuloksetTaul.getRowNr();
         if ( r < 0 ) return; // klikattu ehkä otsikkoriviä
         Tulos tul = PaaIKTuloksetTaul.getObject();
         if ( tul == null ) return;
         int k = PaaIKTuloksetTaul.getColumnNr()+tul.ekaKentta();
         try {
-            tul = UusiLiikeGUIController.kysyTietue(null, tul.clone(), k);
+            //tul = TietueDialogController.kysyTietue(null, tul.clone(), k, "Tulos");
+            List<Tulos> tulokset;
+            tulokset = treenipaivakirja.annaTulokset(paivaKohdalla);
+            
+            
+//            for (Tulos har:tulokset)
+//                har.tulosta(os);  
+//            tul = treenipaivakirja.tulokset.annaTulos(paivaKohdalla);
+            
+            
+            
             if ( tul == null ) return;
             treenipaivakirja.korvaaTaiLisaa(tul); 
             naytaTulokset(paivaKohdalla); 
             PaaIKTuloksetTaul.selectRow(r);  // järjestetään sama rivi takaisin valituksi
-        } catch (CloneNotSupportedException  e) { /* clone on tehty */  
+            
+        } catch (CloneNotSupportedException  e) { /* clone on tehty  
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia lisäämisessä: " + e.getMessage());
         }
+        */
     }
+    
 
 
     /**
@@ -238,11 +337,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
                 tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
             }
             
-            //PaaIKTuloksetTaul.setTeksti()
+            naytaTulokset(paivaKohdalla);
+            //PaaIKTuloksetTaul.setTeksti();
             //JasenDialogController.naytaJasen(edits, jasenKohdalla); 
             //naytaHarrastukset(jasenKohdalla);
     }
     
+    /*
     private void naytaTulokset(Paiva tulos) {
         PaaIKTuloksetTaul.clear();
         if ( tulos == null ) return;
@@ -253,7 +354,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             for (Tulos tul: tulokset)
                 naytaTulos(tul);
         } catch (SailoException e) {
-            // naytaVirhe(e.getMessage());
+            //naytaVirhe(e.getMessage());
         } 
     }
     
@@ -264,7 +365,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             rivi[i] = tul.anna(k); 
         PaaIKTuloksetTaul.add(tul,rivi);
     }
-
+     */
 
     /*
     private void naytaVirhe(String virhe) {
@@ -299,28 +400,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         }   
 
     }
-
-
-    @Override
-    public String getResult() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
-    public void handleShown() {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public void setDefault(String oletus) {
-        // TODO Auto-generated method stub
-        
-    }
-
 
     /**
      * @param treenipaivakirja Asettaa treenipaivakirjan
@@ -480,25 +559,23 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         hae(uusi.getTunnusNro());
     }
     
-    /** 
-     * Tekee uuden tyhjän harrastuksen editointia varten 
-     */ 
-    public void uusiTulos() { 
-        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
-        if ( paivaKohdalla == null ) return;  
-        Tulos tul = new Tulos();  
-        tul.rekisteroi();  
-        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
-        try {
-            treenipaivakirja.lisaa(tul);
-        } catch (SailoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
-        }  
-        hae(paivaKohdalla.getTunnusNro());          
-    } 
+    @Override
+    public String getResult() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-    
 
+    @Override
+    public void handleShown() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void setDefault(String oletus) {
+        // TODO Auto-generated method stub
+        
+    }
 }

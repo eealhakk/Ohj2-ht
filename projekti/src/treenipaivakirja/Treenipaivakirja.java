@@ -77,6 +77,29 @@ public class Treenipaivakirja {
     public List<Tulos> annaTulokset(Paiva paiva) throws SailoException {
         return tulokset.annaTulokset(paiva.getTunnusNro());
     }
+        
+    /**
+     * Haetaan kaikki jäsen harrastukset
+     * @param tulos jäsen jolle harrastuksia haetaan
+     * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
+     * @throws SailoException jos harrastusten hakeminen tietokannasta epäonnistuu
+     * <pre name="test">
+     * #THROWS SailoException
+     * Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); 
+     * kerho.lisaa(aku1);
+     * Harrastus har = new Harrastus(); 
+     * har.vastaaPitsinNyplays(aku1.getTunnusNro()); 
+     * kerho.lisaa(har);
+     * kerho.annaHarrastukset(aku1).get(0) === har;
+     *
+     * Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); 
+     * kerho.lisaa(aku2);
+     * kerho.annaHarrastukset(aku2).size() === 0;
+     * </pre>
+     */
+    public List<Tulos> annaTulokset(Tulos tulos) throws SailoException {
+        return tulokset.annaTulokset(tulos.getTunnusNro());
+    }
 
     /**
      * TODO: Tulossa / Kesken
@@ -182,35 +205,11 @@ public class Treenipaivakirja {
      * loytyneet.iterator().next() === aku2;
      * treenipaivakirja.etsi("", 15); #THROWS SailoException
      * </pre>
+     * TODO: Tyo7 Collection pitää ehkä vaihtaa List tyypiksi, mutta ei välttämättä.
      */
     public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {   //Kesken, paiva pitää täydentää
         return paivat.etsi(hakuehto,k);
     }
-    
-    /**
-     * Haetaan kaikki jäsen harrastukset
-     * @param tulos jäsen jolle harrastuksia haetaan
-     * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
-     * @throws SailoException jos harrastusten hakeminen tietokannasta epäonnistuu
-     * <pre name="test">
-     * #THROWS SailoException
-     * Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); 
-     * kerho.lisaa(aku1);
-     * Harrastus har = new Harrastus(); 
-     * har.vastaaPitsinNyplays(aku1.getTunnusNro()); 
-     * kerho.lisaa(har);
-     * kerho.annaHarrastukset(aku1).get(0) === har;
-     *
-     * Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); 
-     * kerho.lisaa(aku2);
-     * kerho.annaHarrastukset(aku2).size() === 0;
-     * </pre>
-     */
-    public List<Tulos> annaHarrastukset(Tulos tulos) throws SailoException {
-        return tulokset.annaTulokset(tulos.getTunnusNro());
-    }
-    
-
     
     /**
      * TODO: Sama idea kuin paiva lisaa
