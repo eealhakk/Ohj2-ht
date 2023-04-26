@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -15,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kanta.Tietue;
-
+import treenipaivakirja.SailoException;
 import fi.jyu.mit.ohj2.Mjonot;
 /**
  * Uusi liike-näkymän moudostaja.
@@ -40,11 +41,17 @@ public class UusiLiikeGUIController <TYPE extends Tietue> implements ModalContro
     @FXML private void avaaKg() {eiToimi();}
     @FXML private void avaaMuut() {eiToimi();}
     @FXML private void avaaTallenna() {eiToimi();}
-    @FXML private void avaaSulje() {eiToimi();}
+    @FXML private void avaaSulje() {handleLopeta();} //TODO: kesken
+    
+    @FXML private void handleLopeta() {
+        Platform.exit();
+    }
+    
+    
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
+        // Auto-generated method stub
         
     }
     
