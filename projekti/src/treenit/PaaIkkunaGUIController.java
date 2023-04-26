@@ -80,16 +80,17 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
 
     @FXML private ScrollPane PaaIkScrollPane;
-    
+    private int treeneja = 0;
 
     @FXML void avaaUusiLiike() {
         //Toimii: eiToimi();
         //Ei Toimi: 
-        uusiTulos();
+        if(tarkistaTreeneja()) uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
     }
     
     @FXML void avaaUusiTreeni() {
+        treeneja++;
         uusiPaiva();
         //ModalController.showModal(PaaIkkunaGUIController.class.getResource("ValitseTreeniGUIView.fxml"), "UusiTreeni", null, "");
         }
@@ -98,6 +99,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("TallentamatonMuutosGUIView.fxml"), "TallentamatonMuutos", null, "");
     }
     
+    /**
+     * Tarkistaaa onko olemassa jo treeniä
+     * @return true tai false 
+     */
+    public boolean tarkistaTreeneja() {
+        if (treeneja <= 0) { Dialogs.showMessageDialog("Lisää treeni!"); return false;}
+        return true;
+    }
     /*
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
@@ -283,7 +292,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             for (Tulos har:tulokset)
                 har.tulosta(os);  
         } catch (SailoException e) {
-            // TODO Auto-generated catch block
             Dialogs.showMessageDialog("Paivien hakemisessa ongelmia! " + e.getMessage());
         }   
 
