@@ -22,8 +22,7 @@ public class AlkuNakymaGUIController implements ModalControllerInterface<String>
     @FXML private void avaaAsetaVuosi() {
         //ModalController.showModal(AlkuNakymaGUIController.class.getResource("PaaIkkunaGUIView.fxml"), "PaaIkkuna", null, "");
         vastaus = alkuNakAnnaVuosi.getText();
-        if (tarkistaVuosi(vastaus))
-        ModalController.closeStage(alkuNakAnnaVuosi);
+        if (tarkistaVuosi(vastaus)) ModalController.closeStage(alkuNakAnnaVuosi);
     }
     
     
