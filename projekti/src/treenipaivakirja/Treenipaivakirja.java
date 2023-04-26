@@ -118,6 +118,39 @@ public class Treenipaivakirja {
         paivat.lisaa(paiva);
     }
     
+    //Vaihe 7
+    /** 
+     * Korvaa paivan tietorakenteessa.  Ottaa paivan omistukseensa. 
+     * Etsitään samalla tunnusnumerolla oleva paiva.  Jos ei löydy, 
+     * niin lisätään uutena paivana. 
+     * @param paiva lisätäävän jäsenen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @throws SailoException jos tietorakenne on jo täynnä 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException  
+     *  alustaKerho();
+     *  kerho.etsi("*",0).size() === 2;
+     *  kerho.korvaaTaiLisaa(aku1);
+     *  kerho.etsi("*",0).size() === 2;
+     * </pre>
+     */ 
+    public void korvaaTaiLisaa(Paiva paiva) throws SailoException { 
+        paivat.korvaaTaiLisaa(paiva); 
+    }
+    
+    /** 
+     * Korvaa harrastuksen tietorakenteessa.  Ottaa harrastuksen omistukseensa. 
+     * Etsitään samalla tunnusnumerolla oleva harrastus.  Jos ei löydy, 
+     * niin lisätään uutena harrastuksena. 
+     * @param tulos lisärtävän harrastuksen viite.  Huom tietorakenne muuttuu omistajaksi 
+     * @throws SailoException jos tietorakenne on jo täynnä 
+     */ 
+    public void korvaaTaiLisaa(Tulos tulos) throws SailoException { 
+        tulokset.korvaaTaiLisaa(tulos); 
+    }
+
+
+    
     /**
      * Listään uusi tulos treenipaivakirjaan
      * @param tul lisättävä tulos 

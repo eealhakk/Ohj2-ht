@@ -17,10 +17,12 @@ import fi.jyu.mit.ohj2.Mjonot;
 public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
-    private static int     seuraavaNro      = 1;
     private String paiva = "1.1.2000";
     private int liike;
     private int sarja;
+    
+    private static int     seuraavaNro      = 1;
+
 
 
     /*
@@ -296,6 +298,82 @@ public class Tulos {
    }
    
     //====================================================
+   
+   //VAIHE 7 alla ennen main
+   /**
+    * Tehdään identtinen klooni jäsenestä
+    * @return Object kloonattu jäsen
+    * @example
+    * <pre name="test">
+    * #THROWS CloneNotSupportedException 
+    *   Jasen jasen = new Jasen();
+    *   jasen.parse("   3  |  Ankka Aku   | 123");
+    *   Jasen kopio = jasen.clone();
+    *   kopio.toString() === jasen.toString();
+    *   jasen.parse("   4  |  Ankka Tupu   | 123");
+    *   kopio.toString().equals(jasen.toString()) === false;
+    * </pre>
+    */
+   @Override
+   public Tulos clone() throws CloneNotSupportedException {
+       Tulos uusi;
+       uusi = (Tulos) super.clone();
+       return uusi;
+   }
+
+   /**
+    * Eka kenttä joka on mielekäs kysyttäväksi
+    * @return eknn kentän indeksi
+    */
+   //@Override  //TODO:<----Kommentoitu toistaiseksi pois vaihe 7
+   public int ekaKentta() {
+       return 1;
+   }
+   
+   /**
+    * Palauttaa jäsenen kenttien lukumäärän
+    * @return kenttien lukumäärä
+    */
+   //@Override  //TODO:<----Kommentoitu toistaiseksi pois vaihe 7
+   public int getKenttia() {
+       return 13;
+   }
+   
+   /**
+    * @param k Minkä kentän sisältö halutaan
+    * @return valitun kentän sisältö
+    * @example
+    * <pre name="test">
+    *   Harrastus har = new Harrastus();
+    *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+    *   har.anna(0) === "2";   
+    *   har.anna(1) === "10";   
+    *   har.anna(2) === "Kalastus";   
+    *   har.anna(3) === "1949";   
+    *   har.anna(4) === "22";   
+    *   
+    * </pre>
+    */
+   //@Override  TODO: <---------------Kommentoitu toistaiseksi pois
+   public String anna(int k) {
+       switch (k) {
+           case 0:
+               return "" + tunnusNro;
+           case 1:
+               return "" + paivaNro;
+           case 2:
+               //väkäset extrana varuiks
+               return "" + paiva;
+           case 3:
+               return "" + liike;
+           case 4:
+               return "" + sarja;
+           default:
+               return "???";
+       }
+   }
+
+
 
     /**
      * testipääohjelma

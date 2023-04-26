@@ -13,6 +13,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
+import fi.jyu.mit.fxgui.StringGrid;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -37,6 +39,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import treenipaivakirja.Paiva;
@@ -57,13 +60,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     //@FXML private Label PaaIkApua;
     @FXML
     private ComboBoxChooser<?> PaaIkDropp;
-    @FXML private ListChooser<?> PaaIkKgTaul;
-    @FXML private ListChooser<?> PaaIkLiikeTaul;
+    //@FXML private ListChooser<?> PaaIkKgTaul;
+    //@FXML private ListChooser<?> PaaIkLiikeTaul;
     //@FXML private Label PaaIkMuokkaa;
     @FXML private Button PaaIkSulje;
     @FXML private Button PaaIkTallenna;
     //@FXML private Label PaaIkTiedosto;
-    @FXML private ListChooser<?> PaaIkToistotTaul;
+    //@FXML private ListChooser<?> PaaIkToistotTaul;
+    @FXML private StringGrid<Tulos> PaaIKTuloksetTaul;
     @FXML private ListChooser<Paiva> PaaIkTreeniJaPaivaTaul;
     @FXML private Button PaaIkUusiLiike;
     @FXML private Button PaaIkUusiTreeni;
@@ -129,10 +133,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     private Treenipaivakirja treenipaivakirja;
     //toString(System.currentTimeMillis());//
     //TODO: vaihda tyyppi int ja metodit vastaanottamaan int mitkä käyttää tätät arvoa
-    private String treeninTunnusVuosi = "2023";  
+    private String treeninTunnusVuosi = "2023";
     private TextArea areaPaiva = new TextArea();
     //TODO: Tämä jossainkohtaa lokaaliksi muuttujiski aliohjelmiin
     private Paiva paivaKohdalla;
+    
+    //Vaihe 7
+    private static Tulos aputulos = new Tulos(); 
     
     /**
      * Näyttää vikaviestin
@@ -152,7 +159,54 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         
         PaaIkTreeniJaPaivaTaul.clear();
         PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
+        
+       edits = TietueDialogController.luoKentat(gridJasen, new Jasen());  
+       for (TextField edit: edits)  
+           if ( edit != null ) {  
+               edit.setEditable(false);  
+               edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
+               edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
+               edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);});
+        
+        // alustetaan harrastustaulukon otsikot
+        int eka = aputulos.ekaKentta(); //aputulos.ekaKentta() return 2;
+        int lkm = aputulos.getKenttia(); //aputulos.getKenttia() return 5;
+        String[] headings = new String[lkm-eka]; 
+        for (int i=0, k=eka; k<lkm; i++, k++) headings[i] = aputulos.getKysymys(k); 
+        PaaIKTuloksetTaul.initTable(headings); 
+        PaaIKTuloksetTaul.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+        PaaIKTuloksetTaul.setEditable(false); 
+        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä harrastuksia")); 
+         
+        // Tämä on vielä huono, ei automaattisesti muutu jos kenttiä muutetaan. 
+        PaaIKTuloksetTaul.setColumnSortOrderNumber(1); 
+        PaaIKTuloksetTaul.setColumnSortOrderNumber(2); 
+        PaaIKTuloksetTaul.setColumnWidth(1, 60); 
+        PaaIKTuloksetTaul.setColumnWidth(2, 60); 
+        
+        PaaIKTuloksetTaul.setOnMouseClicked( e -> { if ( e.getClickCount() > 1 ) muokkaaTulosta(); } );
+        PaaIKTuloksetTaul.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaaTulosta();}); 
+
     }
+    
+    private void muokkaaTulosta() {
+        int r = PaaIKTuloksetTaul.getRowNr();
+        if ( r < 0 ) return; // klikattu ehkä otsikkoriviä
+        Tulos tul = PaaIKTuloksetTaul.getObject();
+        if ( tul == null ) return;
+        int k = PaaIKTuloksetTaul.getColumnNr()+tul.ekaKentta();
+        try {
+            tul = UusiLiikeGUIController.kysyTietue(null, tul.clone(), k);
+            if ( tul == null ) return;
+            treenipaivakirja.korvaaTaiLisaa(tul); 
+            naytaTulokset(paivaKohdalla); 
+            PaaIKTuloksetTaul.selectRow(r);  // järjestetään sama rivi takaisin valituksi
+        } catch (CloneNotSupportedException  e) { /* clone on tehty */  
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä: " + e.getMessage());
+        }
+    }
+
 
     /**
      * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kentgit tään
@@ -165,12 +219,41 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
                 //areaPaiva.clear();
                 return;
             }
-
+            
+            //Vaihe 7 tieltä muokattu
             areaPaiva.setText("");
             try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
                 tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
             }
+            
+            //PaaIKTuloksetTaul.setTeksti()
+            //JasenDialogController.naytaJasen(edits, jasenKohdalla); 
+            //naytaHarrastukset(jasenKohdalla);
     }
+    
+    private void naytaTulokset(Paiva tulos) {
+        PaaIKTuloksetTaul.clear();
+        if ( tulos == null ) return;
+        
+        try {
+            List<Tulos> tulokset = treenipaivakirja.annaTulokset(tulos);
+            if ( tulokset.size() == 0 ) return;
+            for (Tulos tul: tulokset)
+                naytaTulos(tul);
+        } catch (SailoException e) {
+            // naytaVirhe(e.getMessage());
+        } 
+    }
+    
+    private void naytaTulos(Tulos tul) {
+        int kenttia = tul.getKenttia(); 
+        String[] rivi = new String[kenttia-tul.ekaKentta()]; 
+        for (int i=0, k=tul.ekaKentta(); k < kenttia; i++, k++) 
+            rivi[i] = tul.anna(k); 
+        PaaIKTuloksetTaul.add(tul,rivi);
+    }
+
+
     /*
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {

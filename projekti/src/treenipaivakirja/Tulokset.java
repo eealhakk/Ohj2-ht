@@ -47,9 +47,10 @@ public class Tulokset implements Iterable<Tulos>{
     private String tiedostonNimi = "";
     //SQLite
     private Kanta kanta;
+    private boolean muutettu = false;
     
     /** Taulukko harrastuksista */
-    private final Collection<Tulos> alkiot        = new ArrayList<Tulos>();
+    private final List<Tulos> alkiot        = new ArrayList<Tulos>();
     //SQL
     private static Tulos aputulos = new Tulos();
 
@@ -133,13 +134,56 @@ public class Tulokset implements Iterable<Tulos>{
             sql.executeUpdate();
             try ( ResultSet rs = sql.getGeneratedKeys() ) {
                 tulos.tarkistaId(rs);
-            }   
+            }
+            //Lisätty tyo7
+            muutettu = true;
             
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }
+    
+    /**
+     * Korvaa tuloksen tietorakenteessa.  Ottaa tuloksen omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva tulos.  Jos ei löydy,
+     * niin lisätään uutena tuloksena.
+     * @param tulos lisättävän harrastuksen viite.  Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Harrastukset harrastukset = new Harrastukset();
+     * Harrastus har1 = new Harrastus(), har2 = new Harrastus();
+     * har1.rekisteroi(); har2.rekisteroi();
+     * harrastukset.getLkm() === 0;
+     * harrastukset.korvaaTaiLisaa(har1); harrastukset.getLkm() === 1;
+     * harrastukset.korvaaTaiLisaa(har2); harrastukset.getLkm() === 2;
+     * Harrastus har3 = har1.clone();
+     * har3.aseta(2,"kkk");
+     * Iterator<Harrastus> i2=harrastukset.iterator();
+     * i2.next() === har1;
+     * harrastukset.korvaaTaiLisaa(har3); harrastukset.getLkm() === 2;
+     * i2=harrastukset.iterator();
+     * Harrastus h = i2.next();
+     * h === har3;
+     * h == har3 === true;
+     * h == har1 === false;
+     * </pre>
+     */ 
+    public void korvaaTaiLisaa(Tulos tulos) throws SailoException {
+        int id = tulos.getTunnusNro();
+        for (int i = 0; i < getLkm(); i++) {
+            if (alkiot.get(i).getTunnusNro() == id) {
+                alkiot.set(i, tulos);
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(tulos);
+    }
+
 
 
     /**
@@ -162,6 +206,16 @@ public class Tulokset implements Iterable<Tulos>{
     public void talleta() throws SailoException {
         throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
     }
+    
+    //Lisätty tyo7
+    /**
+     * Palauttaa kerhon harrastusten lukumäärän
+     * @return harrastusten lukumäärä
+     */
+    public int getLkm() {
+        return alkiot.size();
+    }
+
     
     /**
      * Iteraattori kaikkien tulosten läpikäymiseen
@@ -297,35 +351,6 @@ public class Tulokset implements Iterable<Tulos>{
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
-    
-        /*
-        try {
-            new File("kokeilu.db").delete();
-            Tulokset tulokset = new Tulokset("kokeilu");
-    
-            Tulos alkio = new Tulos(), alkio2 = new Tulos();
-            alkio.vastaaTulos();
-            //alkio2.rekisteroi();
-            alkio2.vastaaTulos();
-            
-            tulokset.lisaa(alkio);
-            tulokset.lisaa(alkio2);
-            alkio2.tulosta(System.out);
-            
-            System.out.println("============= Jäsenet testi =================");
-
-            int i = 0;
-            for (Tulos tulos:tulokset.annaTulokset("", -1)) {
-                System.out.println("Jäsen nro: " + i++);
-                tulos.tulosta(System.out);
-            }
-            
-            new File("kokeilu.db").delete();
-        } catch ( SailoException ex ) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    */
     }
      
 }
