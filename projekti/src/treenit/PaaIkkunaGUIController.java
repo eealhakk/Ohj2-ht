@@ -149,6 +149,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     //Vaihe 7
     private static Tulos aputulos = new Tulos(); 
+    private TextField edits[];
     
     /**
      * Näyttää vikaviestin
@@ -169,13 +170,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIkTreeniJaPaivaTaul.clear();
         PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
         
-       edits = TietueDialogController.luoKentat(gridJasen, new Jasen());  
+       edits = UusiLiikeGUIController.luoKentat(gridJasen, new Jasen());  
        for (TextField edit: edits)  
            if ( edit != null ) {  
                edit.setEditable(false);  
                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
                edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
                edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);});
+           }
         
         // alustetaan harrastustaulukon otsikot
         int eka = aputulos.ekaKentta(); //aputulos.ekaKentta() return 2;

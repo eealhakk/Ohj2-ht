@@ -8,13 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fi.jyu.mit.ohj2.Mjonot;
+import kanta.Tietue;
 
 /**
  * @author antti ja eeli
  * @version Mar 9, 2023
  *
  */
-public class Tulos {
+public class Tulos implements Cloneable, Tietue{
     private int            tunnusNro;
     private int            paivaNro;
     private String paiva = "1.1.2000";
@@ -372,6 +373,60 @@ public class Tulos {
                return "???";
        }
    }
+   
+   //TODO: Vaihe 7 mukaan??
+   /**
+    *     /**
+     * Asetetaan valitun kentän sisältö.  Mikäli asettaminen onnistuu,
+     * palautetaan null, muutoin virheteksti.
+     * @param k minkä kentän sisältö asetetaan
+     * @param s asetettava sisältö merkkijonona
+     * @return null jos ok, muuten virheteksti
+     * @example
+     * <pre name="test">
+     *   Harrastus har = new Harrastus();
+     *   har.aseta(3,"kissa") === "aloitusvuosi: Ei kokonaisluku (kissa)";
+     *   har.aseta(3,"1940")  === null;
+     *   har.aseta(4,"kissa") === "h/vko: Ei kokonaisluku (kissa)";
+     *   har.aseta(4,"20")    === null;
+     * </pre>
+     *
+    @Override
+    public String aseta(int k, String s) {
+        String st = s.trim();
+        StringBuffer sb = new StringBuffer(st);
+        switch (k) {
+            case 0:
+                setTunnusNro(Mjonot.erota(sb, '$', getTunnusNro()));
+                return null;
+            case 1:
+                jasenNro = Mjonot.erota(sb, '$', jasenNro);
+                return null;
+            case 2:
+                ala = st;
+                return null;
+            case 3:
+                try {
+                    aloitusvuosi = Mjonot.erotaEx(sb, '§', aloitusvuosi);
+                } catch (NumberFormatException ex) {
+                    return "aloitusvuosi: Ei kokonaisluku ("+st+")";
+                }
+                return null;
+
+            case 4:
+                try {
+                    tuntiaViikossa = Mjonot.erotaEx(sb, '§', tuntiaViikossa);
+                } catch (NumberFormatException ex) {
+                    return "h/vko: Ei kokonaisluku ("+st+")";
+                }
+                return null;
+
+            default:
+                return "Väärä kentän indeksi";
+        }
+    }
+
+    */
 
 
 
@@ -396,6 +451,13 @@ public class Tulos {
         tulos2.vastaaTulos(0); //tulos.taytatulosTiedoilla();
         tulos2.tulosta(System.out);
         }
+
+
+    @Override
+    public String aseta(int k, String s) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
 
