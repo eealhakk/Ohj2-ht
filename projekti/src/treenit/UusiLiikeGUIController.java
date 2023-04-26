@@ -199,10 +199,10 @@ public class UusiLiikeGUIController <TYPE extends Tietue> implements ModalContro
      */
     public static<TYPE extends Tietue> TYPE kysyTietue(Stage modalityStage, TYPE oletus, int kentta) {
         return ModalController.<TYPE, UusiLiikeGUIController<TYPE>>showModal(
-                UusiLiikeGUIController.class.getResource("TietueDialogView.fxml"),
-                "Kerho",
+                UusiLiikeGUIController.class.getResource("UusiLiikeGUIController.fxml"),
+                "Treenipaivakirja",
                 modalityStage, oletus,
-                ctrl -> ctrl.setKentta(kentta) 
+                ctrl -> ctrl.setKentta(kentta)
                 );
     }
     
