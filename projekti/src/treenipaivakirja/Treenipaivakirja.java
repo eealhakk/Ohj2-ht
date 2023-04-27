@@ -77,6 +77,10 @@ public class Treenipaivakirja {
     public List<Tulos> annaTulokset(Paiva paiva) throws SailoException {
         return tulokset.annaTulokset(paiva.getTunnusNro());
     }
+    
+    public Tulos annaTulos(int pvTunnusNro, int tulTunnusNro) throws SailoException {
+        return tulokset.annaTulos(pvTunnusNro, tulTunnusNro);
+    }
         
     /**
      * Haetaan kaikki jäsen harrastukset

@@ -313,6 +313,27 @@ public class Tulokset implements Iterable<Tulos>{
         }
         return loydetyt;
     }
+    
+    public Tulos annaTulos(int pvTunnusNro, int tulTunnusNro) throws SailoException {
+        
+        try ( Connection con = kanta.annaKantayhteys();
+              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
+                ) {
+            sql.setInt(1, pvTunnusNro);
+            try ( ResultSet tulokset = sql.executeQuery() )  {
+                while ( tulokset.next() ) {
+                    Tulos tul = new Tulos();
+                    tul.parse(tulokset);
+                    if (tul.getTunnusNro() == tulTunnusNro)return tul;
+                }
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+        }
+        return null;
+    }
     /*
     public Tulos annnTulos(int tunnusnro1, int tunnusnro2) throws SailoException {
         try ( Connection con = kanta.annaKantayhteys();

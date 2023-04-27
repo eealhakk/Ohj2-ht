@@ -55,7 +55,8 @@
                       </Menu>
                       <Menu fx:id="PaaIkMuokkaa" mnemonicParsing="false" text="Muokkaa">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="MenuBarMuokkaaPoista" mnemonicParsing="false" text="Poista" />
+                              <MenuItem fx:id="MenuBarMuokkaaMuokka" mnemonicParsing="false" onAction="#MuokkaaTapahtuma" text="Muokkaa" />
                         </items>
                       </Menu>
                       <Menu fx:id="PaaIkApua" mnemonicParsing="false" text="Apua">
