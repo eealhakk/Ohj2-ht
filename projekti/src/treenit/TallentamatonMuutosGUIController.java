@@ -1,6 +1,7 @@
 package treenit;
 
 //import java.awt.Button;
+import fi.jyu.mit.fxgui.ModalController;
 import javafx.scene.control.Button;
 
 import fi.jyu.mit.fxgui.Dialogs;

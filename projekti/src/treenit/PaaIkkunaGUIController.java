@@ -83,16 +83,15 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     private static int treeneja = 0;
 
     @FXML void avaaUusiLiike() {
-        //Toimii: eiToimi();
-        //Ei Toimi: 
-        //if(tarkistaTreeneja()) uusiTulos();
         uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
     }
     
     @FXML private void handleLopeta() {
         tallenna();
-        Platform.exit();
+        ModalController.closeStage(PaaIkSulje);
+
+
     } 
 
     
