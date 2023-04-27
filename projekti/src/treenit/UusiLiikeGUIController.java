@@ -40,7 +40,7 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     @FXML private void avaaSulje() {handleLopeta();} //TODO: kesken
     
     @FXML private void handleLopeta() {
-        Platform.exit();
+        ModalController.closeStage(uusiLiikeSulje);
     }
     
     
