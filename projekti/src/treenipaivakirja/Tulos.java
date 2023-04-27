@@ -19,9 +19,9 @@ public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
     private String paiva = "2.2.2020";
-    private String liike = "";
-    private String sarja = ""; // sisältää sarjat ja toistot esim. 3x10. 3 sarjaa ja 10 toistoa
-    private String paino = "";
+    private String liike = "penkki";
+    private String sarja = "2x5"; // sisältää sarjat ja toistot esim. 3x10. 3 sarjaa ja 10 toistoa
+    private String paino = "80";
 
     
     private static int     seuraavaNro      = 1;
@@ -87,7 +87,7 @@ public class Tulos {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " x " + this.sarja + " " + this.paino );
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " " + this.sarja + " " + this.paino );
     }
     
     
