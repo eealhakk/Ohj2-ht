@@ -1,4 +1,4 @@
-package treenipaivakirja;
+package varasto;
 import java.io.*;
 
 

@@ -34,7 +34,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label prefHeight="21.0" prefWidth="56.0" text="   Kg:" GridPane.rowIndex="2">
+            <Label prefHeight="21.0" prefWidth="56.0" text="   Paino:" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
                </font>

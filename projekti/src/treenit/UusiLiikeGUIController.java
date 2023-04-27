@@ -1,5 +1,6 @@
 package treenit;
 
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,6 +8,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -25,17 +27,28 @@ import fi.jyu.mit.ohj2.Mjonot;
  */
 public class UusiLiikeGUIController implements ModalControllerInterface<String> {
 
+
+
     @FXML private TextField uusiLiikeKg;
     @FXML private TextField uusiLiikeLiike;
     @FXML private TextField uusiLiikeMuut;
     @FXML private Button uusiLiikeSulje;
     @FXML private Button uusiLiikeTallenna;
     @FXML private TextField uusiLiikeToistot;
-    
-    @FXML private void avaaLiike() {eiToimi();}
-    @FXML private void avaaToistot() {eiToimi();}
-    @FXML private void avaaKg() {eiToimi();}
-    @FXML private void avaaMuut() {eiToimi();}
+
+
+    public void avaaLiike(ActionEvent actionEvent) {eiToimi();
+    }
+
+    public void avaaToistot(ActionEvent actionEvent) {eiToimi();
+    }
+
+    public void avaaKg(ActionEvent actionEvent) {eiToimi();
+    }
+
+    public void avaaMuut(ActionEvent actionEvent) {eiToimi();
+    }
+
     @FXML private void avaaTallenna() {eiToimi();}
     @FXML private void avaaSulje() {handleLopeta();} //TODO: kesken
     
@@ -64,5 +77,6 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
         // TODO Auto-generated method stub
         
     }
+
 
 }

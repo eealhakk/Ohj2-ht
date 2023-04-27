@@ -1,7 +1,9 @@
 /**
  * 
  */
-package treenipaivakirja;
+package varasto;
+
+import treenipaivakirja.SailoException;
 
 import java.util.ArrayList;
 

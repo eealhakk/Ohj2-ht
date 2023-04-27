@@ -19,8 +19,10 @@ public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
     private String paiva = "2.2.2020";
-    private String liike = "penkki";
-    private int sarja;
+    private String liike = "";
+    private String sarja = ""; // sisältää sarjat ja toistot esim. 3x10. 3 sarjaa ja 10 toistoa
+    private String paino = "";
+
     
     private static int     seuraavaNro      = 1;
 
@@ -85,7 +87,7 @@ public class Tulos {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " x " + this.sarja);
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " x " + this.sarja + " " + this.paino );
     }
     
     
@@ -139,9 +141,14 @@ public class Tulos {
      * @param nro päivän numero
      */
     public void vastaaTulos(int nro) {
-        paiva = "20.10.2015";
-        sarja = ranL(2,6);
-        paivaNro = nro;
+        String paiva1 = "";
+        String sarja1 = "";
+        String paino1 = "";
+        int paivaNro1 = 0;
+        paiva1 = "20.10.2015";
+        sarja1 = ranL(1, 5) + "x" + ranL(1, 15);
+        paino1 = ranL(1, 100) + "kg";
+        paivaNro1 = nro;
     }
 
 
@@ -165,13 +172,8 @@ public class Tulos {
                 "tulosID INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "paivaID INTEGER, " +
                 "liike VARCHAR(100), " +
-                "sarja INTEGER " +
-                //"FOREIGN KEY (paivaID) REFERENCES Paivat(paivaID)" +
-//                "sarja2 INTEGER, " +
-//                "sarja3 INTEGER, " +
-//                "sarja4 INTEGER, " +
-//                "sarja5 INTEGER " +
-                // "PRIMARY KEY (tulosID)" + 
+                "sarja VARCHAR(100), " +
+                "paino VARCHAR(100) " +
                 ")";
     }
     
@@ -186,8 +188,8 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(paivaID, liike, sarja) " +
-               "VALUES (?, ?, ?)");
+               "(paivaID, liike, sarja, paino) " +
+               "VALUES (?, ?, ?, ?)");
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
@@ -197,14 +199,8 @@ public class Tulos {
 //       sql.setInt(3, seuraavaNro);
        sql.setInt(1, paivaNro); //PaivaID
        sql.setString(2, liike);
-       sql.setInt(3, sarja);
-//       sql.setInt(7, sarja2);
-//       sql.setInt(8, sarja3);
-//       sql.setInt(9, sarja4);   //<-------TODO:--------Liikaa suhteessa VALUES määrään - Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
-//       sql.setInt(10, sarja5);
-
-
-       
+       sql.setString(3, sarja);
+       sql.setString(4, paino);
        return sql;
    }
    
@@ -248,13 +244,10 @@ public class Tulos {
 //       seuraavaNro = tulokset.getInt("seuraavaNro");
        //paiva = tulokset.getString("paiva");
        liike = tulokset.getString("liike");
-       sarja = tulokset.getInt("sarja");
-//       sarja2 =tulokset.getInt("sarja2");
-//       sarja3 = tulokset.getInt("sarja3");
-//       sarja4 = tulokset.getInt("sarja4"); 
-//       sarja5 = tulokset.getInt("sarja5");
+       sarja = tulokset.getString("sarja");
+       paino = tulokset.getString("paino");
    }
-   
+
    /**
     * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
@@ -281,6 +274,7 @@ public class Tulos {
        paiva = Mjonot.erota(sb, '|', paiva);
        liike = Mjonot.erota(sb, '|', liike);
        sarja = Mjonot.erota(sb, '|', sarja);
+       paino = Mjonot.erota(sb, '|', paino);
    }
    
    
@@ -300,6 +294,7 @@ public String getKysymys(int k) {
            case 1: return "paivaID";
            case 2: return "liike";
            case 3: return "sarja";
+           case 4: return "paino";
 //           case 6: return "sarja2";
 //           case 7: return "sarja3";
 //           case 8: return "sarja4";
@@ -379,10 +374,18 @@ public String getKysymys(int k) {
                return "" + liike;
            case 4:
                return "" + sarja;
+           case 5:
+               return "" + paino;
            default:
                return "???";
        }
    }
+
+    //@Override
+    public String aseta(int k, String s) {
+        // TODO Auto-generated method stub
+        return null;
+    }
    
    //TODO: Vaihe 7 mukaan??
    /**
@@ -463,11 +466,7 @@ public String getKysymys(int k) {
         }
 
 
-    //@Override
-    public String aseta(int k, String s) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 
 }
 
