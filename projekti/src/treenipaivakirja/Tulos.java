@@ -141,14 +141,14 @@ public class Tulos {
      * @param nro päivän numero
      */
     public void vastaaTulos(int nro) {
-        String paiva1 = "";
-        String sarja1 = "";
-        String paino1 = "";
-        int paivaNro1 = 0;
-        paiva1 = "20.10.2015";
-        sarja1 = ranL(1, 5) + "x" + ranL(1, 15);
-        paino1 = ranL(1, 100) + "kg";
-        paivaNro1 = nro;
+//        String paiva1 = "";
+//        String sarja1 = "";
+//        String paino1 = "";
+//        int paivaNro = ;
+        paiva = "20.10.2015";
+        sarja = ranL(1, 5) + "x" + ranL(1, 15);
+        paino = ranL(1, 100) + "kg";
+        paivaNro = nro;
     }
 
 
