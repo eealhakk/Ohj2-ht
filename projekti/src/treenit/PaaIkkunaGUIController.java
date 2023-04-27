@@ -68,7 +68,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private Button PaaIkTallenna;
     //@FXML private Label PaaIkTiedosto;
     //@FXML private ListChooser<?> PaaIkToistotTaul;
-    @FXML private StringGrid<Tulos> PaaIKTuloksetTaul;
+    @FXML public StringGrid<Tulos> PaaIKTuloksetTaul;
     @FXML private ListChooser<Paiva> PaaIkTreeniJaPaivaTaul;
     @FXML private Button PaaIkUusiLiike;
     @FXML private Button PaaIkUusiTreeni;

@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fi.jyu.mit.ohj2.Mjonot;
-import kanta.Tietue;
 
 /**
  * @author antti ja eeli
@@ -18,22 +17,17 @@ import kanta.Tietue;
 public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
-    private String paiva = "2.2.2020";
-    private String liike = "penkki";
-    private String sarja = "2x5"; // sisältää sarjat ja toistot esim. 3x10. 3 sarjaa ja 10 toistoa
-    private String paino = "80";
+    private String liike = "";
+    private String sarja = ""; // sisältää sarjat ja toistot esim. 3x10. 3 sarjaa ja 10 toistoa
+    private String paino = "";
+
+    private String muut = "";
 
     
     private static int     seuraavaNro      = 1;
 
 
 
-    /*
-    @Override
-    public boolean equals(Object tulos) {
-        return this.toString().equals(tulos.toString());
-    }
-    */
     /**
      * Toistaiseksi ei tarvetta 
      */
@@ -84,10 +78,12 @@ public class Tulos {
     
     /**
      * Tulostaa tiedot
+     *
      * @param out tietovirta johon tulostetaan
+     * @return
      */
-    public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " " + this.sarja + " " + this.paino );
+    public String tulosta(PrintStream out) {
+        return this.tunnusNro+ " " + this.paivaNro + " " + this.liike + " " + this.sarja + " " + this.paino + " " + this.muut;
     }
     
     
@@ -134,21 +130,18 @@ public class Tulos {
         luku = (int) (Math.random() * (max - min) + min);
         return luku;
     }
-    
 
     /**
      * Vastaa esimerkkitulostuksen
      * @param nro päivän numero
      */
     public void vastaaTulos(int nro) {
-//        String paiva1 = "";
-//        String sarja1 = "";
-//        String paino1 = "";
-//        int paivaNro = ;
-        paiva = "20.10.2015";
+        liike = "Penkki";
+        paivaNro = nro;
         sarja = ranL(1, 5) + "x" + ranL(1, 15);
         paino = ranL(1, 100) + "kg";
-        paivaNro = nro;
+        muut = "vitutti";
+
     }
 
 
@@ -173,7 +166,8 @@ public class Tulos {
                 "paivaID INTEGER, " +
                 "liike VARCHAR(100), " +
                 "sarja VARCHAR(100), " +
-                "paino VARCHAR(100) " +
+                "paino VARCHAR(100), " +
+                "muut VARCHAR(100) " +
                 ")";
     }
     
@@ -188,8 +182,8 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(paivaID, liike, sarja, paino) " +
-               "VALUES (?, ?, ?, ?)");
+               "(paivaID, liike, sarja, paino, muut) " +
+               "VALUES (?, ?, ?, ?, ?)");
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
@@ -201,6 +195,7 @@ public class Tulos {
        sql.setString(2, liike);
        sql.setString(3, sarja);
        sql.setString(4, paino);
+       sql.setString(5, muut);
        return sql;
    }
    
@@ -241,11 +236,10 @@ public class Tulos {
    public void parse(ResultSet tulokset) throws SQLException {
        setTunnusNro(tulokset.getInt("tulosID"));
        paivaNro = tulokset.getInt("paivaID"); //<--------------------PaivaID
-//       seuraavaNro = tulokset.getInt("seuraavaNro");
-       //paiva = tulokset.getString("paiva");
        liike = tulokset.getString("liike");
        sarja = tulokset.getString("sarja");
        paino = tulokset.getString("paino");
+       muut = tulokset.getString("muut");
    }
 
    /**
@@ -254,27 +248,21 @@ public class Tulos {
     * @param rivi josta harrastuksen tiedot otetaan
     * @example
     * <pre name="test">
-    *   Tulos tulos = new Tulos();
-    *  tulos.parse("   1  |  4  |  1  |  1  |  1  ");
-    *  tulos.getTunnusNro() === 1;
-    *  tulos.getPaivaNro() === 4;
-    *  tulos.tulosta(System.out) === "1|4|1|1|1"*
-    *  tulos.rekisteroi();
-    *  int n = tulos.getTunnusNro();
-    *  tulos.parse(""+(n+20));
-    *  tulos.rekisteroi();
-    *  tulos.getTunnusNro() === n+20+1;
-    *  tulos.tulosta(System.out) === ""+(n+20+1)+"|4|1|1|1";
+    *     Tulos tulos = new Tulos();
+    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  vitutti");
+    *     tulos.getTunnusNro() === 2;
+    *     tulos.getPaivaNro() === 1;
+    *     tulos.tulosta(System.out) === "2 1 Penkki 5x5 100kg vitutti";
     * </pre>
     */
    public void parse(String rivi) {
        StringBuffer sb = new StringBuffer(rivi);
        setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
        paivaNro = Mjonot.erota(sb, '|', paivaNro);
-       paiva = Mjonot.erota(sb, '|', paiva);
        liike = Mjonot.erota(sb, '|', liike);
        sarja = Mjonot.erota(sb, '|', sarja);
        paino = Mjonot.erota(sb, '|', paino);
+       muut = Mjonot.erota(sb, '|', muut);
    }
    
    
@@ -289,16 +277,11 @@ public class Tulos {
 public String getKysymys(int k) {
        switch ( k ) {
            case 0: return "tulosID";
-//           case 1: return "paiva";
-//           case 2: return "seuraavaNro";
            case 1: return "paivaID";
            case 2: return "liike";
            case 3: return "sarja";
            case 4: return "paino";
-//           case 6: return "sarja2";
-//           case 7: return "sarja3";
-//           case 8: return "sarja4";
-//           case 9: return "sarja5";
+           case 5: return "muut";
            default: return "Väärin meno urpo";
        }
    }
@@ -309,16 +292,6 @@ public String getKysymys(int k) {
    /**
     * Tehdään identtinen klooni jäsenestä
     * @return Object kloonattu jäsen
-    * @example
-    * <pre name="test">
-    * #THROWS CloneNotSupportedException 
-    *   Jasen jasen = new Jasen();
-    *   jasen.parse("   3  |  Ankka Aku   | 123");
-    *   Jasen kopio = jasen.clone();
-    *   kopio.toString() === jasen.toString();
-    *   jasen.parse("   4  |  Ankka Tupu   | 123");
-    *   kopio.toString().equals(jasen.toString()) === false;
-    * </pre>
     */
    @Override
    public Tulos clone() throws CloneNotSupportedException {
@@ -333,16 +306,16 @@ public String getKysymys(int k) {
     */
    //@Override
    public int ekaKentta() {
-       return 1;
+       return 2;
    }
    
    /**
-    * Palauttaa jäsenen kenttien lukumäärän
+    * Palauttaa tuloksen kenttien lukumäärän
     * @return kenttien lukumäärä
     */
    //@Override
    public int getKenttia() {
-       return 4;
+       return 6;
    }
    
    /**
@@ -350,14 +323,14 @@ public String getKysymys(int k) {
     * @return valitun kentän sisältö
     * @example
     * <pre name="test">
-    *   Harrastus har = new Harrastus();
-    *   har.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-    *   har.anna(0) === "2";   
-    *   har.anna(1) === "10";   
-    *   har.anna(2) === "Kalastus";   
-    *   har.anna(3) === "1949";   
-    *   har.anna(4) === "22";   
-    *   
+    *     Tulos tulos = new Tulos();
+    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  vitutti");
+    *     tulos.anna(0) === "2";
+    *     tulos.anna(1) === "1";
+    *     tulos.anna(2) === "Penkki";
+    *     tulos.anna(3) === "5x5";
+    *     tulos.anna(4) === "100kg";
+    *     tulos.anna(5) === "vitutti";
     * </pre>
     */
    //@Override
@@ -368,14 +341,13 @@ public String getKysymys(int k) {
            case 1:
                return "" + paivaNro;
            case 2:
-               //väkäset extrana varuiks
-               return "" + paiva;
-           case 3:
                return "" + liike;
-           case 4:
+           case 3:
                return "" + sarja;
-           case 5:
+           case 4:
                return "" + paino;
+           case 5:
+               return "" + muut;
            default:
                return "???";
        }
@@ -388,7 +360,7 @@ public String getKysymys(int k) {
     }
    
    //TODO: Vaihe 7 mukaan??
-   /**
+   /*
     *     /**
      * Asetetaan valitun kentän sisältö.  Mikäli asettaminen onnistuu,
      * palautetaan null, muutoin virheteksti.
@@ -396,7 +368,7 @@ public String getKysymys(int k) {
      * @param s asetettava sisältö merkkijonona
      * @return null jos ok, muuten virheteksti
      * @example
-     * <pre name="test">
+     * <pre name="teest">
      *   Harrastus har = new Harrastus();
      *   har.aseta(3,"kissa") === "aloitusvuosi: Ei kokonaisluku (kissa)";
      *   har.aseta(3,"1940")  === null;

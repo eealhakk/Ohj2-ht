@@ -36,19 +36,6 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     @FXML private Button uusiLiikeTallenna;
     @FXML private TextField uusiLiikeToistot;
 
-
-    public void avaaLiike(ActionEvent actionEvent) {eiToimi();
-    }
-
-    public void avaaToistot(ActionEvent actionEvent) {eiToimi();
-    }
-
-    public void avaaKg(ActionEvent actionEvent) {eiToimi();
-    }
-
-    public void avaaMuut(ActionEvent actionEvent) {eiToimi();
-    }
-
     @FXML private void avaaTallenna() {eiToimi();}
     @FXML private void avaaSulje() {handleLopeta();} //TODO: kesken
     
@@ -62,16 +49,43 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
+
+    /*
+    public void siirra(ActionEvent actionEvent) {
+        String sarja = (uusiLiikeToistot.getText());
+        parseSarja(sarja);
+        String liike = (uusiLiikeLiike.getText());
+        String paino = (uusiLiikeKg.getText());
+        String muut = (uusiLiikeMuut.getText());
+        String[] rivi = {sarja, liike, paino, muut};
+        PaaIKTuloksetTaul.add(rivi);
+        handleLopeta();
+    }
+    */
+
+
+    /** leikkaa jonon x kohdalta
+     * @param rivi String josta leikataan
+     * */
+    public void parseSarja(String rivi) {
+        StringBuffer sb = new StringBuffer(rivi);
+        String sarja = (uusiLiikeToistot.getText());
+        sarja = Mjonot.erota(sb, 'x', sarja);
+    }
+
+
     @Override
     public String getResult() {
         // TODO Auto-generated method stub
         return null;
     }
+
     @Override
     public void handleShown() {
         // TODO Auto-generated method stub
         
     }
+
     @Override
     public void setDefault(String oletus) {
         // TODO Auto-generated method stub
@@ -79,4 +93,15 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     }
 
 
+    public void avaaLiike(ActionEvent actionEvent) {
+    }
+
+    public void avaaToistot(ActionEvent actionEvent) {
+    }
+
+    public void avaaKg(ActionEvent actionEvent) {
+    }
+
+    public void avaaMuut(ActionEvent actionEvent) {
+    }
 }
