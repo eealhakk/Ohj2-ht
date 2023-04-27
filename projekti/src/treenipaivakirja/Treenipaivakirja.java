@@ -187,6 +187,23 @@ public class Treenipaivakirja {
         tulokset.lisaa(tul);
     }
     
+    /** 
+     * Poistaa tämän tuloksen 
+     * @param tulos poistettava harrastus 
+     * @throws SailoException jos tietokantayhteyden kanssa ongelmia
+     * @example
+     * <pre name="test">
+     * #THROWS Exception
+     *   alustaKerho();
+     *   kerho.annaHarrastukset(aku1).size() === 2;
+     *   kerho.poistaHarrastus(pitsi11);
+     *   kerho.annaHarrastukset(aku1).size() === 1;
+     */ 
+    public void poistaTulos(Tulos tulos) throws SailoException { 
+        tulokset.poista(tulos); 
+    }
+
+    
     /**
      * Palauttaa paivat listassa
      * @param hakuehto hakuehto  

@@ -86,6 +86,11 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         //
         muokkaaTulosta();
     }
+    
+    @FXML void PoistaTapahtuma() {
+        //
+        poistaTulos();
+    }
 
     
 
@@ -334,7 +339,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
         //if ( tulosKohdalla == null ) return;  
         
-        ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+        //ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
         
         int r = PaaIKTuloksetTaul.getRowNr();
         if ( r < 0 ) return; // klikattu ehkä otsikkoriviä
@@ -356,6 +361,46 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             Dialogs.showMessageDialog("Ongelmia lisäämisessä: " + e.getMessage());
         }
     }
+    
+    /**
+     * Poistetaan harrastustaulukosta valitulla kohdalla oleva harrastus. 
+     */
+    private void poistaTulos() {
+        //Tulos kuuntelija
+        tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
+
+        int rivi = PaaIKTuloksetTaul.getRowNr();
+        if ( rivi < 0 ) return;
+        Tulos tulos = tulosKohdalla;
+        if ( tulos == null ) return;
+        try {
+            treenipaivakirja.poistaTulos(tulos);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        naytaTulokset(paivaKohdalla);
+        int harrastuksia = PaaIKTuloksetTaul.getItems().size(); 
+        if ( rivi >= harrastuksia ) rivi = harrastuksia -1;
+        PaaIKTuloksetTaul.getFocusModel().focus(rivi);
+        PaaIKTuloksetTaul.getSelectionModel().select(rivi);
+    }
+
+//    /*
+//     * Poistetaan listalta valittu jäsen
+//     */
+//    private void poistaPaiva() {
+//        Paiva jasen = paivaKohdalla;
+//        if ( jasen == null ) return;
+//        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko jäsen: " + jasen.getNimi(), "Kyllä", "Ei") )
+//            return;
+//        kerho.poista(jasen);
+//        int index = chooserJasenet.getSelectedIndex();
+//        hae(0);
+//        chooserJasenet.setSelectedIndex(index);
+//    }
+
     
 
 

@@ -26,7 +26,10 @@ public class Paivat {
     private Paiva            alkiot[]      = new Paiva[MAX_PAIVIA];
     private boolean muutettu = false;
     
-    private Kanta kanta;
+    private Kanta kanta;//eli tallennuksen jälkeen sijoitettava db/kanta
+    //tyo7
+    private Kanta backupKanta;//eli alkuperäinen tiedosto
+    
     private static Paiva apupaiva = new Paiva();
 
 
@@ -42,8 +45,13 @@ public class Paivat {
      * @throws SailoException poikkeus
      */
     public Paivat(String paiva) throws SailoException {
-        kanta = Kanta.alustaKanta(paiva);
-        try ( Connection con = kanta.annaKantayhteys() ) {
+        //Pidetään alkuperäinen backup filenä
+        //ja tallentamisessa luodaan uusi kanta olio samalla nimellä
+        //ja kopioidaan vanha kanta/db tiedot siihen
+        //, minkäjälkeen positetaan vanha kanta/db
+        
+        backupKanta = Kanta.alustaKanta(paiva);
+        try ( Connection con = backupKanta.annaKantayhteys() ) {
             // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
             // paivaet nimistä taulua olemassa.
             // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko
@@ -65,6 +73,32 @@ public class Paivat {
                 e.printStackTrace();
                 throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
+        
+        //Tallennuksen kanta:
+        kanta = Kanta.alustaKanta(paiva);
+        try ( Connection con = kanta.annaKantayhteys() ) {
+            // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
+            // paivaet nimistä taulua olemassa.
+            // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko
+            // mahdollisesti olemassa olevalla taululla oikea rakenne,
+            // käyttäjä saa kuulla siitä virheilmoituksen kautta
+            DatabaseMetaData meta = con.getMetaData();
+            
+            try ( ResultSet taulu = meta.getTables(null, null, "Paivat", null) ) {
+                if ( !taulu.next() ) {
+                    // Luodaan paivaet taulu
+                    try ( PreparedStatement sql = con.prepareStatement(apupaiva.annaLuontilauseke()) ) {
+                    sql.execute();
+                    }
+                }
+            }
+                
+                }
+            catch (SQLException e) {
+                e.printStackTrace();
+                throw new SailoException("Ongelmia Tallennus tietokannan kanssa:" + e.getMessage());
+                }
+        
     
     }
     
@@ -117,7 +151,7 @@ public class Paivat {
      * @throws SailoException poikkeus
      */
     public void lisaa(Paiva paiva) throws SailoException{
-        try (Connection con = kanta.annaKantayhteys(); PreparedStatement sql = paiva.annaLisayslauseke(con) ){
+        try (Connection con = backupKanta.annaKantayhteys(); PreparedStatement sql = paiva.annaLisayslauseke(con) ){
             sql.executeUpdate();
             try ( ResultSet rs = sql.getGeneratedKeys() ) {
             paiva.tarkistaId(rs);
@@ -181,7 +215,7 @@ public class Paivat {
         String kysymys = apupaiva.getKysymys(k);
         if ( k < 0 ) { kysymys = apupaiva.getKysymys(0); ehto = ""; }
         // Avataan yhteys tietokantaan try .. with lohkossa.
-        try ( Connection con = kanta.annaKantayhteys();
+        try ( Connection con = backupKanta.annaKantayhteys();
               PreparedStatement sql = con.prepareStatement("SELECT * FROM Paivat WHERE " + kysymys + " LIKE ?") ) {
             ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
             

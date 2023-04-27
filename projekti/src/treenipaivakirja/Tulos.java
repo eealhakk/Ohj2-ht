@@ -214,6 +214,22 @@ public class Tulos {
        return sql;
    }
    
+   /**
+    * Antaa tuloksen poistolausekkeen
+    * @param con tietokantayhteys
+    * @return tuloksen lisäyslauseke
+    * @throws SQLException Jos lausekkeen poistossa on ongelmia
+    */
+   public PreparedStatement annaPoistolauseke(Connection con)
+           throws SQLException {
+       PreparedStatement sql = con.prepareStatement("DELETE FROM Tulokset " +
+               "WHERE tulosID = ?");  //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
+       
+       sql.setInt(1, tunnusNro); //PaivaID
+
+       return sql;
+   }
+   
 
    /**
     * Tarkistetaan onko id muuttunut lisäyksessä

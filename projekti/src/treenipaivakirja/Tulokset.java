@@ -146,6 +146,22 @@ public class Tulokset implements Iterable<Tulos>{
         }
     }
     
+    public void poista(Tulos tulos) throws SailoException {
+        try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = tulos.annaPoistolauseke(con) ) {
+            sql.executeUpdate();
+            try ( ResultSet rs = sql.getGeneratedKeys() ) {
+                tulos.tarkistaId(rs);
+            }
+            //Lisätty tyo7
+            muutettu = true;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+        }
+    }
+    
+    
     /**
      * Korvaa tuloksen tietorakenteessa.  Ottaa tuloksen omistukseensa.
      * Etsitään samalla tunnusnumerolla oleva tulos.  Jos ei löydy,
