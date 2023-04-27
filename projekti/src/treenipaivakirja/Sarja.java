@@ -1,6 +1,3 @@
-/**
- * 
- */
 package treenipaivakirja;
 import java.io.*;
 
@@ -13,6 +10,7 @@ import java.io.*;
 public class Sarja {
     
     private int            tunnusNro        = 0;
+    private int sarjat;
     private int toistot;
     private double paino;
     private static int     seuraavaNro      = 1;

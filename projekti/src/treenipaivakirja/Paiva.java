@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import fi.jyu.mit.ohj2.Mjonot;
+import fi.jyu.mit.ohj2.*;
 
 /**
  * @author Eeli ja Antti
@@ -19,10 +19,8 @@ public class Paiva {
         private int                 tunnusNro;
         private String              paivamaara       = "";
         private String              treeninTyyppi    = "";
-        private String              luontipv         = "";
-        private String              muokattuViimeksi = "";
         
-        private static int seuraavaNro    = 1;
+        private static int seuraavaNro               = 1;
     
     //TODO: Tämän voi luultavasti siirtää muualle
     /**
@@ -86,9 +84,7 @@ public class Paiva {
         int ivv = ranL(2022,2023);
         paivamaara = ipp + "." + ikk + "." + ivv;
         vastaaEsimerkkiTreenityyppi();
-        luontipv = "1.1.2000";
-        muokattuViimeksi = "2.2.2000";
-        
+
     }
     
 
@@ -100,9 +96,7 @@ public class Paiva {
         vastaaEsimerkkiTreeni();
         out.println(String.format("%03d", tunnusNro, 3));
         out.println("pvm:  " + paivamaara.toString() + "\n" +
-                    "Treenin tyyppi: "+ treeninTyyppi + "\n" + 
-                    "luontipv  " + "( " + luontipv + " )" + "\n" +
-                    "muokattuViimeksi " + "( " +  muokattuViimeksi + " )");
+                    "Treenin tyyppi: "+ treeninTyyppi + " ");
     }
 
     
@@ -118,12 +112,7 @@ public class Paiva {
     public String toString() {
         return ("=/="+String.format("%03d", tunnusNro, 3) +
                 "Treenin tyyppi: "+
-                treeninTyyppi + "\n" + 
-                "luontipv  " +
-                "( " + luontipv + " )" + "\n" +
-                "muokattuViimeksi " + 
-                "( " +  muokattuViimeksi +" )" +
-                "=/=");
+                treeninTyyppi + "=/=");
     }
     
     @Override
@@ -163,8 +152,6 @@ public class Paiva {
             case 0: return "paivaID";
             case 1: return "paivamaara";
             case 2: return "treeninTyyppi";
-//            case 3: return "luontiPv";
-//            case 4: return "muokattuViimeksi";
             default: return "Äääliö";
         }
     }
@@ -196,8 +183,8 @@ public class Paiva {
     public PreparedStatement annaLisayslauseke(Connection con)
             throws SQLException {
         PreparedStatement sql = con.prepareStatement("INSERT INTO Paivat" +
-                "(paivaID, paivamaara, treeninTyyppi)" + //, luontipv, muokattuViimeksi
-                "VALUES (?, ?, ?)"); //Vähennetty yksi
+                "(paivaID, paivamaara, treeninTyyppi)" +
+                "VALUES (?, ?, ?)");
         
         // Syötetään kentät näin välttääksemme SQL injektiot.
         // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
@@ -205,8 +192,6 @@ public class Paiva {
         if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
         sql.setString(2, paivamaara);
         sql.setString(3, treeninTyyppi);
-//        sql.setString(4, luontipv);
-//        sql.setString(5, muokattuViimeksi);
         return sql;
     }
 
@@ -240,8 +225,6 @@ public class Paiva {
         setTunnusNro(Mjonot.erota(sb, '|', getTunnusNro()));
         paivamaara = Mjonot.erota(sb, '|', paivamaara);
         treeninTyyppi = Mjonot.erota(sb, '|', treeninTyyppi);
-        luontipv = Mjonot.erota(sb, '|', luontipv);
-        muokattuViimeksi = Mjonot.erota(sb, '|', muokattuViimeksi);
         
     }
     
@@ -254,8 +237,6 @@ public class Paiva {
         setTunnusNro(tulokset.getInt("paivaID"));
         paivamaara = tulokset.getString("paivamaara");
         treeninTyyppi = tulokset.getString("treeninTyyppi");
-//        luontipv = tulokset.getString("luontipv");
-//        muokattuViimeksi = tulokset.getString("muokattuViimeksi");
     }
     
     /**

@@ -157,10 +157,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     private Treenipaivakirja treenipaivakirja;
     //toString(System.currentTimeMillis());//
-    //TODO: vaihda tyyppi int ja metodit vastaanottamaan int mitkä käyttää tätät arvoa
     private String treeninTunnusVuosi = "2023";
     private TextArea areaPaiva = new TextArea();
-    //TODO: Tämä jossainkohtaa lokaaliksi muuttujiski aliohjelmiin
     private Paiva paivaKohdalla;
     //Vaihe 7
     private Tulos tulosKohdalla;
@@ -214,18 +212,18 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); 
          
         // kentän tekstit, lajitteluehdot ja muokkaus sekä double click kuuntelu 
-        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä harrastuksia")); 
+        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia"));
        
         //StringGrid sisällön määrittelijät
-        PaaIKTuloksetTaul.setOnCellString( (g, harrastus, defValue, r, c) -> harrastus.anna(c+harrastus.ekaKentta()) ); 
-        //PaaIKTuloksetTaul.setOnCellValue( (g, harrastus, defValue, r, c) -> harrastus.getAvain(c+harrastus.ekaKentta()) );
+        PaaIKTuloksetTaul.setOnCellString( (g, tulos, defValue, r, c) -> tulos.anna(c+tulos.ekaKentta()) );
+        //PaaIKTuloksetTaul.setOnCellValue( (g, tulos, defValue, r, c) -> tulos.getAvain(c+tulos.ekaKentta()) );
         
-        PaaIKTuloksetTaul.setOnGridLiveEdit((g, harrastus, defValue, r, c, edit) -> { 
-            String virhe = harrastus.aseta(c+harrastus.ekaKentta(), defValue); 
+        PaaIKTuloksetTaul.setOnGridLiveEdit((g, tulos, defValue, r, c, edit) -> {
+            String virhe = tulos.aseta(c+tulos.ekaKentta(), defValue);
             if ( virhe == null ) { 
                 edit.setStyle(null);
                 //Onko muutettu
-                //treenipaivakirja.setHarrastusMuutos(); 
+                //treenipaivakirja.setTulosMuutos();
                 Dialogs.setToolTipText(edit,""); 
             } else { 
                 edit.setStyle("-fx-background-color: red"); 
@@ -271,15 +269,15 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             List<Tulos> tulokset = treenipaivakirja.annaTulokset(paiva);
             if ( tulokset.size() == 0 ) return;
             //PaaIKTuloksetTaul.add(tulokset); 
-            for (Tulos har: tulokset)
-                naytaHarrastus(har);
+            for (Tulos tul: tulokset)
+                naytaTulos(tul);
 
         } catch (SailoException e) {
             //naytaVirhe(e.getMessage());
         }   
     }
     
-    private void naytaHarrastus(Tulos tul) {
+    private void naytaTulos(Tulos tul) {
         int kenttia = tul.getKenttia(); 
         String[] rivi = new String[kenttia-tul.ekaKentta()]; 
         for (int i=0, k=tul.ekaKentta(); k < kenttia; i++, k++) 
@@ -475,7 +473,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     protected void hae(int jnro) {
         int k = PaaIkDropp.getSelectionModel().getSelectedIndex();
         String ehto = HakuPalkki.getText(); 
-        if (k > 0 || ehto.length() > 0);
+        //if (k > 0 || ehto.length() > 0);
             //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
         //else
             
