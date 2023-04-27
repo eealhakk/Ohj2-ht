@@ -18,8 +18,8 @@ import kanta.Tietue;
 public class Tulos {
     private int            tunnusNro;
     private int            paivaNro;
-    private String paiva = "1.1.2000";
-    private int liike;
+    private String paiva = "2.2.2020";
+    private String liike = "penkki";
     private int sarja;
     
     private static int     seuraavaNro      = 1;
@@ -85,7 +85,7 @@ public class Tulos {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(String.format("%03d", this.tunnusNro)+ " " + this.paiva + " " + this.liike + "x" + this.sarja);
+        out.println(String.format("%03d", this.tunnusNro)+ " " + this.liike + " x " + this.sarja);
     }
     
     
@@ -140,24 +140,18 @@ public class Tulos {
      */
     public void vastaaTulos(int nro) {
         paiva = "20.10.2015";
-        sarja = ranL(1,6);
-        liike = ranL(5,15);     
+        sarja = ranL(2,6);
         paivaNro = nro;
     }
-    
+
+
     /**
      * Vastaa tuloksen.
      */
     public void vastaaTulos() {
         vastaaTulos(12);
     }
-    
-    /*//The type Tulos should also implement hashCode() since it overrides Object.equals()
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-    */
+
     //Tietokantaan liittyväkoodi
     //====================================================
     
@@ -192,8 +186,8 @@ public class Tulos {
    public PreparedStatement annaLisayslauseke(Connection con)
            throws SQLException {
        PreparedStatement sql = con.prepareStatement("INSERT INTO Tulokset" +
-               "(paivaID, liike, sarja) " + //, sarja2, sarja3, " + "sarja4, sarja5
-               "VALUES (?, ?, ?)"); //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
+               "(paivaID, liike, sarja) " +
+               "VALUES (?, ?, ?)");
        
        // Syötetään kentät näin välttääksemme SQL injektiot.
        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
@@ -202,7 +196,7 @@ public class Tulos {
 //       sql.setInt(2, paivaNro);
 //       sql.setInt(3, seuraavaNro);
        sql.setInt(1, paivaNro); //PaivaID
-       sql.setInt(2, liike);
+       sql.setString(2, liike);
        sql.setInt(3, sarja);
 //       sql.setInt(7, sarja2);
 //       sql.setInt(8, sarja3);
@@ -253,7 +247,7 @@ public class Tulos {
        paivaNro = tulokset.getInt("paivaID"); //<--------------------PaivaID
 //       seuraavaNro = tulokset.getInt("seuraavaNro");
        //paiva = tulokset.getString("paiva");
-       liike = tulokset.getInt("liike");
+       liike = tulokset.getString("liike");
        sarja = tulokset.getInt("sarja");
 //       sarja2 =tulokset.getInt("sarja2");
 //       sarja3 = tulokset.getInt("sarja3");
@@ -271,8 +265,7 @@ public class Tulos {
     *  tulos.parse("   1  |  4  |  1  |  1  |  1  ");
     *  tulos.getTunnusNro() === 1;
     *  tulos.getPaivaNro() === 4;
-    *  tulos.tulosta(System.out) === "1|4|1|1|1";
-    *
+    *  tulos.tulosta(System.out) === "1|4|1|1|1"*
     *  tulos.rekisteroi();
     *  int n = tulos.getTunnusNro();
     *  tulos.parse(""+(n+20));
