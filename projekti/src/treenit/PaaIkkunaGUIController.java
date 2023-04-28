@@ -314,7 +314,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * @param paino paino
      * @param muut muut tiedot
      */
-    public void uusiTulos(String liike, String sarja, String paino, String muut) { 
+    public void uusiTulos(String liike, String sarja, String paino, String muut) {
         paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
         //Tyo 7
         tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
@@ -583,6 +583,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             return false;
         }
         */
+    }
+
+    public void kysyVuosi() {
+    //TODO: Tähän kohtaan kysytään vuosi ja luetaan se
+        String uusiVuosi = AlkuNakymaGUIController.kysyVuosi(null, treeninTunnusVuosi);
+        if ((uusiVuosi == null)) return;
+        lueTiedosto(uusiVuosi);
     }
     
     /**

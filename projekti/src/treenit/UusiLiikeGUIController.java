@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kanta.Tietue;
+import org.w3c.dom.DOMStringList;
 import treenipaivakirja.SailoException;
 import fi.jyu.mit.ohj2.Mjonot;
 /**
@@ -53,14 +54,15 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
 
 
 
-    public void vie(ActionEvent actionEvent) {
+    public static String[] vie(ActionEvent actionEvent) {
         String liike = (uusiLiikeLiike.getText());
         String sarja = (uusiLiikeToistot.getText());
         String paino = (uusiLiikeKg.getText());
         String muut = (uusiLiikeMuut.getText());
-        String[] rivi = {sarja, liike, paino, muut};
-        PaaIkkunaGUIController.vie(rivi);
-        handleLopeta();
+        PaaIkkunaGUIController.uusiTulos(liike, sarja, paino, muut);
+        ModalController.closeStage(uusiLiikeSulje);
+
+
     }
 
 
