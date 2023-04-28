@@ -78,7 +78,7 @@ public class Tulos {
      * Tulostaa tiedot
      *
      * @param out tietovirta johon tulostetaan
-     * @return
+     * @return tulosteen
      */
     public String tulosta(PrintStream out) {
         return this.tunnusNro+ " " + this.paivaNro + " " + this.liike + " " + this.sarja + " " + this.paino + " " + this.muut;

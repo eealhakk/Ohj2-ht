@@ -53,10 +53,11 @@ public class Paivat implements Iterable<Paiva> {
         //ja kopioidaan vanha kanta/db tiedot siihen
         //, minkäjälkeen positetaan vanha kanta/db
         
-        String valipaiva = "bat" + paiva;
+        //String valipaiva = "bat" + paiva;
         
-        kanta = Kanta.alustaKanta(valipaiva);
+        kanta = Kanta.alustaKanta(paiva);//valipaiva
         try ( Connection con = kanta.annaKantayhteys() ) {
+            
             // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
             // paivaet nimistä taulua olemassa.
             // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko
@@ -78,7 +79,34 @@ public class Paivat implements Iterable<Paiva> {
                 e.printStackTrace();
                 throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
+        //luoKopio(valipaiva);
             }
+    
+    public void luoKopio(String nimi) throws SailoException {
+        try ( Connection con = kanta.annaKantayhteys();
+              PreparedStatement sql1 = con.prepareStatement("attach database ? as ?") ) {
+            sql1.setString(1, tiedostonNimi);
+            sql1.setString(2, nimi);
+            sql1.execute();
+              //sql.setString(1, "%" + ehto + "%");
+
+          } catch ( SQLException e ) {
+              e.printStackTrace();
+              throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
+          }
+          
+          try ( Connection con = kanta.annaKantayhteys();
+                  PreparedStatement sql2 = con.prepareStatement("BEGIN;\nINSERT INTO " + nimi + ".Paivat SELECT * FROM " + tiedostonNimi + ".Paivat;\nEND;")  ) {
+                //sql2.setString(1, nimi);
+                //sql2.setString(2, tiedostonNimi);
+                  //sql.setString(1, "%" + ehto + "%");
+              sql2.execute();
+
+              } catch ( SQLException e ) {
+                  e.printStackTrace();
+                  throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
+              }
+    }
     
     
     
@@ -133,6 +161,7 @@ public class Paivat implements Iterable<Paiva> {
             sql.executeUpdate();
             try ( ResultSet rs = sql.getGeneratedKeys() ) {
             paiva.tarkistaId(rs);
+            muutettu = true;//MUUTETTU
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -197,7 +226,7 @@ public class Paivat implements Iterable<Paiva> {
               PreparedStatement sql = con.prepareStatement("SELECT * FROM Paivat WHERE " + kysymys + " LIKE ?") ) {
             ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
             
-            sql.setString(1, "%" + ehto + "%");
+            sql.setString(1, "%" + ehto + "%");     //Ehto tulee ehkä väärässä muodossaS
             try ( ResultSet tulokset = sql.executeQuery() ) {
                 while ( tulokset.next() ) {
                     Paiva j = new Paiva();
@@ -247,41 +276,11 @@ public class Paivat implements Iterable<Paiva> {
     public void tallenna() {    //throws SailoException
         if ( !muutettu ) return;
 
-        File fbak = new File(getBakNimi());
-        File ftied = new File(getTiedostonNimi());
-        fbak.delete(); // if .. System.err.println("Ei voi tuhota");
-        ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
-//        try ( Connection con = kanta.annaKantayhteys();
-//                PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
-//                  ) {
-//              sql.setInt(1, tunnusnro);
-//              try ( ResultSet tulokset = sql.executeQuery() )  {
-//                  while ( tulokset.next() ) {
-//                      Tulos tul = new Tulos();
-//                      tul.parse(tulokset);
-//                      loydetyt.add(tul);
-//                  }
-//              }
-//              
-//          } catch (SQLException e) {
-//              e.printStackTrace();
-//              throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-//          }
-//        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-//            fo.println(getKokoNimi());
-//            fo.println(alkiot.length);
-//            for (Paiva paiva : this) {
-//                fo.println(paiva.toString());
-//            }
-//            //} catch ( IOException e ) { // ei heitä poikkeusta
-//            //  throw new SailoException("Tallettamisessa ongelmia: " + e.getMessage());
-//        } catch ( FileNotFoundException ex ) {
-//            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
-//        } catch ( IOException ex ) {
-//            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
-//        }
-
-        muutettu = false;
+//        File fbak = new File(getBatNimi());
+//        File ftied = new File(getTiedostonNimi());
+//        fbak.delete(); // if .. System.err.println("Ei voi tuhota");
+//        ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
+//        muutettu = false;
     }
     
 
@@ -289,8 +288,8 @@ public class Paivat implements Iterable<Paiva> {
      * Palauttaa varakopiotiedoston nimen
      * @return varakopiotiedoston nimi
      */
-    public String getBakNimi() {
-        return tiedostonNimi + ".bak";
+    public String getBatNimi() {
+        return tiedostonNimi + ".db";
     }
     
     /**
@@ -298,7 +297,7 @@ public class Paivat implements Iterable<Paiva> {
      * @return tallennustiedoston nimi
      */
     public String getTiedostonNimi() {
-        return getTiedostonPerusNimi() + ".dat";
+        return getTiedostonPerusNimi() + ".db";
     }
     
 

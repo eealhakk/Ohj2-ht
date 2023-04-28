@@ -94,14 +94,18 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
 
 
     public void avaaLiike(ActionEvent actionEvent) {
+        //
     }
 
     public void avaaToistot(ActionEvent actionEvent) {
+        //
     }
 
     public void avaaKg(ActionEvent actionEvent) {
+        //
     }
 
     public void avaaMuut(ActionEvent actionEvent) {
+        //
     }
 }

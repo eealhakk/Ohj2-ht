@@ -67,8 +67,13 @@ public class Tulokset implements Iterable<Tulos>{
      * @throws SailoException jos jokin menee pieleen
      */
     public Tulokset(String nimi) throws SailoException {
+//        String valipaiva = "bat" + nimi;
+
         kanta = alustaKanta(nimi);
+        
+        
         try ( Connection con = kanta.annaKantayhteys() ) {
+            
             // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
             // Jasenet nimistä taulua olemassa.
             // Jos ei ole, luodaan se. Ei puututa tässä siihen, onko

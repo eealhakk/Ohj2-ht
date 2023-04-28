@@ -103,7 +103,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
     
     @FXML private void handleLopeta() {
-        tallenna();
+        //tallenna();
         ModalController.closeStage(PaaIkSulje);
 
 
@@ -148,7 +148,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
     @FXML private void avaaSulje() { tallentamattomatMuutokset();}
 
-    @FXML private void avaaTallenna() {eiToimi();}
+    @FXML private void avaaTallenna() {
+        tallenna();
+    }
+    
+    @FXML void handleHakuehto() {
+        hae(0);
+    }
 
 
 
@@ -168,7 +174,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     //Vaihe 7
     private Tulos tulosKohdalla;
 
-    
+    //Hakua varten vaan?
+    private static Paiva apupaiva = new Paiva(); 
     //Vaihe 7
     private static Tulos aputulos = new Tulos(); 
     private TextField edits[];
@@ -194,10 +201,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIkTreeniJaPaivaTaul.addSelectionListener(e -> naytaPaiva());
         //PaaIKTuloksetTaul.addImageListener(e -> naytaPaiva());
 
-        
+        PaaIkDropp.clear(); 
+        for (int k = apupaiva.ekaKentta(); k < apupaiva.getKenttia(); k++) 
+            PaaIkDropp.add(apupaiva.getKysymys(k), null); 
+        PaaIkDropp.getSelectionModel().select(0); 
+
         
        /*   //kerhon vastaava jäsenen tiedot pääikkuna boxin alustus
-       edits = UusiLiikeGUIController.luoKentat(gridJasen, new Jasen());  
+       edits = UusiLiikeGUIController.luoKentat(gridPaiva, new Paiva());  
        for (TextField edit: edits)  
            if ( edit != null ) {  
                edit.setEditable(false);  
@@ -217,7 +228,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); 
          
         // kentän tekstit, lajitteluehdot ja muokkaus sekä double click kuuntelu 
-        PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia"));
+        //PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); ??? tyo7 kohdalla poistettu
        
         //StringGrid sisällön määrittelijät
         PaaIKTuloksetTaul.setOnCellString( (g, tulos, defValue, r, c) -> tulos.anna(c+tulos.ekaKentta()) );
@@ -239,7 +250,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         //Kuuntelee halutaanko ikkunaa(PaaIKTuloksetTaul) muokata
         PaaIKTuloksetTaul.setOnMouseClicked( e -> { if ( e.getClickCount() == 2 )  muokkaaTulosta();  } ); 
         
-        //Platform.runLater(()-> hakuehto.requestFocus()); 
+        Platform.runLater(()-> HakuPalkki.requestFocus()); 
 
 
     }
@@ -389,14 +400,14 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //     * Poistetaan listalta valittu jäsen
 //     */
 //    private void poistaPaiva() {
-//        Paiva jasen = paivaKohdalla;
-//        if ( jasen == null ) return;
-//        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko jäsen: " + jasen.getNimi(), "Kyllä", "Ei") )
+//        Paiva paiva = paivaKohdalla;
+//        if ( paiva == null ) return;
+//        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko paiva: " + paiva.getNimi(), "Kyllä", "Ei") )
 //            return;
-//        kerho.poista(jasen);
-//        int index = chooserJasenet.getSelectedIndex();
+//        kerho.poista(paiav);
+//        int index = chooserPaivatt.getSelectedIndex();
 //        hae(0);
-//        chooserJasenet.setSelectedIndex(index);
+//        chooserPaivat.setSelectedIndex(index);
 //    }
 
     
@@ -422,8 +433,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             
             naytaTulokset(paivaKohdalla);
             //PaaIKTuloksetTaul.setTeksti();
-            //JasenDialogController.naytaJasen(edits, jasenKohdalla); 
-            //naytaHarrastukset(jasenKohdalla);
+            //PaivaDialogController.naytaPaiva(edits, paivaKohdalla); 
+            //naytaHarrastukset(paivaKohdalla);
     }
     
     /*
@@ -489,7 +500,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      */
     public void setTreenipaivakirja(Treenipaivakirja treenipaivakirja) {
         this.treenipaivakirja = treenipaivakirja;
-        //Vesalla vastaavassa kohdassa naytaJasen();
+        //Vesalla vastaavassa kohdassa naytaPaiva();
     }
     
     /**
@@ -513,17 +524,21 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     /**
      * Hakee Paivan tiedot listaan
      * TODO: Tähän kohtaan sijoitetaan liike, toistot, kg arvot
-     * @param jnro Paivan numero, joka aktivoidaan haun jälkeen
+     * @param jnr Paivan numero, joka aktivoidaan haun jälkeen
      */
-    protected void hae(int jnro) {
-        int k = PaaIkDropp.getSelectionModel().getSelectedIndex();
+    protected void hae(int jnr) {
+        int jnro = jnr; // jnro paivan numero, joka aktivoidaan haun jälkeen 
+        if ( jnro <= 0 ) { 
+            Paiva kohdalla = paivaKohdalla; 
+            if ( kohdalla != null ) jnro = kohdalla.getTunnusNro(); 
+        }
+
+        int k = PaaIkDropp.getSelectionModel().getSelectedIndex() + apupaiva.ekaKentta(); //Lisätty viimesin + -> tyo7
         String ehto = HakuPalkki.getText(); 
-        //if (k > 0 || ehto.length() > 0);
+        //if (ehto.indexOf('*') < 0) ehto = "*" + ehto + "*"; 
+        //if (k > 0 || ehto.length() > 0)
             //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-        //else
-            
-            //naytaVirhe(null);
-        
+
         PaaIkTreeniJaPaivaTaul.clear();
 
         int index = 0;
