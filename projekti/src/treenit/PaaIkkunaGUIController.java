@@ -295,8 +295,34 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         //tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
         if ( paivaKohdalla == null ) return;
         Tulos tul = new Tulos();  
-        tul.rekisteroi();  
+        tul.rekisteroi();
         tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
+        try {
+            treenipaivakirja.lisaa(tul);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        hae(paivaKohdalla.getTunnusNro());          
+    } 
+    
+    /**
+     * Tekee uuden tyhjän tuloksen editointia varten
+     * @param liike liike
+     * @param sarja sarja
+     * @param paino paino
+     * @param muut muut tiedot
+     */
+    public void uusiTulos(String liike, String sarja, String paino, String muut) { 
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        //Tyo 7
+        tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
+        
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();
+        tul.asetaArvot(liike, sarja, paino, muut, paivaKohdalla.getTunnusNro());  
         try {
             treenipaivakirja.lisaa(tul);
         } catch (SailoException e) {

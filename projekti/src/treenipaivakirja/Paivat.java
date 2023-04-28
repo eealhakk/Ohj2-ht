@@ -33,6 +33,8 @@ public class Paivat implements Iterable<Paiva> {
     //private Kanta backupKanta;//eli alkuperäinen tiedosto
     
     private static Paiva apupaiva = new Paiva();
+    private static Tulos aputulos = new Tulos();
+
 
 
     
@@ -229,9 +231,9 @@ public class Paivat implements Iterable<Paiva> {
             sql.setString(1, "%" + ehto + "%");     //Ehto tulee ehkä väärässä muodossaS
             try ( ResultSet tulokset = sql.executeQuery() ) {
                 while ( tulokset.next() ) {
-                    Paiva j = new Paiva();
-                    j.parse(tulokset);
-                    loytyneet.add(j);
+                  Paiva j = new Paiva();
+                  j.parse(tulokset);
+                  loytyneet.add(j);
                 }
             }
             return loytyneet;
@@ -240,6 +242,40 @@ public class Paivat implements Iterable<Paiva> {
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
         }
     }
+    
+    /** 
+     * Etsii paivan id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen paivan indeksi tai -1 jos ei löydy 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Paivat paivat = new Paivat(); 
+     * Paiva aku1 = new Paiva(), aku2 = new Paiva(), aku3 = new JasPaivaen(); 
+     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
+     * int id1 = aku1.getTunnusNro(); 
+     * paivat.lisaa(aku1); paivat.lisaa(aku2); paivat.lisaa(aku3); 
+     * paivat.etsiId(id1+1) === 1; 
+     * paivat.etsiId(id1+2) === 2; 
+     * </pre> 
+     */ 
+    public int etsiId(int id) { 
+        for (int i = 0; i < lkm; i++) 
+            if (id == alkiot[i].getTunnusNro()) return i; 
+        return -1; 
+    } 
+    /** 
+     * Etsii paivan id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return paiva jolla etsittävä id tai null 
+    */
+    public Paiva annaId(int id) { 
+        for (Paiva paiva : this) { 
+            if (id == paiva.getTunnusNro()) return paiva; 
+        } 
+        return null; 
+    } 
+
+
     
 //    /**
 //     * Tallentaa jäsenistön tiedostoon.  

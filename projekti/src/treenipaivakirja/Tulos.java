@@ -35,6 +35,22 @@ public class Tulos {
         //
     }
     
+//    public Tulos(String liike, String sarja, String paino, String muut, int paiva) {
+//        this.liike = liike;
+//        this.sarja = sarja;
+//        this.paino = paino;
+//        this.muut = muut;
+//        this.paivaNro = paiva;
+//    }
+    
+    public void asetaArvot(String liike, String sarja, String paino, String muut, int paiva) {
+        this.liike = liike;
+        this.sarja = sarja;
+        this.paino = paino;
+        this.muut = muut;
+        this.paivaNro = paiva;
+    }
+    
     
     /**
      * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on
