@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import treenipaivakirja.Paiva;
+import treenipaivakirja.Treenipaivakirja;
 
 /**
  * Treenipäiväkirjan alkunäkymän muodostaja.
