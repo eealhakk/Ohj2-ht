@@ -186,6 +186,37 @@ public class Tulokset implements Iterable<Tulos>{
         }
         lisaa(tulos);
     }
+    
+//    /**
+//     * @param hakuehto hakuehto
+//     * @param k etsittävän kentän indeksi
+//     * @return paivat listassa
+//     * @throws SailoException poikkeus
+//     */
+//    public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {
+//        String ehto = hakuehto;
+//        String kysymys = aputulos.getKysymys(k);
+//        if ( k < 0 ) { kysymys = aputulos.getKysymys(0); ehto = ""; }
+//        // Avataan yhteys tietokantaan try .. with lohkossa.
+//        try ( Connection con = kanta.annaKantayhteys();
+//              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE " + kysymys + " LIKE ?") ) {
+//            ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
+//            
+//            sql.setString(1, "%" + ehto + "%");     //Ehto tulee ehkä väärässä muodossaS
+//            try ( ResultSet tulokset = sql.executeQuery() ) {
+//                while ( tulokset.next() ) {
+//                    
+//                    Paiva j = new Paiva();
+//                    j.parse(tulokset);
+//                    loytyneet.add(j);
+//                }
+//            }
+//            return loytyneet;
+//        } catch ( SQLException e ) {
+//            e.printStackTrace();
+//            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+//        }
+//    }
 
 
 
