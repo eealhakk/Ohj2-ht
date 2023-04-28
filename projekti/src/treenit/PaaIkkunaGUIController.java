@@ -82,11 +82,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private MenuItem MenuBarMuokkaaMuokka;
     @FXML private MenuItem MenuBarMuokkaaPoista;
 
-    public static void vie(String[] rivi) {
-        Tulos tulos = new Tulos();
-
-    }
-
     @FXML void MuokkaaTapahtuma() {
         muokkaaTulosta();
     }
@@ -189,6 +184,11 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
+    
+//    public static void vie(String[] rivi) {
+//        Tulos tulos = new Tulos();
+//
+//    }
     
     /**
      * Alustaa myöhemmin Liike, Toistot ja Kg ikkunat??
@@ -321,6 +321,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         
         if ( paivaKohdalla == null ) return;  
         Tulos tul = new Tulos();  
+        
+        
         tul.rekisteroi();
         tul.asetaArvot(liike, sarja, paino, muut, paivaKohdalla.getTunnusNro());  
         try {
@@ -332,6 +334,12 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         }  
         hae(paivaKohdalla.getTunnusNro());          
     } 
+    
+    public void kysyTulos() {
+//    //TODO: Tähän kohtaan kysytään vuosi ja luetaan se
+//        String[] uusiVuosi = UusiLiikeGUIController.vie(null, treeninTunnusVuosi);
+//        if ((uusiVuosi == null)) return;
+    }
 
 
         /*
