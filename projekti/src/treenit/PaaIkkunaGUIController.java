@@ -688,10 +688,35 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         ModalController.getStage(HakuPalkki).setTitle("" + string);
     }
 
-    
     /**
      * Näytetään ohjelman suunnitelma erillisessä selaimessa.
      */
+//    protected void uusiPaiva() {
+//        Paiva uusi = new Paiva();
+//        //uusi.rekisteroi();
+//        uusi.vastaaEsimerkkiTreeni();
+//        try {
+//            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
+//            //Ei pääse Treenipaivakirjan lisaa metodiin.
+//        }catch (SailoException e) {
+//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
+//            return;
+//        }
+//
+//        hae(uusi.getTunnusNro());
+//        //MERGE selvitys
+//        try {
+//            Paiva uusi = new Paiva();
+//            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            hae(uusi.getTunnusNro());
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+//            return;
+//        }
+//    }
     private void naytaApua() {
         Desktop desktop = Desktop.getDesktop();
         try {
@@ -703,7 +728,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             return;
         }
     }
-
 
 
     @Override
