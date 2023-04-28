@@ -1,8 +1,12 @@
 package treenit;
 
+import java.awt.Desktop;
 //import java.awt.Menu; <- ei toimi allaolevan "import javafx.scene.control.Menu;" kanssa
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
@@ -79,11 +83,27 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private Menu PaaIkMuokkaa;
     @FXML private Menu PaaIkTiedosto;
     //Turhia?
-    @FXML private MenuItem MenuBarMuokkaaMuokka;
+    //@FXML private MenuItem MenuBarMuokkaaMuokka;
+    @FXML private MenuItem MenuBarMuokkaaUusiTreeni;
+
     @FXML private MenuItem MenuBarMuokkaaPoista;
+    
+    @FXML  void MuokkaaUusiTreeniTapahtuma() {
+        treeneja++;
+        uusiPaiva();
+        }
+    
+    @FXML void MuokkaaUusiLiikeTapahtuma() {
+        uusiTulos();
+        ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+        }
 
     @FXML void MuokkaaTapahtuma() {
         muokkaaTulosta();
+    }
+    
+    @FXML void ApuaSuunnitelma() {
+        naytaApua();
     }
     
     @FXML void PoistaTapahtuma() {
@@ -301,17 +321,30 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * Luo uuden jäsenen jota aletaan editoimaan
      */
     protected void uusiPaiva() {
+        Paiva uusi = new Paiva();
+        //uusi.rekisteroi();
+        uusi.vastaaEsimerkkiTreeni();
         try {
-            Paiva uusi = new Paiva();
-            uusi = AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);//TODO
-            if ( uusi == null ) return;
-            uusi.rekisteroi();
-            treenipaivakirja.lisaa(uusi);
-            hae(uusi.getTunnusNro());
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
+            //Ei pääse Treenipaivakirjan lisaa metodiin.
+        }catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
             return;
         }
+        
+        hae(uusi.getTunnusNro());
+        //MERGE selvitys 
+//        try {
+//            Paiva uusi = new Paiva();
+//            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            hae(uusi.getTunnusNro());
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+//            return;
+//        }
     }
 
     
@@ -320,19 +353,32 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      *
      */
     public void uusiTulos() {
-        if ( paivaKohdalla == null ) return;
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();  
+        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
         try {
-            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
-            uusi = AlkuNakymaGUIController.kysyTulos(null, uusi, false); //TODO
-            if ( uusi == null ) return;
-            uusi.rekisteroi();
-            treenipaivakirja.lisaa(uusi);
-            naytaTulokset(paivaKohdalla);
-            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi
+            treenipaivakirja.lisaa(tul);
         } catch (SailoException e) {
-            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
-        }
-
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        hae(paivaKohdalla.getTunnusNro());  
+        //merge conflikti
+//        if ( paivaKohdalla == null ) return;
+//        try {
+//            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
+//            uusi = AlkuNakymaGUIController.kysyTulos(null, uusi, false); //TODO
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            naytaTulokset(paivaKohdalla);
+//            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
+//        }
     } 
     
     /**
@@ -619,12 +665,17 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         ModalController.getStage(HakuPalkki).setTitle("" + string);
     }
 
+<<<<<<< HEAD
 
 
 
+=======
+    
+>>>>>>> ba4103ac25ff7ba1526be03959640050d4fad508
     /**
-     * Luo uuden jäsenen jota aletaan editoimaan
+     * Näytetään ohjelman suunnitelma erillisessä selaimessa.
      */
+<<<<<<< HEAD
 //    protected void uusiPaiva() {
 //        Paiva uusi = new Paiva();
 //        //uusi.rekisteroi();
@@ -651,6 +702,21 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //            return;
 //        }
 //    }
+=======
+    private void naytaApua() {
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2023k/ht/eealhakk#tietorakenteet-ja-tiedostot");
+            desktop.browse(uri);
+        } catch (URISyntaxException e) {
+            return;
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+
+>>>>>>> ba4103ac25ff7ba1526be03959640050d4fad508
 
     @Override
     public String getResult() {
