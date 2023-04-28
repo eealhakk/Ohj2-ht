@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import treenipaivakirja.Paiva;
+import treenipaivakirja.Tulos;
 
 /**
  * Treenipäiväkirjan alkunäkymän muodostaja.
@@ -19,13 +20,14 @@ public class AlkuNakymaGUIController implements ModalControllerInterface<String>
     @FXML private TextField alkuNakAnnaVuosi;
     private String vastaus = null;
 
-    public static Object kysyTiedot(Object o, Paiva uusi, int i) {
-        return ModalController.showModal(
-                AlkuNakymaGUIController.class.getResource("AlkuNakymaGUIView.fxml"),
-                "Treenipaivakirja",
-                null, uusi);
-
+    public static Paiva kysyTiedot(Object o, Paiva uusi, int i) {
+        return null; //TODO: kesken
     }
+
+    public static Tulos kysyTulos(Object o, Tulos uusi, boolean b) {
+        return null; //TODO: kesken
+    }
+
 
     @FXML private void avaaAsetaVuosi() {
         //ModalController.showModal(AlkuNakymaGUIController.class.getResource("PaaIkkunaGUIView.fxml"), "PaaIkkuna", null, "");
