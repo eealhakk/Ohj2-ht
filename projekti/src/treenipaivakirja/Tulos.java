@@ -59,8 +59,6 @@ public class Tulos {
      */
     public Tulos(int paiva) {
         this.paivaNro = paiva;
-        //this.toistoNro = toisto;
-        //this.sarjaNro = sarja;
     }
     
     
@@ -156,7 +154,7 @@ public class Tulos {
         paivaNro = nro;
         sarja = ranL(1, 5) + "x" + ranL(1, 15);
         paino = ranL(1, 100) + "kg";
-        muut = "vitutti";
+        muut = "väsytti";
 
     }
 
