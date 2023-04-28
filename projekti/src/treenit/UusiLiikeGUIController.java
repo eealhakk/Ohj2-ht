@@ -53,24 +53,7 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
-    
 
-
-    public void avaaLiike(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaToistot(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaKg(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaMuut(ActionEvent actionEvent) {
-        //
-    }
 
 
     @Override

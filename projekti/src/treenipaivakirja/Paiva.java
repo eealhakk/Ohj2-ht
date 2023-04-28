@@ -41,7 +41,7 @@ public class Paiva implements Cloneable {
      */
     public void vastaaEsimerkkiTreenityyppi() {
         ArrayList<String> x = new ArrayList<String>(Arrays.asList("Kuntosali","Lenkki","Uinti"));
-        treeninTyyppi = x.get(ranL(1,3));
+        treeninTyyppi = x.get(ranL(0,0));
     }
     
 //    public void asetaTreeninTyyppi(String tyyppi) {
@@ -61,7 +61,7 @@ public class Paiva implements Cloneable {
      * @return kenttien lukumäärä
      */
     public int getKenttia() {   //TODO: Väärä määrä???<-------------
-        return 3;
+        return 2;
     }
 
 
@@ -173,7 +173,7 @@ public class Paiva implements Cloneable {
         switch ( k ) {
             case 0: return "paivaID";
             case 1: return "paivamaara";
-            case 2: return "treeninTyyppi";
+            //case 2: return "treeninTyyppi";
             default: return "Äääliö";
         }
     }
