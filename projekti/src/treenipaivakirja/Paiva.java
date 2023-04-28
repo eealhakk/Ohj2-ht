@@ -15,7 +15,7 @@ import fi.jyu.mit.ohj2.*;
  * @version 1 Mar 2023
  *
  */
-public class Paiva {
+public class Paiva implements Cloneable {
         private int                 tunnusNro;
         private String              paivamaara       = "";
         private String              treeninTyyppi    = "";
@@ -307,5 +307,12 @@ public class Paiva {
         eka.tulosta(System.out);
     }
 
-    
+
+    @Override
+    public Paiva clone()throws CloneNotSupportedException {
+        Paiva uusi;
+        uusi = (Paiva) super.clone();
+        return uusi;
+    }
 }
+

@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kanta.Tietue;
 import org.w3c.dom.DOMStringList;
+import treenipaivakirja.Paiva;
 import treenipaivakirja.SailoException;
 import fi.jyu.mit.ohj2.Mjonot;
 /**
@@ -37,6 +38,8 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     @FXML private Button uusiLiikeTallenna;
     @FXML private TextField uusiLiikeToistot;
 
+
+
     @FXML private void avaaTallenna() {eiToimi();}
     @FXML private void avaaSulje() {handleLopeta();} //TODO: kesken
     
@@ -53,35 +56,6 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
 
 
 
-
-    public static String[] vie(ActionEvent actionEvent) {
-        String liike = (uusiLiikeLiike.getText());
-        String sarja = (uusiLiikeToistot.getText());
-        String paino = (uusiLiikeKg.getText());
-        String muut = (uusiLiikeMuut.getText());
-        PaaIkkunaGUIController.uusiTulos(liike, sarja, paino, muut);
-        ModalController.closeStage(uusiLiikeSulje);
-
-
-    }
-
-
-
-    public void avaaLiike(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaToistot(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaKg(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaMuut(ActionEvent actionEvent) {
-        //
-    }
 
 
     @Override

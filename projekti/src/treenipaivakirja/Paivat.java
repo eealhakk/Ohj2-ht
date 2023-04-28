@@ -373,6 +373,7 @@ public class Paivat implements Iterable<Paiva> {
 //                throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
 //            }
 //    }
+//    }
 
     
     
@@ -414,9 +415,9 @@ public class Paivat implements Iterable<Paiva> {
     public Iterator<Paiva> iterator() {
         // TODO Auto-generated method stub
         return null;
-    }
-    
+
 }
+    }
 
 
 

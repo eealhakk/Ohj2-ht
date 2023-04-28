@@ -30,6 +30,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 //uusia
@@ -65,7 +66,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     //@FXML private ListChooser<?> PaaIkLiikeTaul;
     //@FXML private Label PaaIkMuokkaa;
     @FXML private Button PaaIkSulje;
-    @FXML private Button PaaIkTallenna;
     //@FXML private Label PaaIkTiedosto;
     //@FXML private ListChooser<?> PaaIkToistotTaul;
     @FXML public StringGrid<Tulos> PaaIKTuloksetTaul;
@@ -82,9 +82,10 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private MenuItem MenuBarMuokkaaMuokka;
     @FXML private MenuItem MenuBarMuokkaaPoista;
 
+
+
     public static void vie(String[] rivi) {
         Tulos tulos = new Tulos();
-
     }
 
     @FXML void MuokkaaTapahtuma() {
@@ -96,6 +97,20 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         poistaTulos();
     }
 
+    /*
+     * Poistetaan listalta valittu jäsen
+
+    private void poistaTreeni() {
+        Paiva paiva = paivaKohdalla;
+        if ( paiva == null ) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko päivä: " + paiva, "Kyllä", "Ei") )
+            return;
+        treenipaivakirja.poista(paiva);
+        int index = PaaIkTreeniJaPaivaTaul.getSelectedIndex();
+        hae(0);
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index);
+    }
+     */
     
 
     @FXML private ScrollPane PaaIkScrollPane;
@@ -107,7 +122,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
     
     @FXML private void handleLopeta() {
-        //tallenna();
         ModalController.closeStage(PaaIkSulje);
     } 
 
@@ -353,10 +367,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      
     private void muokkaaTulosta() {
         //Tulos uusiTul;
-        
-        tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
-        //if ( tulosKohdalla == null ) return;  
-        
+        //tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
+        //if ( tulosKohdalla == null ) return;
         //ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
         
         int r = PaaIKTuloksetTaul.getRowNr();
@@ -379,7 +391,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             Dialogs.showMessageDialog("Ongelmia lisäämisessä: " + e.getMessage());
         }
     }
-    
+
     /**
      * Poistetaan harrastustaulukosta valitulla kohdalla oleva harrastus. 
      */
@@ -405,20 +417,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.getSelectionModel().select(rivi);
     }
 
-//    /*
-//     * Poistetaan listalta valittu jäsen
-//     */
-//    private void poistaPaiva() {
-//        Paiva paiva = paivaKohdalla;
-//        if ( paiva == null ) return;
-//        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko paiva: " + paiva.getNimi(), "Kyllä", "Ei") )
-//            return;
-//        kerho.poista(paiav);
-//        int index = chooserPaivatt.getSelectedIndex();
-//        hae(0);
-//        chooserPaivat.setSelectedIndex(index);
-//    }
-
     
 
 
@@ -429,10 +427,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     protected void naytaPaiva(){
             paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject();
 
-            if (paivaKohdalla == null) {
-                //areaPaiva.clear();
-                return;
-            }
+            if (paivaKohdalla == null) return;
+
             
             //Vaihe 7 tieltä muokattu
             areaPaiva.setText("");
@@ -445,43 +441,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             //PaivaDialogController.naytaPaiva(edits, paivaKohdalla); 
             //naytaHarrastukset(paivaKohdalla);
     }
-    
-    /*
-    private void naytaTulokset(Paiva tulos) {
-        PaaIKTuloksetTaul.clear();
-        if ( tulos == null ) return;
-        
-        try {
-            List<Tulos> tulokset = treenipaivakirja.annaTulokset(tulos);
-            if ( tulokset.size() == 0 ) return;
-            for (Tulos tul: tulokset)
-                naytaTulos(tul);
-        } catch (SailoException e) {
-            //naytaVirhe(e.getMessage());
-        } 
-    }
-    
-    private void naytaTulos(Tulos tul) {
-        int kenttia = tul.getKenttia(); 
-        String[] rivi = new String[kenttia-tul.ekaKentta()]; 
-        for (int i=0, k=tul.ekaKentta(); k < kenttia; i++, k++) 
-            rivi[i] = tul.anna(k); 
-        PaaIKTuloksetTaul.add(tul,rivi);
-    }
-     */
 
-    /*
-    private void naytaVirhe(String virhe) {
-        if ( virhe == null || virhe.isEmpty() ) {
-            labelVirhe.setText("");
-            labelVirhe.getStyleClass().removeAll("virhe");
-            return;
-        }
-        labelVirhe.setText(virhe);
-        labelVirhe.getStyleClass().add("virhe");
-    }
-    */
-    
+
     /**
      * Tulostaa paivan tiedot
      * @param os tietovirta johon tulostetaan
@@ -511,23 +472,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         this.treenipaivakirja = treenipaivakirja;
         //Vesalla vastaavassa kohdassa naytaPaiva();
     }
-    
-    /**
-     * Hakee paivien tiedot listaan
-     * @param jnro paivan numero, joka aktivoidaan haun jälkeen
-     
-    protected void hae(int jnro) {
-        PaaIkTreeniJaPaivaTaul.clear();
-
-        int index = 0;
-        for (int i = 0; i < treenipaivakirja.getPaivia(); i++) {
-            Paiva paiva = treenipaivakirja.annaPaiva(i);
-            if (paiva.getTunnusNro() == jnro) index = i;
-            PaaIkTreeniJaPaivaTaul.add("" + paiva.getPvm(), paiva);
-        }
-        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää paivan -> (jäsenen)
-    }
-    */
     
 
     /**
