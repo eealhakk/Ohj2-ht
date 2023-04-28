@@ -81,9 +81,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     //Turhia?
     @FXML private MenuItem MenuBarMuokkaaMuokka;
     @FXML private MenuItem MenuBarMuokkaaPoista;
-    
+
+    public static void vie(String[] rivi) {
+        Tulos tulos = new Tulos();
+
+    }
+
     @FXML void MuokkaaTapahtuma() {
-        //
         muokkaaTulosta();
     }
     
@@ -105,8 +109,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private void handleLopeta() {
         //tallenna();
         ModalController.closeStage(PaaIkSulje);
-
-
     } 
 
     
@@ -255,26 +257,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
     }
     //Muokkaa tulosta ylipäänsä vai vain dialog boxia
-    
-    /** 
-     * Tekee uuden tyhjän harrastuksen editointia varten 
-     
-    public void uusiTulos() { 
-        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
-        if ( paivaKohdalla == null ) return;  
-        Tulos tul = new Tulos();  
-        tul.rekisteroi();  
-        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
-        try {
-            treenipaivakirja.lisaa(tul);
-        } catch (SailoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
-        }  
-        hae(paivaKohdalla.getTunnusNro());          
-    } 
-    */
+
     //vaihe7
     private void naytaTulokset(Paiva paiva) {
         //Vanha
@@ -304,13 +287,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     /**
      * Tekee uuden tyhjän tuloksen editointia varten
+     *
      */
-    public void uusiTulos() { 
+    public void uusiTulos() {
         paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
         //Tyo 7
-        tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
-        
-        if ( paivaKohdalla == null ) return;  
+        //tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
+        if ( paivaKohdalla == null ) return;
         Tulos tul = new Tulos();  
         tul.rekisteroi();  
         tul.vastaaTulos(paivaKohdalla.getTunnusNro());  

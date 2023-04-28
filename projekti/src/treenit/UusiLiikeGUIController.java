@@ -50,27 +50,35 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
 
-    /*
-    public void siirra(ActionEvent actionEvent) {
-        String sarja = (uusiLiikeToistot.getText());
-        parseSarja(sarja);
+
+
+
+    public void vie(ActionEvent actionEvent) {
         String liike = (uusiLiikeLiike.getText());
+        String sarja = (uusiLiikeToistot.getText());
         String paino = (uusiLiikeKg.getText());
         String muut = (uusiLiikeMuut.getText());
         String[] rivi = {sarja, liike, paino, muut};
-        PaaIKTuloksetTaul.add(rivi);
+        PaaIkkunaGUIController.vie(rivi);
         handleLopeta();
     }
-    */
 
 
-    /** leikkaa jonon x kohdalta
-     * @param rivi String josta leikataan
-     * */
-    public void parseSarja(String rivi) {
-        StringBuffer sb = new StringBuffer(rivi);
-        String sarja = (uusiLiikeToistot.getText());
-        sarja = Mjonot.erota(sb, 'x', sarja);
+
+    public void avaaLiike(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaToistot(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaKg(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaMuut(ActionEvent actionEvent) {
+        //
     }
 
 
@@ -92,20 +100,4 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
         
     }
 
-
-    public void avaaLiike(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaToistot(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaKg(ActionEvent actionEvent) {
-        //
-    }
-
-    public void avaaMuut(ActionEvent actionEvent) {
-        //
-    }
 }

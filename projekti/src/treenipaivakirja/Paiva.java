@@ -61,7 +61,7 @@ public class Paiva {
      * @return kenttien lukumäärä
      */
     public int getKenttia() {   //TODO: Väärä määrä???<-------------
-        return 5;
+        return 3;
     }
 
 

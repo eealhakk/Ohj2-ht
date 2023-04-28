@@ -247,10 +247,10 @@ public class Tulos {
     * @example
     * <pre name="test">
     *     Tulos tulos = new Tulos();
-    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  vitutti");
+    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  väsytti");
     *     tulos.getTunnusNro() === 2;
     *     tulos.getPaivaNro() === 1;
-    *     tulos.tulosta(System.out) === "2 1 Penkki 5x5 100kg vitutti";
+    *     tulos.tulosta(System.out) === "2 1 Penkki 5x5 100kg väsytti";
     * </pre>
     */
    public void parse(String rivi) {
@@ -322,13 +322,13 @@ public String getKysymys(int k) {
     * @example
     * <pre name="test">
     *     Tulos tulos = new Tulos();
-    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  vitutti");
+    *     tulos.parse("   2  |  1  |  Penkki  |  5x5  |  100kg  |  väsytti");
     *     tulos.anna(0) === "2";
     *     tulos.anna(1) === "1";
     *     tulos.anna(2) === "Penkki";
     *     tulos.anna(3) === "5x5";
     *     tulos.anna(4) === "100kg";
-    *     tulos.anna(5) === "vitutti";
+    *     tulos.anna(5) === "väsytti";
     * </pre>
     */
    //@Override
