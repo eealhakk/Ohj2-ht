@@ -44,6 +44,28 @@ public class Paiva {
         treeninTyyppi = x.get(ranL(1,3));
     }
     
+//    public void asetaTreeninTyyppi(String tyyppi) {
+//        treeninTyyppi = tyyppi;
+//    }
+    
+    /**
+     * Eka kenttä joka on mielekäs kysyttäväksi
+     * @return eknn kentän indeksi
+     */
+    public int ekaKentta() {
+        return 1;
+    }
+    
+    /**
+     * Palauttaa paivan kenttien lukumäärän
+     * @return kenttien lukumäärä
+     */
+    public int getKenttia() {   //TODO: Väärä määrä???<-------------
+        return 5;
+    }
+
+
+    
     
     /**
      * @param pv päivä

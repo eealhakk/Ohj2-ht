@@ -261,6 +261,7 @@ public class Treenipaivakirja {
      * sisältää tarvitut taulut, ei luoda mitään
      */
     public void lueTiedostosta(String nimi) throws SailoException {
+        //luoKopio();
         paivat = new Paivat(nimi);
         tulokset = new Tulokset(nimi);
         
@@ -272,7 +273,7 @@ public class Treenipaivakirja {
      */
     public void talleta() throws SailoException {   //tallenna();
         //Poistettu käytöstä SQL yhteydessä
-        //paivat.tallenna();
+        paivat.tallenna();
         // TODO: -> yritä tallettaa toinen vaikka toinen epäonnistuisi
         return;
     }
