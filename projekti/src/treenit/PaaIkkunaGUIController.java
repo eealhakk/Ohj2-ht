@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -133,6 +135,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML void avaaUusiLiike() {
         uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+        //kysyTulos();
     }
     
     @FXML private void handleLopeta() {
@@ -176,7 +179,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     //@FXML private void avaaMuokkaa() {eiToimi();}
 
-    @FXML private void avaaSulje() { tallentamattomatMuutokset();}
+
 
     @FXML private void avaaTallenna() {
         tallenna();
@@ -185,6 +188,20 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML void handleHakuehto() {
         hae(0);
     }
+    
+    @FXML private void avaaSulje() { /*tallentamattomatMuutokset();*/}
+    
+    @FXML void HandlePaaIkSulje() {
+        boolean muutoksia = false;
+        if (treenipaivakirja.getmuutettu()) {
+            muutoksia = Dialogs.showQuestionDialog("Tallentamattomia muutoksia!", "Tallennetaanko?","Tallenna","Poista");
+        }
+        if (muutoksia) {
+            tallenna();
+        }
+        Platform.exit();
+    }
+    
 
 
 
@@ -383,12 +400,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     /**
      * Tekee uuden tyhjän tuloksen editointia varten
-     * @param liike liike
-     * @param sarja sarja
-     * @param paino paino
-     * @param muut muut tiedot
+     * @param tulos x
+//     * @param liike liike
+//     * @param sarja sarja
+//     * @param paino paino
+//     * @param muut muut tiedot
      */
-    public void uusiTulos(String liike, String sarja, String paino, String muut) {
+    public void uusiTulos(Tulos tulos) {
         paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
         //Tyo 7
         tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
@@ -398,7 +416,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         
         
         tul.rekisteroi();
-        tul.asetaArvot(liike, sarja, paino, muut, paivaKohdalla.getTunnusNro());  
+        //tul.asetaArvot(liike, sarja, paino, muut, paivaKohdalla.getTunnusNro());  
+        tul = tulos;
         try {
             treenipaivakirja.lisaa(tul);
         } catch (SailoException e) {
@@ -409,29 +428,33 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         hae(paivaKohdalla.getTunnusNro());          
     } 
     
+    //Kokeilu tyo7
     public void kysyTulos() {
+        Tulos uusi = new Tulos();
+        //var resurssi = UusiLiikeGUIController.class.getResource("UusiLiikeGUIView.fxml");
+        //uusi = ModalController.showModal(resurssi, "Uusi tulos", null, uusi);
+        //uusi = UusiLiikeGUIController.kysyTulos(null, uusi);
+        uusiTulos(uusi);
+        
+
+        
 //    //TODO: Tähän kohtaan kysytään vuosi ja luetaan se
 //        String[] uusiVuosi = UusiLiikeGUIController.vie(null, treeninTunnusVuosi);
 //        if ((uusiVuosi == null)) return;
+
+//        if ( paivaKohdalla == null ) return;
+//        try {
+//            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
+//            uusi = UusiLiikeGUIController.kysyTulos(null, uusi, "Uusi tulos");
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            naytaTulokset(paivaKohdalla); 
+//            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi 
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
+//        }
     }
-
-
-        /*
-        if ( paivaKohdalla == null ) return;
-        try {
-            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
-            uusi = TietueDialogController.kysyTietue(null, uusi, 0, "Uusi tulos");
-            if ( uusi == null ) return;
-            uusi.rekisteroi();
-            treenipaivakirja.lisaa(uusi);
-            naytaTulokset(paivaKohdalla); 
-            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi 
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
-        }
-        */
-        
-    
      
     private void muokkaaTulosta() {
         //Tulos uusiTul;

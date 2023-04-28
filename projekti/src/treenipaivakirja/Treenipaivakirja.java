@@ -49,6 +49,13 @@ public class Treenipaivakirja {
     }
     
     /**
+     * @return true jos paivaa tai tulsota on muutettu
+     */
+    public boolean getmuutettu() {
+        return (paivat.getMuutettu()) || (tulokset.getMuutettu());
+    }
+    
+    /**
      * Haetaan kaikki jäsen harrastukset
      * @param paiva päivä jolle tuloksia haetaan
      * @return tietorakenne jossa viiteet löydetteyihin tuloksiin

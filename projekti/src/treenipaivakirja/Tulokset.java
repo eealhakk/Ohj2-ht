@@ -60,6 +60,10 @@ public class Tulokset implements Iterable<Tulos>{
         // TODO Auto-generated constructor stub
     }
     
+    public boolean getMuutettu() {
+        return muutettu;
+    }
+    
     /**
      * SQL
      * Tarkistetaan että kannassa tulosten tarvitsema taulu

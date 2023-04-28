@@ -51,6 +51,43 @@ public class Tulos implements Cloneable {
         this.paivaNro = paiva;
     }
     
+    public String asetaPaiva(int paiva) {
+        this.paivaNro = paiva;
+        return null;
+    }
+    public String asetaLiike(String liike) {
+        this.liike = liike;
+        return null;
+    }
+    public String asetaSarja(String sarja) {
+        this.sarja = sarja;
+        return null;
+    }
+    public String asetaPaino(String paino) {
+        this.paino = paino;
+        return null;
+    }
+    public String asetaMuut(String muut) {
+        this.muut = muut;
+        return null;
+    }
+    
+    public int getPaiva() {
+        return paivaNro;
+    }
+    public String getLiike() {
+        return liike;
+    }
+    public String getSarja() {
+        return sarja;
+    }
+    public String getPaino() {
+        return paino;
+    }
+    public String getMuut() {
+        return muut;
+    }
+    
     
     /**
      * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on

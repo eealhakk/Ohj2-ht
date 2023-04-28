@@ -70,7 +70,7 @@
                </children></Pane>
             <ListView prefHeight="200.0" prefWidth="155.0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="6" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="5" />
-            <TextField fx:id="HakuPalkki" prefHeight="14.0" prefWidth="52.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <TextField fx:id="HakuPalkki" onAction="#handleHakuehto" prefHeight="14.0" prefWidth="52.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="5" />
             <ListChooser fx:id="PaaIkTreeniJaPaivaTaul" rivit="Salitreeni | 13.1.2022&#10;Salitreeni | 14.1.2022&#10;Lenkki | 15.1.2022&#10;Salitreeni | 16.1.2022" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="4" />
@@ -89,7 +89,7 @@
                      <children>
                         <Button fx:id="PaaIkTallenna" mnemonicParsing="false" onAction="#avaaTallenna" onMouseReleased="#avaaTallenna" text="Tallenna" />
                         <Button fx:id="PaaIkUusiTreeni" mnemonicParsing="false" onMouseReleased="#avaaUusiTreeni" prefWidth="85.0" text="Uusi Treeni" GridPane.columnIndex="1" />
-                        <Button fx:id="PaaIkSulje" mnemonicParsing="false" onMouseReleased="#avaaSulje" text="Sulje" GridPane.columnIndex="3" />
+                        <Button fx:id="PaaIkSulje" mnemonicParsing="false" onAction="#HandlePaaIkSulje" onMouseReleased="#avaaSulje" text="Sulje" GridPane.columnIndex="3" />
                         <Button fx:id="PaaIkUusiLiike" mnemonicParsing="false" onMouseReleased="#avaaUusiLiike" text="Uusi Liike" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>

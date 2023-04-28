@@ -102,6 +102,13 @@ public class Paivat implements Iterable<Paiva> {
         return alkiot[i];
     }
     
+    /**
+     * @return arvo jos muutettu paivia
+     */
+    public boolean getMuutettu() {
+        return muutettu;
+    }
+    
     
     
     /**
