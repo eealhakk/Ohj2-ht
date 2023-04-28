@@ -57,6 +57,45 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
 
 
 
+<<<<<<< HEAD
+=======
+    public static String[] vie(Stage modalityStage, String oletus) {
+//        String liike = (uusiLiikeLiike.getText());
+//        String sarja = (uusiLiikeToistot.getText());
+//        String paino = (uusiLiikeKg.getText());
+//        String muut = (uusiLiikeMuut.getText());
+//        String[] l = new String[] {liike,sarja,paino,muut};
+//        //PaaIkkunaGUIController.uusiTulos(l);
+//        ModalController.closeStage(uusiLiikeSulje);
+//        
+//        return new String[1];
+
+//        return ModalController.showModal(
+//                AlkuNakymaGUIController.class.getResource("AlkuNakymaGUIView.fxml"),
+//                "Treenipaivakirja",
+//                modalityStage, oletus);
+        return new String[0];
+    }
+
+
+
+    public void avaaLiike(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaToistot(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaKg(ActionEvent actionEvent) {
+        //
+    }
+
+    public void avaaMuut(ActionEvent actionEvent) {
+        //
+    }
+
+>>>>>>> 7245b0811e7829bb11f98232a1691d9123c88a75
 
     @Override
     public String getResult() {

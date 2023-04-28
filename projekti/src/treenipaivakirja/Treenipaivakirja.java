@@ -1,6 +1,9 @@
 package treenipaivakirja;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,6 +11,8 @@ import java.util.List;
 //import kerho.Jasen;
 import treenipaivakirja.Paiva;
 import treenipaivakirja.SailoException;
+
+import static java.nio.file.StandardCopyOption.*; 
 
 /**
  * @author Eeli
@@ -19,6 +24,7 @@ public class Treenipaivakirja {
     private Paivat paivat; //TODO: <-----Täydennä
     //SQL //private final Tulokset tulokset = new Tulokset();
     private Tulokset tulokset;
+    private String           tiedostonNimi = "x";
     
     /* TODO: Tämä tulossa
     private final Treenit treenit = new Treenit();
@@ -270,9 +276,52 @@ public class Treenipaivakirja {
      */
     public void lueTiedostosta(String nimi) throws SailoException {
         //luoKopio();
+        //String valinimi = "bat" + nimi;
+        tiedostonNimi = nimi;
+        luoKopio(nimi);
         paivat = new Paivat(nimi);
         tulokset = new Tulokset(nimi);
         
+    }
+    
+    public void luoKopio(String nimi)  { //throws SailoException
+        
+        File fbak = new File("temp.db");   //bat + nimi
+        File ftied = new File(tiedostonNimi + ".db");
+        //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+        //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
+        try {
+            Files.copy(ftied.toPath(),fbak.toPath(),REPLACE_EXISTING);
+            //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            }
+        
+       
+//        try ( Connection con = kanta.annaKantayhteys();
+//              PreparedStatement sql1 = con.prepareStatement("attach database ? as ?") ) {
+//            sql1.setString(1, tiedostonNimi);
+//            sql1.setString(2, nimi);
+//            sql1.execute();
+//              //sql.setString(1, "%" + ehto + "%");
+//
+//          } catch ( SQLException e ) {
+//              e.printStackTrace();
+//              throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
+//          }
+//          
+//          try ( Connection con = kanta.annaKantayhteys();
+//                  PreparedStatement sql2 = con.prepareStatement("BEGIN;\nINSERT INTO " + nimi + ".Paivat SELECT * FROM " + tiedostonNimi + ".Paivat;\nEND;")  ) {
+//                //sql2.setString(1, nimi);
+//                //sql2.setString(2, tiedostonNimi);
+//                  //sql.setString(1, "%" + ehto + "%");
+//              sql2.execute();
+//
+//              } catch ( SQLException e ) {
+//                  e.printStackTrace();
+//                  throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
+//              }
     }
     
     /**
@@ -281,8 +330,17 @@ public class Treenipaivakirja {
      */
     public void talleta() throws SailoException {   //tallenna();
         //Poistettu käytöstä SQL yhteydessä
-        paivat.tallenna();
-        // TODO: -> yritä tallettaa toinen vaikka toinen epäonnistuisi
+        //paivat.tallenna();
+        File fbak = new File("temp.db");   //bat + nimi
+        File ftied = new File(tiedostonNimi + ".db");
+        //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+        //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
+        try {
+            Files.copy(fbak.toPath(),ftied.toPath(),REPLACE_EXISTING);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            }        // TODO: -> yritä tallettaa toinen vaikka toinen epäonnistuisi
         return;
     }
 

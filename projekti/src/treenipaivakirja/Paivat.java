@@ -49,7 +49,10 @@ public class Paivat implements Iterable<Paiva> {
      * @throws SailoException poikkeus
      */
     public Paivat(String paiva) throws SailoException {
+        //if (paiva.length() > 3) tiedostonNimi = paiva.substring(2);
         tiedostonNimi = paiva;
+        String temporoaryF = "temp";
+
         //Pidetään alkuperäinen backup filenä
         //ja tallentamisessa luodaan uusi kanta olio samalla nimellä
         //ja kopioidaan vanha kanta/db tiedot siihen
@@ -57,7 +60,7 @@ public class Paivat implements Iterable<Paiva> {
         
         //String valipaiva = "bat" + paiva;
         
-        kanta = Kanta.alustaKanta(paiva);//valipaiva
+        kanta = Kanta.alustaKanta(temporoaryF);//valipaiva
         try ( Connection con = kanta.annaKantayhteys() ) {
             
             // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
@@ -81,37 +84,9 @@ public class Paivat implements Iterable<Paiva> {
                 e.printStackTrace();
                 throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
-        //luoKopio(valipaiva);
+        
             }
-    
-    public void luoKopio(String nimi) throws SailoException {
-        try ( Connection con = kanta.annaKantayhteys();
-              PreparedStatement sql1 = con.prepareStatement("attach database ? as ?") ) {
-            sql1.setString(1, tiedostonNimi);
-            sql1.setString(2, nimi);
-            sql1.execute();
-              //sql.setString(1, "%" + ehto + "%");
 
-          } catch ( SQLException e ) {
-              e.printStackTrace();
-              throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
-          }
-          
-          try ( Connection con = kanta.annaKantayhteys();
-                  PreparedStatement sql2 = con.prepareStatement("BEGIN;\nINSERT INTO " + nimi + ".Paivat SELECT * FROM " + tiedostonNimi + ".Paivat;\nEND;")  ) {
-                //sql2.setString(1, nimi);
-                //sql2.setString(2, tiedostonNimi);
-                  //sql.setString(1, "%" + ehto + "%");
-              sql2.execute();
-
-              } catch ( SQLException e ) {
-                  e.printStackTrace();
-                  throw new SailoException("Ongelmia tallentamisessa kanssa:" + e.getMessage());
-              }
-    }
-    
-    
-    
         
     
 
@@ -310,12 +285,12 @@ public class Paivat implements Iterable<Paiva> {
 //    }
     
     public void tallenna() {    //throws SailoException
-        if ( !muutettu ) return;
-
-//        File fbak = new File(getBatNimi());
+//        if ( !muutettu ) return;
+//
+//        File fbak = new File("temp.db");
 //        File ftied = new File(getTiedostonNimi());
-//        fbak.delete(); // if .. System.err.println("Ei voi tuhota");
-//        ftied.renameTo(fbak); // if .. System.err.println("Ei voi nimetä");
+//        ftied.delete(); // if .. System.err.println("Ei voi tuhota");
+//        fbak.renameTo(ftied); // if .. System.err.println("Ei voi nimetä");
 //        muutettu = false;
     }
     
