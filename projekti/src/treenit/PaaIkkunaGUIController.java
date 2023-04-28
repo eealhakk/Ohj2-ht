@@ -82,15 +82,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private MenuItem MenuBarMuokkaaMuokka;
     @FXML private MenuItem MenuBarMuokkaaPoista;
 
-<<<<<<< HEAD
-
-
-    public static void vie(String[] rivi) {
-        Tulos tulos = new Tulos();
-    }
-
-=======
->>>>>>> 7245b0811e7829bb11f98232a1691d9123c88a75
     @FXML void MuokkaaTapahtuma() {
         muokkaaTulosta();
     }
@@ -614,25 +605,23 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
 
-    //: Heittää nullpointer -> korjattu
-    /** 
-     * Tekee uuden Paivan editointia varten 
-     */ 
-    private void uusiPaiva() {
-        Paiva uusi = new Paiva();
-        //uusi.rekisteroi();
-        uusi.vastaaEsimerkkiTreeni();
+    /**
+     * Luo uuden jäsenen jota aletaan editoimaan
+     */
+    protected void uusiPaiva() {
         try {
-            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
-            //Ei pääse Treenipaivakirjan lisaa metodiin.
-        }catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
+            Paiva uusi = new Paiva();
+            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
+            if ( uusi == null ) return;
+            uusi.rekisteroi();
+            treenipaivakirja.lisaa(uusi);
+            hae(uusi.getTunnusNro());
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
             return;
         }
-        
-        hae(uusi.getTunnusNro());
     }
-    
+
     @Override
     public String getResult() {
         // TODO Auto-generated method stub

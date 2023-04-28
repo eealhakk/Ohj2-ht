@@ -53,30 +53,7 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
     public void eiToimi() {
         Dialogs.showMessageDialog("Ei toimi vielä!");
     }
-
-
-
-
-<<<<<<< HEAD
-=======
-    public static String[] vie(Stage modalityStage, String oletus) {
-//        String liike = (uusiLiikeLiike.getText());
-//        String sarja = (uusiLiikeToistot.getText());
-//        String paino = (uusiLiikeKg.getText());
-//        String muut = (uusiLiikeMuut.getText());
-//        String[] l = new String[] {liike,sarja,paino,muut};
-//        //PaaIkkunaGUIController.uusiTulos(l);
-//        ModalController.closeStage(uusiLiikeSulje);
-//        
-//        return new String[1];
-
-//        return ModalController.showModal(
-//                AlkuNakymaGUIController.class.getResource("AlkuNakymaGUIView.fxml"),
-//                "Treenipaivakirja",
-//                modalityStage, oletus);
-        return new String[0];
-    }
-
+    
 
 
     public void avaaLiike(ActionEvent actionEvent) {
@@ -95,7 +72,6 @@ public class UusiLiikeGUIController implements ModalControllerInterface<String> 
         //
     }
 
->>>>>>> 7245b0811e7829bb11f98232a1691d9123c88a75
 
     @Override
     public String getResult() {
