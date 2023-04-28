@@ -68,11 +68,15 @@ public class Tulokset implements Iterable<Tulos>{
      */
     public Tulokset(String nimi) throws SailoException {
 //        String valipaiva = "bat" + nimi;
+        String temporoaryF = "temp";
 
-        kanta = alustaKanta(nimi);
+
+        kanta = alustaKanta(temporoaryF);
         
         
         try ( Connection con = kanta.annaKantayhteys() ) {
+            //if (nimi.length() > 3) tiedostonNimi = nimi.substring(2);
+            
             
             // Hankitaan tietokannan metadata ja tarkistetaan siitä onko
             // Jasenet nimistä taulua olemassa.

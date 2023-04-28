@@ -605,7 +605,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * @return true jos saa sulkea sovelluksen, false jos ei
      */
     public boolean voikoSulkea() {
-        tallenna();
+        //tallenna();
         return true;
     }
     
