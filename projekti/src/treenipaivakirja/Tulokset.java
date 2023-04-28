@@ -56,7 +56,9 @@ public class Tulokset implements Iterable<Tulos>{
     //Vaihe 7
     private static Tulos aputulos2;
 
-    
+    public Tulokset() {
+        // TODO Auto-generated constructor stub
+    }
     
     /**
      * SQL
@@ -107,34 +109,6 @@ public class Tulokset implements Iterable<Tulos>{
      * Lisää uuden tuloksen tietorakenteeseen.  Ottaa tuloksen omistukseensa.
      * @param tulos lisätäävän tuloksen viite.  Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException 
-     * 
-     * Collection<Tulos> loytyneet = tulokset.etsi("", 1);
-     * loytyneet.size() === 0;
-     * 
-     * Tulos alkio1 = new Tulos(), alkio2 = new Tulos();
-     * tulokset.lisaa(alkio1); 
-     * tulokset.lisaa(alkio2);
-     *  
-     * loytyneet = tulokset.etsi("", 1);
-     * loytyneet.size() === 2;
-     * 
-     * // Unique constraint ei hyväksy
-     * tulokset.lisaa(alkio1); #THROWS SailoException
-     * Tulos alkio3 = new Tulos(); Tulos alkio4 = new Tulos(); Tulos alkio5 = new Tulos();
-     * tulokset.lisaa(alkio3); 
-     * tulokset.lisaa(alkio4); 
-     * tulokset.lisaa(alkio5); 
-    
-     * loytyneet = tulokset.etsi("", 1);
-     * loytyneet.size() === 5;
-     * Iterator<Tulos> i = loytyneet.iterator();
-     * i.next() === alkio1;
-     * i.next() === alkio2;
-     * i.next() === alkio3;
-     * </pre>
      */
     public void lisaa(Tulos tulos) throws SailoException {
         try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = tulos.annaLisayslauseke(con) ) {
@@ -175,26 +149,32 @@ public class Tulokset implements Iterable<Tulos>{
      * @throws SailoException jos tietorakenne on jo täynnä
      * @example
      * <pre name="test">
-     * #THROWS SailoException,CloneNotSupportedException
-     * #PACKAGEIMPORT
-     * Harrastukset harrastukset = new Harrastukset();
-     * Harrastus har1 = new Harrastus(), har2 = new Harrastus();
-     * har1.rekisteroi(); har2.rekisteroi();
-     * harrastukset.getLkm() === 0;
-     * harrastukset.korvaaTaiLisaa(har1); harrastukset.getLkm() === 1;
-     * harrastukset.korvaaTaiLisaa(har2); harrastukset.getLkm() === 2;
-     * Harrastus har3 = har1.clone();
-     * har3.aseta(2,"kkk");
-     * Iterator<Harrastus> i2=harrastukset.iterator();
-     * i2.next() === har1;
-     * harrastukset.korvaaTaiLisaa(har3); harrastukset.getLkm() === 2;
-     * i2=harrastukset.iterator();
-     * Harrastus h = i2.next();
-     * h === har3;
-     * h == har3 === true;
-     * h == har1 === false;
+     *     #THROWS SailoException
+     *     #THROWS CloneNotSupportedException
+     *     #PACKAGEIMPORT
+     *
+     *     Tulokset tulokset = new Tulokset();
+     *     Tulos tulos1 = new Tulos(), tulos2 = new Tulos();
+     *     tulos1.rekisteroi(); tulos2.rekisteroi();
+     *     tulos1.vastaaTulos();
+     *     tulos2.vastaaTulos();
+     *     tulokset.getLkm() === 0;
+     *     tulokset.korvaaTaiLisaa(tulos1); tulokset.getLkm() === 1;
+     *     tulokset.korvaaTaiLisaa(tulos2); tulokset.getLkm() === 2;
+     *     Tulos tulos3 = tulos1.clone();
+     *     tulos3.aseta(2, "xxx");
+     *     Iterator<Tulos> it = tulokset.iterator();
+     *     it.next() === tulos1;
+     *     tulokset.korvaaTaiLisaa(tulos3); tulokset.getLkm() === 2;
+     *     it = tulokset.iterator();
+     *     Tulos t1 = it.next();
+     *     Tulos t2 = it.next();
+     *     t1 === tulos3;
+     *     t2 === tulos2;
+     *     tulos1.getTunnusNro() === t1.getTunnusNro();
+     *     tulos2.getTunnusNro() === t2.getTunnusNro();
      * </pre>
-     */ 
+     */
     public void korvaaTaiLisaa(Tulos tulos) throws SailoException {
         int id = tulos.getTunnusNro();
         for (int i = 0; i < getLkm(); i++) {
@@ -287,31 +267,6 @@ public class Tulokset implements Iterable<Tulos>{
      * @param tunnusnro jäsenen tunnusnumero jolle harrastuksia haetaan
      * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
      * @throws SailoException jos Tulosten hakeminen tietokannasta epäonnistuu
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException
-     *  
-     *  Tulos pitsi21 = new Tulos(2); pitsi21.vastaaPitsinNyplays(2); harrasteet.lisaa(pitsi21);
-     *  Tulos pitsi11 = new Tulos(1); pitsi11.vastaaPitsinNyplays(1); harrasteet.lisaa(pitsi11);
-     *  Tulos pitsi22 = new Tulos(2); pitsi22.vastaaPitsinNyplays(2); harrasteet.lisaa(pitsi22);
-     *  Tulos pitsi12 = new Tulos(1); pitsi12.vastaaPitsinNyplays(1); harrasteet.lisaa(pitsi12);
-     *  Tulos pitsi23 = new Tulos(2); pitsi23.vastaaPitsinNyplays(2); harrasteet.lisaa(pitsi23);
-     *  Tulos pitsi51 = new Tulos(5); pitsi51.vastaaPitsinNyplays(5); harrasteet.lisaa(pitsi51);
-     *  
-     *  
-     *  List<Tulos> loytyneet;
-     *  loytyneet = harrasteet.annaTulokset(3);
-     *  loytyneet.size() === 0; 
-     *  loytyneet = harrasteet.annaTulokset(1);
-     *  loytyneet.size() === 2; 
-     *  
-     *  loytyneet.get(0) === pitsi11;
-     *  loytyneet.get(1) === pitsi12;
-     *  
-     *  loytyneet = harrasteet.annaTulokset(5);
-     *  loytyneet.size() === 1; 
-     *  loytyneet.get(0) === pitsi51;
-     * </pre> 
      */
     public List<Tulos> annaTulokset(int tunnusnro) throws SailoException {
         List<Tulos> loydetyt = new ArrayList<Tulos>();
