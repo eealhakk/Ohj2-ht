@@ -353,19 +353,32 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      *
      */
     public void uusiTulos() {
-        if ( paivaKohdalla == null ) return;
+        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
+        if ( paivaKohdalla == null ) return;  
+        Tulos tul = new Tulos();  
+        tul.rekisteroi();  
+        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
         try {
-            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
-            uusi = AlkuNakymaGUIController.kysyTulos(null, uusi, false); //TODO
-            if ( uusi == null ) return;
-            uusi.rekisteroi();
-            treenipaivakirja.lisaa(uusi);
-            naytaTulokset(paivaKohdalla);
-            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi
+            treenipaivakirja.lisaa(tul);
         } catch (SailoException e) {
-            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
-        }
-
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
+        }  
+        hae(paivaKohdalla.getTunnusNro());  
+        //merge conflikti
+//        if ( paivaKohdalla == null ) return;
+//        try {
+//            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
+//            uusi = AlkuNakymaGUIController.kysyTulos(null, uusi, false); //TODO
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            naytaTulokset(paivaKohdalla);
+//            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
+//        }
     } 
     
     /**
