@@ -34,14 +34,9 @@ public class TallentamatonMuutosGUIController implements ModalControllerInterfac
     }
     
     private void handlePeruuta() {
-        //closes pop up window
-        TallentamatonMuutosGUIController.closeStage(tallentamatonPeruuta);
+        ModalController.closeStage(tallentamatonPeruuta);
     }
-    
-    private static void closeStage(Button tallentamatonPeruuta2) {
-        // TODO Auto-generated method stub
-        
-    }
+
     @FXML private void handleLopeta() {
         Platform.exit();
     }

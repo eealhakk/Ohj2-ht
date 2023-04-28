@@ -62,10 +62,10 @@
             <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="uusiLiikeLiike" onAction="#avaaLiike" />
-            <TextField fx:id="uusiLiikeToistot" onAction="#avaaToistot" GridPane.rowIndex="1" />
-            <TextField fx:id="uusiLiikeKg" onAction="#avaaKg" GridPane.rowIndex="2" />
-            <TextField fx:id="uusiLiikeMuut" onAction="#avaaMuut" GridPane.rowIndex="3" />
+            <TextField fx:id="uusiLiikeLiike" />
+            <TextField fx:id="uusiLiikeToistot" GridPane.rowIndex="1" />
+            <TextField fx:id="uusiLiikeKg" GridPane.rowIndex="2" />
+            <TextField fx:id="uusiLiikeMuut" GridPane.rowIndex="3" />
             <Button fx:id="uusiLiikeTallenna" mnemonicParsing="false" onAction="#avaaTallenna" text="Tallenna" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Button fx:id="uusiLiikeSulje" mnemonicParsing="false" onAction="#avaaSulje" text="Sulje" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>

@@ -121,7 +121,15 @@ public class Treenipaivakirja {
     public int poista(@SuppressWarnings("unused") int nro) {
         return 0;
     }
-    
+
+    /*
+    public int poista(Paiva paiva) throws SailoException {
+        if ( paiva == null ) return 0;
+        int ret = paivat.poista(paiva.getTunnusNro());
+        tulokset.poistaJasenenHarrastukset(paiva.getTunnusNro());
+        return ret;
+    }
+    */
     /**
      * Lisää treenipaivakirjaan uuden paivan
      * @param paiva lisättävä päivä

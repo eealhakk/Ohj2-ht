@@ -14,7 +14,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version Mar 9, 2023
  *
  */
-public class Tulos {
+public class Tulos implements Cloneable {
     private int            tunnusNro;
     private int            paivaNro;
     private String liike = "";
@@ -97,8 +97,16 @@ public class Tulos {
      * @return tulosteen
      */
     public String tulosta(PrintStream out) {
-        return this.tunnusNro+ " " + this.paivaNro + " " + this.liike + " " + this.sarja + " " + this.paino + " " + this.muut;
+        StringBuffer sb = new StringBuffer("");
+        String erotin = "";
+        for (int k = 0; k < getKenttia(); k++) {
+            sb.append(erotin);
+            sb.append(anna(k));
+            erotin = " ";
+        }
+        return sb.toString();
     }
+
     
     
     /**
@@ -309,9 +317,7 @@ public String getKysymys(int k) {
     */
    @Override
    public Tulos clone() throws CloneNotSupportedException {
-       Tulos uusi;
-       uusi = (Tulos) super.clone();
-       return uusi;
+       return (Tulos) super.clone();
    }
 
    /**
@@ -369,11 +375,37 @@ public String getKysymys(int k) {
 
     //@Override
     public String aseta(int k, String s) {
-        // TODO Auto-generated method stub
-        return null;
+        String st = s.trim();
+        StringBuffer sb = new StringBuffer(st);
+        switch (k) {
+            case 0:
+                setTunnusNro(Mjonot.erota(sb, '$', getTunnusNro()));
+                return null;
+            case 1:
+                paivaNro = Mjonot.erota(sb, '$', paivaNro);
+                return null;
+            case 2:
+                liike = st;
+                return null;
+            case 3:
+                sarja = st;
+                return null;
+
+            case 4:
+                paino = st;
+                return null;
+
+            case 5:
+                muut = st;
+                return null;
+
+            default:
+                return "Väärä kentän indeksi";
+        }
     }
-   
-   //TODO: Vaihe 7 mukaan??
+
+
+    //TODO: Vaihe 7 mukaan??
    /*
     *     /**
      * Asetetaan valitun kentän sisältö.  Mikäli asettaminen onnistuu,
