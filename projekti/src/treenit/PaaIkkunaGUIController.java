@@ -317,27 +317,55 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.add(tul, rivi);
     }
 
+    /**
+     * Luo uuden jäsenen jota aletaan editoimaan
+     */
+    protected void uusiPaiva() {
+        Paiva uusi = new Paiva();
+        //uusi.rekisteroi();
+        uusi.vastaaEsimerkkiTreeni();
+        try {
+            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
+            //Ei pääse Treenipaivakirjan lisaa metodiin.
+        }catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
+            return;
+        }
+        
+        hae(uusi.getTunnusNro());
+        //MERGE selvitys 
+//        try {
+//            Paiva uusi = new Paiva();
+//            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            hae(uusi.getTunnusNro());
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+//            return;
+//        }
+    }
+
     
     /**
      * Tekee uuden tyhjän tuloksen editointia varten
      *
      */
     public void uusiTulos() {
-        paivaKohdalla = PaaIkTreeniJaPaivaTaul.getSelectedObject(); //Piilotettu, muutetaan myöhemmin kaikki lokaaliksi
-        //Tyo 7
-        //tulosKohdalla = PaaIKTuloksetTaul.getObject();  //Oikee kohta?
         if ( paivaKohdalla == null ) return;
-        Tulos tul = new Tulos();  
-        tul.rekisteroi();
-        tul.vastaaTulos(paivaKohdalla.getTunnusNro());  
         try {
-            treenipaivakirja.lisaa(tul);
+            Tulos uusi = new Tulos(paivaKohdalla.getTunnusNro());
+            uusi = AlkuNakymaGUIController.kysyTulos(null, uusi, false); //TODO
+            if ( uusi == null ) return;
+            uusi.rekisteroi();
+            treenipaivakirja.lisaa(uusi);
+            naytaTulokset(paivaKohdalla);
+            PaaIKTuloksetTaul.selectRow(1000);  // järjestetään viimeinen rivi valituksi
         } catch (SailoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            Dialogs.showMessageDialog("Ongelmia lisäämisessä! " + e.getMessage());
-        }  
-        hae(paivaKohdalla.getTunnusNro());          
+            Dialogs.showMessageDialog("Lisääminen epäonnistui: " + e.getMessage());
+        }
+
     } 
     
     /**
@@ -624,37 +652,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         ModalController.getStage(HakuPalkki).setTitle("" + string);
     }
 
-
-
-    /**
-     * Luo uuden jäsenen jota aletaan editoimaan
-     */
-    protected void uusiPaiva() {
-        Paiva uusi = new Paiva();
-        //uusi.rekisteroi();
-        uusi.vastaaEsimerkkiTreeni();
-        try {
-            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
-            //Ei pääse Treenipaivakirjan lisaa metodiin.
-        }catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
-            return;
-        }
-        
-        hae(uusi.getTunnusNro());
-        //MERGE selvitys 
-//        try {
-//            Paiva uusi = new Paiva();
-//            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
-//            if ( uusi == null ) return;
-//            uusi.rekisteroi();
-//            treenipaivakirja.lisaa(uusi);
-//            hae(uusi.getTunnusNro());
-//        } catch (SailoException e) {
-//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
-//            return;
-//        }
-    }
     
     /**
      * Näytetään ohjelman suunnitelma erillisessä selaimessa.
@@ -670,6 +667,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             return;
         }
     }
+
 
 
     @Override
