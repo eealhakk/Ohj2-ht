@@ -508,6 +508,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             if ( kohdalla != null ) jnro = kohdalla.getTunnusNro(); 
         }
 
+        
         int k = PaaIkDropp.getSelectionModel().getSelectedIndex() + apupaiva.ekaKentta(); //Lisätty viimesin + -> tyo7
         String ehto = HakuPalkki.getText(); 
         //if (ehto.indexOf('*') < 0) ehto = "*" + ehto + "*"; 
@@ -620,7 +621,39 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
 
+<<<<<<< HEAD
 
+=======
+    /**
+     * Luo uuden jäsenen jota aletaan editoimaan
+     */
+    protected void uusiPaiva() {
+        Paiva uusi = new Paiva();
+        //uusi.rekisteroi();
+        uusi.vastaaEsimerkkiTreeni();
+        try {
+            treenipaivakirja.lisaa(uusi); //<-- Cannot invoke "treenipaivakirja.Treenipaivakirja.lisaa(treenipaivakirja.Paiva)" because "this.treenipaivakirja" is null
+            //Ei pääse Treenipaivakirjan lisaa metodiin.
+        }catch (SailoException e) {
+            Dialogs.showMessageDialog("Ongelmia uuden luomisessa" + e.getMessage());
+            return;
+        }
+        
+        hae(uusi.getTunnusNro());
+        //MERGE selvitys 
+//        try {
+//            Paiva uusi = new Paiva();
+//            uusi = (Paiva) AlkuNakymaGUIController.kysyTiedot(null, uusi, 0);
+//            if ( uusi == null ) return;
+//            uusi.rekisteroi();
+//            treenipaivakirja.lisaa(uusi);
+//            hae(uusi.getTunnusNro());
+//        } catch (SailoException e) {
+//            Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+//            return;
+//        }
+    }
+>>>>>>> 4ece00582428ae9fcab7e59aae1372fcbd04b635
 
     @Override
     public String getResult() {

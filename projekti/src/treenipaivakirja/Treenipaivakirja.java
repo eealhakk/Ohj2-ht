@@ -285,17 +285,25 @@ public class Treenipaivakirja {
     }
     
     public void luoKopio(String nimi)  { //throws SailoException
-        
+        boolean olemassa = false;
         File fbak = new File("temp.db");   //bat + nimi
         File ftied = new File(tiedostonNimi + ".db");
+
+        try {
+            if (ftied.createNewFile());
+            else olemassa = true;
+        } catch (IOException e) {
+            System.out.println("Virhe luoKopio: " + e.getMessage());
+        }
+        
         //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
         //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
-        try {
+        try {//Mikä mihin
             Files.copy(ftied.toPath(),fbak.toPath(),REPLACE_EXISTING);
-            //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+            if (!olemassa) ftied.delete(); //  if ... System.err.println("Ei voi tuhota");
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace();//<--------------
             }
         
        
@@ -337,6 +345,7 @@ public class Treenipaivakirja {
         //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
         try {
             Files.copy(fbak.toPath(),ftied.toPath(),REPLACE_EXISTING);
+            //ftied.delete(); //  if ... System.err.println("Ei voi tuhota");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
