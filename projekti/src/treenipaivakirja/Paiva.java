@@ -36,6 +36,10 @@ public class Paiva implements Cloneable {
         return luku;
     }
     
+    public int gettunnusNro() {
+        return this.tunnusNro;
+    }
+    
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
      */

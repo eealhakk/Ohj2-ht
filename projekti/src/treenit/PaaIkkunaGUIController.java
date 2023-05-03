@@ -133,9 +133,9 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     private static int treeneja = 0;
 
     @FXML void avaaUusiLiike() {
-        uusiTulos();
-        ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
-        //kysyTulos();
+//        uusiTulos();
+//        ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
+        kysyTulos();
     }
     
     @FXML private void handleLopeta() {
@@ -430,11 +430,25 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
     //Kokeilu tyo7
     public void kysyTulos() {
-        Tulos uusi = new Tulos();
+//        Tulos uusi = new Tulos();
         //var resurssi = UusiLiikeGUIController.class.getResource("UusiLiikeGUIView.fxml");
-        //uusi = ModalController.showModal(resurssi, "Uusi tulos", null, uusi);
-        //uusi = UusiLiikeGUIController.kysyTulos(null, uusi);
-        uusiTulos(uusi);
+//        uusi = ModalController.showModal(resurssi, "Uusi tulos", null, uusi);
+//        uusi = UusiLiikeGUIController.kysyTulos(null, uusi);
+        //try {
+        if ( paivaKohdalla == null ) return;
+        
+                Tulos uusi = new Tulos();
+                uusi.asetaPaiva(paivaKohdalla.gettunnusNro());
+                uusi = UusiLiikeGUIController.kysyTulos(null, uusi, 1);  
+                if ( uusi == null ) return;
+                uusiTulos(uusi);
+                //hae(uusi.getTunnusNro());
+//            } catch (SailoException e) {
+//                Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
+//                return;
+//            }
+         
+        
         
 
         
