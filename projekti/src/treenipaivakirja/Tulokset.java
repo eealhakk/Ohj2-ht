@@ -185,10 +185,9 @@ public class Tulokset implements Iterable<Tulos>{
         for (Iterator<Tulos> it = alkiot.iterator(); it.hasNext();) {
             Tulos tul = it.next();
             if ( tul.getPaivaNro() == tunnusNro ) {
-                
-                //it.remove();    //Tähän poista(it);
+                it.remove();    //Tähän poista(it);
 
-                try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = tul.annaPoistolauseke(con) ) {
+            try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = tul.annaPoistolauseke(con) ) {
                     sql.executeUpdate();
                     try ( ResultSet rs = sql.getGeneratedKeys() ) {
                         tul.tarkistaId(rs);
@@ -200,9 +199,7 @@ public class Tulokset implements Iterable<Tulos>{
                     e.printStackTrace();
                     throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
-            
-                
-                n++;
+                 n++;
             }
         }
         if (n > 0) muutettu = true;

@@ -40,13 +40,7 @@ public class Paiva implements Cloneable {
         return this.tunnusNro;
     }
     
-    /**
-     * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
-     */
-    public void vastaaEsimerkkiTreenityyppi() {
-        ArrayList<String> x = new ArrayList<String>(Arrays.asList("Kuntosali","Lenkki","Uinti"));
-        treeninTyyppi = x.get(ranL(0,0));
-    }
+
     
 //    public void asetaTreeninTyyppi(String tyyppi) {
 //        treeninTyyppi = tyyppi;
@@ -109,8 +103,7 @@ public class Paiva implements Cloneable {
         int ikk = ranL(1,12);
         int ivv = ranL(2022,2023);
         paivamaara = ipp + "." + ikk + "." + ivv;
-        vastaaEsimerkkiTreenityyppi();
-
+        treeninTyyppi = "Kuntosali";
     }
     
 
@@ -121,7 +114,7 @@ public class Paiva implements Cloneable {
     public void tulosta(PrintStream out) {
         vastaaEsimerkkiTreeni();
         out.println(String.format("%03d", tunnusNro, 3));
-        out.println("pvm:  " + paivamaara.toString() + "\n" +
+        out.println("pvm:  " + paivamaara + "\n" +
                     "Treenin tyyppi: "+ treeninTyyppi + " ");
     }
 
@@ -276,17 +269,19 @@ public class Paiva implements Cloneable {
             throws SQLException {
         return null;
     }
-    
+
+
     /**
-     * Antaa paivan poistolausekkeen
+     * Antaa päivän poistolausekkeen
      * @param con tietokantayhteys
-     * @return paivan poistolauseke
-     * @throws SQLException Jos lausekkeen luonnissa on ongelmia
+     * @return tuloksen lisäyslauseke
+     * @throws SQLException Jos lausekkeen poistossa on ongelmia
      */
-    @SuppressWarnings("unused")
-    public PreparedStatement annaPoistolauseke(Connection con)
-            throws SQLException {
-        return null;
+    public PreparedStatement annaPoistolauseke(Connection con) throws SQLException {
+        PreparedStatement sql = con.prepareStatement("DELETE FROM Paivat " + "WHERE paivaID = ?");
+        sql.setInt(1, tunnusNro); //PaivaID
+
+        return sql;
     }
       
     /**

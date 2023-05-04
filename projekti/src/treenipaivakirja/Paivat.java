@@ -87,35 +87,35 @@ public class Paivat implements Iterable<Paiva> {
         
     }
     
-    /** 
-     * Poistaa paivan jolla on valittu tunnusnumero  
-     * @param id poistettavan paivan tunnusnumero 
-     * @return 1 jos poistettiin, 0 jos ei löydy 
-     * @example 
-     * <pre name="test"> 
-     * #THROWS SailoException  
-     * Paivat paivat = new Paivat(); 
-     * Paiva aku1 = new Paiva(), aku2 = new Paiva(), aku3 = new Paiva(); 
-     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
-     * int id1 = aku1.getTunnusNro(); 
-     * paivat.lisaa(aku1); paivat.lisaa(aku2); paivat.lisaa(aku3); 
-     * paivat.poista(id1+1) === 1; 
-     * paivat.annaId(id1+1) === null; paivat.getLkm() === 2; 
-     * paivat.poista(id1) === 1; paivat.getLkm() === 1; 
-     * paivat.poista(id1+3) === 0; paivat.getLkm() === 1; 
-     * </pre> 
-     *  
-     */ 
-    public int poista(int id) { 
-        int ind = etsiId(id); 
-        if (ind < 0) return 0; 
-        lkm--; 
-        for (int i = ind; i < lkm; i++) 
-            alkiot[i] = alkiot[i + 1]; 
-        alkiot[lkm] = null; 
-        muutettu = true; 
-        return 1; 
-    } 
+
+   //public int poista(Connection con)
+   //    throws SQLException {
+   //        PreparedStatement sql = con.prepareStatement("DELETE FROM Paivat" +
+   //                "(paivaID)" +
+   //                "VALUES (?)");
+
+   //        // Syötetään kentät näin välttääksemme SQL injektiot.
+   //        // Käyttäjän syötteitä ei ikinä vain kirjoiteta kysely
+   //        // merkkijonoon tarkistamatta niitä SQL injektioiden varalta!
+   //        if ( tunnusNro != 0 ) sql.setInt(1, tunnusNro); else sql.setString(1, null);
+   //        return sql;
+   //}
+
+
+    public void poista(Paiva paiva) throws SailoException {
+        try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = paiva.annaPoistolauseke(con) ) {
+            sql.executeUpdate();
+            try ( ResultSet rs = sql.getGeneratedKeys() ) {
+                paiva.tarkistaId(rs);
+            }
+            //Lisätty tyo7
+            muutettu = true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+        }
+    }
 
         
     
@@ -270,7 +270,7 @@ public class Paivat implements Iterable<Paiva> {
      * paivat.etsiId(id1+2) === 2; 
      * </pre> 
      */ 
-    public int etsiId(int id) { 
+    public int etsiId(int id) { //TODO: palauttaa aina -1
         for (int i = 0; i < lkm; i++) 
             if (id == alkiot[i].getTunnusNro()) return i; 
         return -1; 

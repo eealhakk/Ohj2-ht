@@ -264,11 +264,8 @@ public class Tulos implements Cloneable {
     * @return tuloksen lisäyslauseke
     * @throws SQLException Jos lausekkeen poistossa on ongelmia
     */
-   public PreparedStatement annaPoistolauseke(Connection con)
-           throws SQLException {
-       PreparedStatement sql = con.prepareStatement("DELETE FROM Tulokset " +
-               "WHERE tulosID = ?");  //Kokeiltu lisätä 2kpl extra kysymysmerkkiä
-       
+   public PreparedStatement annaPoistolauseke(Connection con) throws SQLException {
+       PreparedStatement sql = con.prepareStatement("DELETE FROM Tulokset " + "WHERE tulosID = ?");
        sql.setInt(1, tunnusNro); //PaivaID
 
        return sql;

@@ -187,27 +187,19 @@ public class Treenipaivakirja {
      *   treenipaivakirja.annaTulokset(aku2).size() === 3;
      * </pre>
      */
-    public int poista(Paiva paiva) throws SailoException {
-        if ( paiva == null ) return 0;
-        int ret = paivat.poista(paiva.getTunnusNro()); 
+    public void poista(Paiva paiva) throws SailoException {
+        if ( paiva == null ) return ;
+        paivat.poista(paiva);
         try {
             tulokset.poistaPaivanTulokset(paiva.getTunnusNro());
         } catch (SailoException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-        } 
-        return ret; 
+        }
     }
 
-    /*
-    public int poista(Paiva paiva) throws SailoException {
-        if ( paiva == null ) return 0;
-        int ret = paivat.poista(paiva.getTunnusNro());
-        tulokset.poistaJasenenHarrastukset(paiva.getTunnusNro());
-        return ret;
-    }
-    */
+
     /**
      * Lisää treenipaivakirjaan uuden paivan
      * @param paiva lisättävä päivä

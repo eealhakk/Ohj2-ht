@@ -225,7 +225,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     private Treenipaivakirja treenipaivakirja;
     //toString(System.currentTimeMillis());//
     private String treeninTunnusVuosi = "2023";
-    private TextArea areaPaiva = new TextArea();
+    private TextArea c = new TextArea();
     private Paiva paivaKohdalla;
     //Vaihe 7
     private Tulos tulosKohdalla;
@@ -254,8 +254,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
      * Otettu vasta pohjaksi
      */
     protected void alusta() {
-        PaaIkScrollPane.setContent(areaPaiva);
-        areaPaiva.setFont(new Font("Courier New", 12));
+        //PaaIkScrollPane.setContent(areaPaiva);
+        //areaPaiva.setFont(new Font("Courier New", 12));
         PaaIkScrollPane.setFitToHeight(true);
         
         PaaIkTreeniJaPaivaTaul.clear();
@@ -317,7 +317,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
     
     private void poistaPaiva() {
-        Paiva paiva = paivaKohdalla;
+        Paiva paiva = PaaIkTreeniJaPaivaTaul.getSelectedObject();
         if ( paiva == null ) return;
         if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko paiva: " + paiva.getPvm(), "Kyllä", "Ei") )
             return;
@@ -561,13 +561,17 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
             if (paivaKohdalla == null) return;
 
-            
-            //Vaihe 7 tieltä muokattu
-            areaPaiva.setText("");
-            try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
-                tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
-            }
-            
+           //Vaihe 7 tieltä muokattu
+          // areaPaiva.setText("");
+          // try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
+          //    tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
+          // }
+
+
+
+
+
+
             naytaTulokset(paivaKohdalla);
             //PaaIKTuloksetTaul.setTeksti();
             //PaivaDialogController.naytaPaiva(edits, paivaKohdalla); 
@@ -575,27 +579,27 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
 
 
-    /**
-     * Tulostaa paivan tiedot
-     * @param os tietovirta johon tulostetaan
-     * @param paiva tulostettava jäsen
-     */
-    public void tulosta(PrintStream os, final Paiva paiva){
-        os.println("----------------------------------------------");
-        paiva.tulosta(os);
-        os.println("----------------------------------------------");
-
-        try {
-            List<Tulos> tulokset;
-            tulokset = treenipaivakirja.annaTulokset(paiva);
-            
-            for (Tulos har:tulokset)
-                har.tulosta(os);  
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Paivien hakemisessa ongelmia! " + e.getMessage());
-        }   
-
-    }
+  //  /**
+  //   * Tulostaa paivan tiedot
+  //   * @param os tietovirta johon tulostetaan
+  //   * @param paiva tulostettava jäsen
+  //   */
+  //  public void tulosta(PrintStream os, final Paiva paiva){
+  //      os.println("++++++++++++++++++++++++++++++++++++++++++++++");
+  //      paiva.tulosta(os);
+  //      os.println("----------------------------------------------");
+//
+  //      try {
+  //          List<Tulos> tulokset;
+  //          tulokset = treenipaivakirja.annaTulokset(paiva);
+//
+  //          for (Tulos har:tulokset)
+  //              har.tulosta(os);
+  //      } catch (SailoException e) {
+  //          Dialogs.showMessageDialog("Paivien hakemisessa ongelmia! " + e.getMessage());
+  //      }
+//
+  //  }
 
     /**
      * @param treenipaivakirja Asettaa treenipaivakirjan
@@ -641,7 +645,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
             Dialogs.showMessageDialog("Paivan hakemisessa ongelmia! " + ex.getMessage());
             ex.printStackTrace();
         }
-        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää päivän
     }
     
     /**
