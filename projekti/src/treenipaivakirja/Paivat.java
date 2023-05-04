@@ -85,7 +85,37 @@ public class Paivat implements Iterable<Paiva> {
                 throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
                 }
         
-            }
+    }
+    
+    /** 
+     * Poistaa paivan jolla on valittu tunnusnumero  
+     * @param id poistettavan paivan tunnusnumero 
+     * @return 1 jos poistettiin, 0 jos ei löydy 
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Paivat paivat = new Paivat(); 
+     * Paiva aku1 = new Paiva(), aku2 = new Paiva(), aku3 = new Paiva(); 
+     * aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi(); 
+     * int id1 = aku1.getTunnusNro(); 
+     * paivat.lisaa(aku1); paivat.lisaa(aku2); paivat.lisaa(aku3); 
+     * paivat.poista(id1+1) === 1; 
+     * paivat.annaId(id1+1) === null; paivat.getLkm() === 2; 
+     * paivat.poista(id1) === 1; paivat.getLkm() === 1; 
+     * paivat.poista(id1+3) === 0; paivat.getLkm() === 1; 
+     * </pre> 
+     *  
+     */ 
+    public int poista(int id) { 
+        int ind = etsiId(id); 
+        if (ind < 0) return 0; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            alkiot[i] = alkiot[i + 1]; 
+        alkiot[lkm] = null; 
+        muutettu = true; 
+        return 1; 
+    } 
 
         
     

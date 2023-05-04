@@ -58,6 +58,7 @@
                           <MenuItem fx:id="MenuBarMuokkaaPoista" mnemonicParsing="false" onAction="#PoistaTapahtuma" text="Poista" />
                               <MenuItem fx:id="MenuBarMuokkaaUusiTreeni" mnemonicParsing="false" onAction="#MuokkaaUusiTreeniTapahtuma" text="Uusi Treeni" />
                               <MenuItem fx:id="MenuBarMuokkaaUusiLiike" mnemonicParsing="false" onAction="#MuokkaaUusiLiikeTapahtuma" text="Uusi Liike" />
+                              <MenuItem fx:id="MenuBarMuokkaaPoistaPaiva" mnemonicParsing="false" onAction="#PoistaPaivaTapahtuma" text="Poista päivä" />
                         </items>
                       </Menu>
                       <Menu fx:id="PaaIkApua" mnemonicParsing="false" text="Apua">

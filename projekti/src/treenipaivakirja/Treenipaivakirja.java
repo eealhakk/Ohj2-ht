@@ -18,7 +18,48 @@ import static java.nio.file.StandardCopyOption.*;
  * @author Eeli
  * @version 1 Mar 2023
  *
- */
+ *
+ * Testien alustus
+ * @example
+ * <pre name="testJAVA">
+ * #import treenipaivakirja.SailoException;
+ *  private Treenipaivakirja treenipaivakirja;
+ *  private Paiva aku1;
+ *  private Paiva aku2;
+ *  private int jid1;
+ *  private int jid2;
+ *  private Tulos pitsi21;
+ *  private Tulos pitsi11;
+ *  private Tulos pitsi22; 
+ *  private Tulos pitsi12; 
+ *  private Tulos pitsi23;
+ *  
+ *  @SuppressWarnings("javadoc")
+ *  public void alustaTreenipaivakirja() {
+ *    treenipaivakirja = new Treenipaivakirja();
+ *    aku1 = new Paiva(); aku1.vastaaEsimerkkiTreeni(); aku1.rekisteroi();
+ *    aku2 = new Paiva(); aku2.vastaaEsimerkkiTreeni(); aku2.rekisteroi();
+ *    jid1 = aku1.getTunnusNro();
+ *    jid2 = aku2.getTunnusNro();
+ *    pitsi21 = new Tulos(jid2); pitsi21.vastaaTulos(jid2);
+ *    pitsi11 = new Tulos(jid1); pitsi11.vastaaTulos(jid1);
+ *    pitsi22 = new Tulos(jid2); pitsi22.vastaaTulos(jid2); 
+ *    pitsi12 = new Tulos(jid1); pitsi12.vastaaTulos(jid1); 
+ *    pitsi23 = new Tulos(jid2); pitsi23.vastaaTulos(jid2);
+ *    try {
+ *    treenipaivakirja.lisaa(aku1);
+ *    treenipaivakirja.lisaa(aku2);
+ *    treenipaivakirja.lisaa(pitsi21);
+ *    treenipaivakirja.lisaa(pitsi11);
+ *    treenipaivakirja.lisaa(pitsi22);
+ *    treenipaivakirja.lisaa(pitsi12);
+ *    treenipaivakirja.lisaa(pitsi23);
+ *    } catch ( Exception e) {
+ *       System.err.println(e.getMessage());
+ *    }
+ *  }
+ * </pre>
+*/
 public class Treenipaivakirja {
     //Vaihdetaan toteutus vastaamaan tuloksen toteuttamistapaa
     private Paivat paivat; //TODO: <-----Täydennä
@@ -127,6 +168,36 @@ public class Treenipaivakirja {
      */
     public int poista(@SuppressWarnings("unused") int nro) {
         return 0;
+    }
+    
+    /**
+     * Poistaa paivista ja tuloksista paivan tiedot 
+     * @param paiva paiva jokapoistetaan
+     * @return montako paivaa poistettiin
+     * @throws SailoException -
+     * @example
+     * <pre name="test">
+     * #THROWS Exception
+     *   alustaTreenipaivakirja();
+     *   treenipaivakirja.etsi("*",0).size() === 2;
+     *   treenipaivakirja.annaTulokset(aku1).size() === 2;
+     *   treenipaivakirja.poista(aku1) === 1;
+     *   treenipaivakirja.etsi("*",0).size() === 1;
+     *   treenipaivakirja.annaTulokset(aku1).size() === 0;
+     *   treenipaivakirja.annaTulokset(aku2).size() === 3;
+     * </pre>
+     */
+    public int poista(Paiva paiva) throws SailoException {
+        if ( paiva == null ) return 0;
+        int ret = paivat.poista(paiva.getTunnusNro()); 
+        try {
+            tulokset.poistaPaivanTulokset(paiva.getTunnusNro());
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+        } 
+        return ret; 
     }
 
     /*

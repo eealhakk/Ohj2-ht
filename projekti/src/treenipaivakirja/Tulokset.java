@@ -150,6 +150,67 @@ public class Tulokset implements Iterable<Tulos>{
     
     
     /**
+     * Poistaa kaikki tietyn tietyn paivan tulokset
+     * @param tunnusNro viite siihen, mihin liittyvät "tietueet" poistetaan
+     * @return montako poistettiin 
+     * @throws SailoException -
+     * @example
+     * <pre name="test">
+     *  Tulokset tulokset = new Tulokset();
+     *  Tulos pitsi21 = new Tulos(); pitsi21.vastaaTulos(2);
+     *  Tulos pitsi11 = new Tulos(); pitsi11.vastaaTulos(1);
+     *  Tulos pitsi22 = new Tulos(); pitsi22.vastaaTulos(2); 
+     *  Tulos pitsi12 = new Tulos(); pitsi12.vastaaTulos(1); 
+     *  Tulos pitsi23 = new Tulos(); pitsi23.vastaaTulos(2); 
+     *  Tulos.lisaa(pitsi21);
+     *  Tulos.lisaa(pitsi11);
+     *  Tulos.lisaa(pitsi22);
+     *  Tulos.lisaa(pitsi12);
+     *  Tulos.lisaa(pitsi23);
+     *  Tulos.poistaPaivanTulokset(2) === 3;  tulokset.getLkm() === 2;
+     *  Tulos.poistaPaivanTulokset(3) === 0;  tulokset.getLkm() === 2;
+     *  List<Tulos> h = tulokset.annaTulokset(2);
+     *  h.size() === 0; 
+     *  h = harrasteet.annaTulokset(1);
+     *  h.get(0) === pitsi11;
+     *  h.get(1) === pitsi12;
+     * </pre>
+     * 
+     * TODO: Toimiiko it.remove(); oikein vai pitääkö viitata poista();
+     * 
+     * 
+     */
+    public int poistaPaivanTulokset(int tunnusNro) throws SailoException {
+        int n = 0;
+        for (Iterator<Tulos> it = alkiot.iterator(); it.hasNext();) {
+            Tulos tul = it.next();
+            if ( tul.getPaivaNro() == tunnusNro ) {
+                
+                //it.remove();    //Tähän poista(it);
+
+                try ( Connection con = kanta.annaKantayhteys(); PreparedStatement sql = tul.annaPoistolauseke(con) ) {
+                    sql.executeUpdate();
+                    try ( ResultSet rs = sql.getGeneratedKeys() ) {
+                        tul.tarkistaId(rs);
+                    }
+                    //Lisätty tyo7
+                    muutettu = true;
+                    
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
+                }
+            
+                
+                n++;
+            }
+        }
+        if (n > 0) muutettu = true;
+        return n;
+    }
+    
+    
+    /**
      * Korvaa tuloksen tietorakenteessa.  Ottaa tuloksen omistukseensa.
      * Etsitään samalla tunnusnumerolla oleva tulos.  Jos ei löydy,
      * niin lisätään uutena tuloksena.

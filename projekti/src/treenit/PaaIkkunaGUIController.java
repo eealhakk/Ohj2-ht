@@ -89,6 +89,8 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private MenuItem MenuBarMuokkaaUusiTreeni;
 
     @FXML private MenuItem MenuBarMuokkaaPoista;
+    @FXML private MenuItem MenuBarMuokkaaPoistaPaiva;
+
     
     @FXML  void MuokkaaUusiTreeniTapahtuma() {
         treeneja++;
@@ -112,6 +114,13 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         //
         poistaTulos();
     }
+    
+    @FXML void PoistaPaivaTapahtuma() {
+        //
+        poistaPaiva();
+    }
+    
+    
 
     /*
      * Poistetaan listalta valittu jäsen
@@ -306,6 +315,24 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 
 
     }
+    
+    private void poistaPaiva() {
+        Paiva paiva = paivaKohdalla;
+        if ( paiva == null ) return;
+        if ( !Dialogs.showQuestionDialog("Poisto", "Poistetaanko paiva: " + paiva.getPvm(), "Kyllä", "Ei") )
+            return;
+        try {
+            treenipaivakirja.poista(paiva);
+        } catch (SailoException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            //Ongelmia tietokannan kanssa jos tänne
+        }
+        int index = PaaIkTreeniJaPaivaTaul.getSelectedIndex();
+        hae(0);
+        PaaIkTreeniJaPaivaTaul.setSelectedIndex(index);
+    }
+    
     //Muokkaa tulosta ylipäänsä vai vain dialog boxia
 
     //vaihe7
