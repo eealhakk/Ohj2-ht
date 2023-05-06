@@ -7,8 +7,6 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
-//import treenipaivakirja.Harrastus;
-//import kerho.Jasen;
 import treenipaivakirja.Paiva;
 import treenipaivakirja.SailoException;
 
@@ -143,16 +141,16 @@ public class Treenipaivakirja {
      * @throws SailoException jos harrastusten hakeminen tietokannasta epäonnistuu
      * <pre name="test">
      * #THROWS SailoException
-     * Jasen aku1 = new Jasen(); aku1.vastaaAkuAnkka(); 
-     * kerho.lisaa(aku1);
-     * Harrastus har = new Harrastus(); 
-     * har.vastaaPitsinNyplays(aku1.getTunnusNro()); 
-     * kerho.lisaa(har);
-     * kerho.annaHarrastukset(aku1).get(0) === har;
+     * Paiva aku1 = new Paiva(); aku1.vastaaEsimerkkiTreeni(); 
+     * treenipaivakirja.lisaa(aku1);
+     * Tulos har = new Tulos(); 
+     * har.vastaaTulos(aku1.getTunnusNro()); 
+     * treenipaivakirja.lisaa(har);
+     * treenipaivakirja.annaTulokset(aku1).get(0) === har;
      *
-     * Jasen aku2 = new Jasen(); aku2.vastaaAkuAnkka(); 
-     * kerho.lisaa(aku2);
-     * kerho.annaHarrastukset(aku2).size() === 0;
+     * Paiva aku2 = new Paiva(); aku2.vastaaEsimerkkiTreeni(); 
+     * treenipaivakirja.lisaa(aku2);
+     * treenipaivakirja.annaTulokset(aku2).size() === 0;
      * </pre>
      */
     public List<Tulos> annaTulokset(Tulos tulos) throws SailoException {
@@ -175,17 +173,6 @@ public class Treenipaivakirja {
      * @param paiva paiva jokapoistetaan
      * return montako paivaa poistettiin
      * @throws SailoException -
-     * @example
-     * <pre name="test">
-     * #THROWS Exception
-     *   alustaTreenipaivakirja();
-     *   treenipaivakirja.etsi("*",0).size() === 2;
-     *   treenipaivakirja.annaTulokset(aku1).size() === 2;
-     *   treenipaivakirja.poista(aku1) === 1;
-     *   treenipaivakirja.etsi("*",0).size() === 1;
-     *   treenipaivakirja.annaTulokset(aku1).size() === 0;
-     *   treenipaivakirja.annaTulokset(aku2).size() === 3;
-     * </pre>
      */
     public void poista(Paiva paiva) throws SailoException {
         if ( paiva == null ) return ;
@@ -236,22 +223,23 @@ public class Treenipaivakirja {
      * niin lisätään uutena paivana. 
      * @param paiva lisätäävän jäsenen viite.  Huom tietorakenne muuttuu omistajaksi 
      * @throws SailoException jos tietorakenne on jo täynnä 
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException  
-     *  alustaKerho();
-     *  kerho.etsi("*",0).size() === 2;
-     *  kerho.korvaaTaiLisaa(aku1);
-     *  kerho.etsi("*",0).size() === 2;
-     * </pre>
      */ 
     public void korvaaTaiLisaa(Paiva paiva) throws SailoException { 
         paivat.korvaaTaiLisaa(paiva); 
     }
     
+//    * @example
+//    * <pre name="test">
+//    * #THROWS SailoException  
+//    *  alustaTreenipaivakirja();
+//    *  treenipaivakirja.etsi("*",0).size() === 2;
+//    *  treenipaivakirja.korvaaTaiLisaa(aku1);
+//    *  treenipaivakirja.etsi("*",0).size() === 2;
+//    * </pre>
+    
     /** 
      * Korvaa harrastuksen tietorakenteessa.  Ottaa harrastuksen omistukseensa. 
-     * Etsitään samalla tunnusnumerolla oleva harrastus.  Jos ei löydy, 
+     * Etsitään samalla tunnusnumerolla oleva tulos.  Jos ei löydy, 
      * niin lisätään uutena harrastuksena. 
      * @param tulos lisärtävän harrastuksen viite.  Huom tietorakenne muuttuu omistajaksi 
      * @throws SailoException jos tietorakenne on jo täynnä 
@@ -273,15 +261,15 @@ public class Treenipaivakirja {
     
     /** 
      * Poistaa tämän tuloksen 
-     * @param tulos poistettava harrastus 
+     * @param tulos poistettava tulos
      * @throws SailoException jos tietokantayhteyden kanssa ongelmia
      * @example
      * <pre name="test">
      * #THROWS Exception
-     *   alustaKerho();
-     *   kerho.annaHarrastukset(aku1).size() === 2;
-     *   kerho.poistaHarrastus(pitsi11);
-     *   kerho.annaHarrastukset(aku1).size() === 1;
+     *   alustaTreenipaivakirja();
+     *   treenipaivakirja.annaTulokset(aku1).size() === 2;
+     *   treenipaivakirja.poistaTulos(pitsi11);
+     *   treenipaivakirja.annaTulokset(aku1).size() === 1;
      */ 
     public void poistaTulos(Tulos tulos) throws SailoException { 
         tulokset.poista(tulos); 
@@ -294,27 +282,28 @@ public class Treenipaivakirja {
      * @param k etsittävän kentän indeksi 
      * @return paivat listassa
      * @throws SailoException jos tietokannan kanssa ongelmia
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException
-     * Paiva aku1 = new Paiva(); aku1.vastaaAkuAnkka(); 
-     * Paiva aku2 = new Paiva(); aku2.vastaaAkuAnkka(); 
-     * treenipaivakirja.lisaa(aku1);
-     * treenipaivakirja.lisaa(aku2);
-     * treenipaivakirja.lisaa(aku2);  #THROWS SailoException // samaa ei saa laittaa kahdesti
-     * Collection<Paiva> loytyneet = treenipaivakirja.etsi(aku1.getNimi(), 1);
-     * loytyneet.size() === 1;
-     * loytyneet.iterator().next() === aku1;
-     * loytyneet = treenipaivakirja.etsi(aku2.getNimi(), 1);
-     * loytyneet.size() === 1;
-     * loytyneet.iterator().next() === aku2;
-     * treenipaivakirja.etsi("", 15); #THROWS SailoException
-     * </pre>
      * TODO: Tyo7 Collection pitää ehkä vaihtaa List tyypiksi, mutta ei välttämättä.
      */
     public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {   //Kesken, paiva pitää täydentää
         return paivat.etsi(hakuehto,k);
     }
+    
+//    * @example
+//    * <pre name="test">
+//    * #THROWS SailoException
+//    * Paiva aku1 = new Paiva(); aku1.vastaaEsimerkkiTreeni(); 
+//    * Paiva aku2 = new Paiva(); aku2.vastaaEsimerkkiTreeni(); 
+//    * treenipaivakirja.lisaa(aku1);
+//    * treenipaivakirja.lisaa(aku2);
+//    * treenipaivakirja.lisaa(aku2);  #THROWS SailoException // samaa ei saa laittaa kahdesti
+//    * Collection<Paiva> loytyneet = treenipaivakirja.etsi(aku1.getPvm(), 1);
+//    * loytyneet.size() === 1;
+//    * loytyneet.iterator().next() === aku1;
+//    * loytyneet = treenipaivakirja.etsi(aku2.getPvm(), 1);
+//    * loytyneet.size() === 1;
+//    * loytyneet.iterator().next() === aku2;
+//    * treenipaivakirja.etsi("", 15); #THROWS SailoException
+//    * </pre>
     
     /**
      * TODO: Sama idea kuin paiva lisaa
