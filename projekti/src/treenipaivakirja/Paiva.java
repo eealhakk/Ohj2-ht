@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,7 +36,11 @@ public class Paiva implements Cloneable {
         luku = (int) (Math.random() * (max - min) + min);
         return luku;
     }
+
     
+    /**
+     * @return palauttaa tunnusNro
+     */
     public int gettunnusNro() {
         return this.tunnusNro;
     }
@@ -99,10 +104,11 @@ public class Paiva implements Cloneable {
      * Apumetodi, jolla saadaan täytettyä testiarvot paivalle.
      */
     public void vastaaEsimerkkiTreeni() {
-        int ipp = ranL(1,31);
-        int ikk = ranL(1,12);
-        int ivv = ranL(2022,2023);
-        paivamaara = ipp + "." + ikk + "." + ivv;
+//        int ipp = ranL(1,31);
+//        int ikk = ranL(1,12);
+//        int ivv = ranL(2022,2023);
+//        paivamaara = ipp + "." + ikk + "." + ivv;
+        paivamaara = new SimpleDateFormat("dd.MM.yyyy").format(new java.util.Date());
         treeninTyyppi = "Kuntosali";
     }
     
@@ -238,6 +244,19 @@ public class Paiva implements Cloneable {
     
     /**
      * @param rivi jota parsitaan
+     * @example
+     * <pre name="test">
+     *   Paiva paiva = new Paiva();
+     *   paiva.parse("   3  |  10.10.2000   | penkki");
+     *   paiva.getTunnusNro() === 3;
+     *   paiva.toString().startsWith("=/=003Treenin tyyppi: penkki=/=") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *
+     *   paiva.rekisteroi();
+     *   int n = paiva.getTunnusNro();
+     *   paiva.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
+     *   paiva.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   paiva.getTunnusNro() === n+20+1;
+     * </pre>
      */
     public void parse(String rivi) {
         var sb = new StringBuilder(rivi);

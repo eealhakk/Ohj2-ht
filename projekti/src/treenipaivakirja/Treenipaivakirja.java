@@ -173,7 +173,7 @@ public class Treenipaivakirja {
     /**
      * Poistaa paivista ja tuloksista paivan tiedot 
      * @param paiva paiva jokapoistetaan
-     * @return montako paivaa poistettiin
+     * return montako paivaa poistettiin
      * @throws SailoException -
      * @example
      * <pre name="test">
