@@ -84,23 +84,21 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     @FXML private MenuBar PaaIkMenubar;
     @FXML private Menu PaaIkMuokkaa;
     @FXML private Menu PaaIkTiedosto;
-    //Turhia?
     //@FXML private MenuItem MenuBarMuokkaaMuokka;
     @FXML private MenuItem MenuBarMuokkaaUusiTreeni;
 
     @FXML private MenuItem MenuBarMuokkaaPoista;
     @FXML private MenuItem MenuBarMuokkaaPoistaPaiva;
-
     
     @FXML  void MuokkaaUusiTreeniTapahtuma() {
         treeneja++;
         uusiPaiva();
-        }
+    }
     
     @FXML void MuokkaaUusiLiikeTapahtuma() {
         uusiTulos();
         ModalController.showModal(PaaIkkunaGUIController.class.getResource("UusiLiikeGUIView.fxml"), "UusiLiike", null, "");
-        }
+    }
 
     @FXML void MuokkaaTapahtuma() {
         muokkaaTulosta();
@@ -119,8 +117,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         //
         poistaPaiva();
     }
-    
-    
 
     /*
      * Poistetaan listalta valittu jäsen
@@ -139,7 +135,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     
 
     @FXML private ScrollPane PaaIkScrollPane;
-    private static int treeneja = 0;
+
 
     @FXML void avaaUusiLiike() {
 //        uusiTulos();
@@ -185,10 +181,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
     
     //@FXML private void avaaTiedosto() {eiToimi();}
-    
     //@FXML private void avaaMuokkaa() {eiToimi();}
-
-
 
     @FXML private void avaaTallenna() {
         tallenna();
@@ -210,22 +203,16 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         }
         Platform.exit();
     }
-    
-
-
 
     //@FXML private void avaaApua() {eiToimi();}
-
-    //@FXML private void avaaAlasveto() {
-        
-    
+    //@FXML private void avaaAlasveto() {}
 
 //======================================================
     
     private Treenipaivakirja treenipaivakirja;
     //toString(System.currentTimeMillis());//
     private String treeninTunnusVuosi = "2023";
-    private TextArea c = new TextArea();
+    //private TextArea c = new TextArea();
     private Paiva paivaKohdalla;
     //Vaihe 7
     private Tulos tulosKohdalla;
@@ -235,6 +222,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     //Vaihe 7
     private static Tulos aputulos = new Tulos(); 
     private TextField edits[];
+    private static int treeneja = 0;
     
     
     /**
@@ -278,6 +266,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
                edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);});
            }
         */
+        
         // alustetaan tulostaulukon otsikot:
         int eka = aputulos.ekaKentta(); //aputulos.ekaKentta() return 2;
         int lkm = aputulos.getKenttia(); //aputulos.getKenttia() return 5;
@@ -288,7 +277,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         PaaIKTuloksetTaul.setEditable(false); 
         PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); 
          
-        // kentän tekstit, lajitteluehdot ja muokkaus sekä double click kuuntelu 
+        //kentän tekstit, lajitteluehdot ja muokkaus sekä double click kuuntelu 
         //PaaIKTuloksetTaul.setPlaceholder(new Label("Ei vielä tuloksia")); ??? tyo7 kohdalla poistettu
        
         //StringGrid sisällön määrittelijät
@@ -425,6 +414,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //        }
     } 
     
+    
     /**
      * Tekee uuden tyhjän tuloksen editointia varten
      * @param tulos x
@@ -454,7 +444,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         }  
         hae(paivaKohdalla.getTunnusNro());          
     } 
-    
+
     //Kokeilu tyo7
     public void kysyTulos() {
 //        Tulos uusi = new Tulos();
@@ -474,9 +464,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //                Dialogs.showMessageDialog("Ongelmia uuden luomisessa " + e.getMessage());
 //                return;
 //            }
-         
-        
-        
 
         
 //    //TODO: Tähän kohtaan kysytään vuosi ja luetaan se
@@ -524,6 +511,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
         }
     }
 
+    
     /**
      * Poistetaan harrastustaulukosta valitulla kohdalla oleva harrastus. 
      */
@@ -550,8 +538,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
     }
 
     
-
-
     /**
      * Näyttää listasta valitun paiva (jäsenen) tiedot, tilapäisesti yhteen isoon edit-kentgit tään
      * Kun klikkaa hiirellä niin kutsuu aikanaan tätä.
@@ -566,11 +552,6 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
           // try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaPaiva)) {
           //    tulosta(os, paivaKohdalla);//Oli alunperin paivakohdalla.tulsota(os);
           // }
-
-
-
-
-
 
             naytaTulokset(paivaKohdalla);
             //PaaIKTuloksetTaul.setTeksti();
@@ -710,7 +691,7 @@ public class PaaIkkunaGUIController implements ModalControllerInterface<String>,
 //            Dialogs.showMessageDialog(virhe);
 //    }
     /**
-     * Alustaa kerhon lukemalla sen valitun nimisestä tiedostosta
+     * Alustaa treenipaivakirjan lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta kerhon tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */

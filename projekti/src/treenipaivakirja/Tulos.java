@@ -408,6 +408,21 @@ public String getKysymys(int k) {
    }
 
     //@Override
+    /**
+     * Asetetaan valitun kentän sisältö.  Mikäli asettaminen onnistuu,
+     * palautetaan null, muutoin virheteksti.
+     * @param k minkä kentän sisältö asetetaan
+     * @param s asetettava sisältö merkkijonona
+     * @return null jos ok, muuten virheteksti
+     * @example
+     * <pre name="teest">
+     *   Harrastus har = new Harrastus();
+     *   har.aseta(3,"kissa") === "aloitusvuosi: Ei kokonaisluku (kissa)";
+     *   har.aseta(3,"1940")  === null;
+     *   har.aseta(4,"kissa") === "h/vko: Ei kokonaisluku (kissa)";
+     *   har.aseta(4,"20")    === null;
+     * </pre>
+     */
     public String aseta(int k, String s) {
         String st = s.trim();
         StringBuffer sb = new StringBuffer(st);
