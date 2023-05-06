@@ -153,32 +153,7 @@ public class Tulokset implements Iterable<Tulos>{
      * Poistaa kaikki tietyn tietyn paivan tulokset
      * @param tunnusNro viite siihen, mihin liittyvät "tietueet" poistetaan
      * @return montako poistettiin 
-     * @throws SailoException -
-     * @example
-     * <pre name="test">
-     *  Tulokset tulokset = new Tulokset();
-     *  Tulos pitsi21 = new Tulos(); pitsi21.vastaaTulos(2);
-     *  Tulos pitsi11 = new Tulos(); pitsi11.vastaaTulos(1);
-     *  Tulos pitsi22 = new Tulos(); pitsi22.vastaaTulos(2); 
-     *  Tulos pitsi12 = new Tulos(); pitsi12.vastaaTulos(1); 
-     *  Tulos pitsi23 = new Tulos(); pitsi23.vastaaTulos(2); 
-     *  Tulos.lisaa(pitsi21);
-     *  Tulos.lisaa(pitsi11);
-     *  Tulos.lisaa(pitsi22);
-     *  Tulos.lisaa(pitsi12);
-     *  Tulos.lisaa(pitsi23);
-     *  Tulos.poistaPaivanTulokset(2) === 3;  tulokset.getLkm() === 2;
-     *  Tulos.poistaPaivanTulokset(3) === 0;  tulokset.getLkm() === 2;
-     *  List<Tulos> h = tulokset.annaTulokset(2);
-     *  h.size() === 0; 
-     *  h = harrasteet.annaTulokset(1);
-     *  h.get(0) === pitsi11;
-     *  h.get(1) === pitsi12;
-     * </pre>
-     * 
-     * TODO: Toimiiko it.remove(); oikein vai pitääkö viitata poista();
-     * 
-     * 
+     * @throws SailoException
      */
     public int poistaPaivanTulokset(int tunnusNro) throws SailoException {
         int n = 0;
@@ -211,12 +186,11 @@ public class Tulokset implements Iterable<Tulos>{
      * Korvaa tuloksen tietorakenteessa.  Ottaa tuloksen omistukseensa.
      * Etsitään samalla tunnusnumerolla oleva tulos.  Jos ei löydy,
      * niin lisätään uutena tuloksena.
-     * @param tulos lisättävän harrastuksen viite.  Huom tietorakenne muuttuu omistajaksi
+     * @param tulos lisättävän tuloksen viite.  Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
      * @example
      * <pre name="test">
-     *     #THROWS SailoException
-     *     #THROWS CloneNotSupportedException
+     *     #THROWS CloneNotSupportedException, SailoException
      *     #PACKAGEIMPORT
      *
      *     Tulokset tulokset = new Tulokset();
@@ -320,37 +294,6 @@ public class Tulokset implements Iterable<Tulos>{
     /**
      * Iteraattori kaikkien tulosten läpikäymiseen
      * @return tulositeraattori
-     * 
-     * @example
-     * <pre name="test">
-     * #PACKAGEIMPORT
-     * #import java.util.*;
-     * 
-     *  Tulokset tulokset = new Tulokset();
-     *  Tulos pitsi21 = new Tulos(2); tulokset.lisaa(pitsi21);
-     *  Tulos pitsi11 = new Tulos(1); tulokset.lisaa(pitsi11);
-     *  Tulos pitsi22 = new Tulos(2); tulokset.lisaa(pitsi22);
-     *  Tulos pitsi12 = new Tulos(1); tulokset.lisaa(pitsi12);
-     *  Tulos pitsi23 = new Tulos(2); tulokset.lisaa(pitsi23);
-     * 
-     *  Iterator<Tulos> i2=tulokset.iterator();
-     *  i2.next() === pitsi21;
-     *  i2.next() === pitsi11;
-     *  i2.next() === pitsi22;
-     *  i2.next() === pitsi12;
-     *  i2.next() === pitsi23;
-     *  i2.next() === pitsi12;  #THROWS NoSuchElementException  
-     *  
-     *  int n = 0;
-     *  int jnrot[] = {2,1,2,1,2};
-     *  
-     *  for ( Tulos har:tulokset ) { 
-     *    har.getPaivaNro() === jnrot[n]; n++;  
-     *  }
-     *  
-     *  n === 5;
-     *  
-     * </pre>
      */
     @Override
     public Iterator<Tulos> iterator() {
@@ -364,9 +307,34 @@ public class Tulokset implements Iterable<Tulos>{
      * @param tunnusnro jäsenen tunnusnumero jolle harrastuksia haetaan
      * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
      * @throws SailoException jos Tulosten hakeminen tietokannasta epäonnistuu
+     * @example
+     * <pre name="test">
+     *  #THROWS SailoException
+     *
+     *  Tulos pitsi21 = new Tulos(2); pitsi21.vastaaTulos(2); tulokset.lisaa(pitsi21);
+     *  Tulos pitsi11 = new Tulos(1); pitsi11.vastaaTulos(1); tulokset.lisaa(pitsi11);
+     *  Tulos pitsi22 = new Tulos(2); pitsi22.vastaaTulos(2); tulokset.lisaa(pitsi22);
+     *  Tulos pitsi12 = new Tulos(1); pitsi12.vastaaTulos(1); tulokset.lisaa(pitsi12);
+     *  Tulos pitsi23 = new Tulos(2); pitsi23.vastaaTulos(2); tulokset.lisaa(pitsi23);
+     *  Tulos pitsi51 = new Tulos(5); pitsi51.vastaaTulos(5); tulokset.lisaa(pitsi51);
+     *
+     *
+     *  List<Tulos> loytyneet;
+     *  loytyneet = tulokset.annaTulokset(3);
+     *  loytyneet.size() === 0;
+     *  loytyneet = tulokset.annaTulokset(1);
+     *  loytyneet.size() === 2;
+     *
+     *  loytyneet.get(0) === pitsi11;
+     *  loytyneet.get(1) === pitsi12;
+     *
+     *  loytyneet = tulokset.annaTulokset(5);
+     *  loytyneet.size() === 1;
+     *  loytyneet.get(0) === pitsi51;
+     * </pre>
      */
     public List<Tulos> annaTulokset(int tunnusnro) throws SailoException {
-        List<Tulos> loydetyt = new ArrayList<Tulos>();
+        List<Tulos> loydetyt = new ArrayList<>();
         
         try ( Connection con = kanta.annaKantayhteys();
               PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
