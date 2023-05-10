@@ -35,22 +35,25 @@ public class Tulos implements Cloneable {
         //
     }
     
-//    public Tulos(String liike, String sarja, String paino, String muut, int paiva) {
-//        this.liike = liike;
-//        this.sarja = sarja;
-//        this.paino = paino;
-//        this.muut = muut;
-//        this.paivaNro = paiva;
-//    }
-    
-    public void asetaArvot(String liike, String sarja, String paino, String muut, int paiva) {
+    public Tulos(String liike, String sarja, String paino, String muut, int paiva) {
         this.liike = liike;
         this.sarja = sarja;
         this.paino = paino;
         this.muut = muut;
         this.paivaNro = paiva;
     }
-    
+
+    /**
+     * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on
+     * TODO: Tähän lisätään ehkä myös sarja ja toisto/toistot?
+     * @param paiva mikä paiva kyseessä
+     */
+    public Tulos(int paiva) {
+        this.paivaNro = paiva;
+    }
+
+
+
     public String asetaPaiva(int paiva) {
         this.paivaNro = paiva;
         return null;
@@ -89,15 +92,7 @@ public class Tulos implements Cloneable {
     }
     
     
-    /**
-     * Kun tehdään tulos niin määritetään samalla mille päivälle tulos on
-     * TODO: Tähän lisätään ehkä myös sarja ja toisto/toistot?
-     * @param paiva mikä paiva kyseessä
-     */
-    public Tulos(int paiva) {
-        this.paivaNro = paiva;
-    }
-    
+
     
     /**
      * @return Tunnus numero

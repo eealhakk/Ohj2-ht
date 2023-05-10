@@ -153,7 +153,7 @@ public class Tulokset implements Iterable<Tulos>{
      * Poistaa kaikki tietyn tietyn paivan tulokset
      * @param tunnusNro viite siihen, mihin liittyvät "tietueet" poistetaan
      * @return montako poistettiin 
-     * @throws SailoException
+     * @throws SailoException jos tietokannan kanssa ongelmia
      */
     public int poistaPaivanTulokset(int tunnusNro) throws SailoException {
         int n = 0;
@@ -193,14 +193,16 @@ public class Tulokset implements Iterable<Tulos>{
      *     #THROWS CloneNotSupportedException, SailoException
      *     #PACKAGEIMPORT
      *
-     *     Tulokset tulokset = new Tulokset();
+     *     Tulokset tulokset = new Tulokset("testi");
      *     Tulos tulos1 = new Tulos(), tulos2 = new Tulos();
-     *     tulos1.rekisteroi(); tulos2.rekisteroi();
      *     tulos1.vastaaTulos();
      *     tulos2.vastaaTulos();
+     *     tulos1.rekisteroi(); tulos2.rekisteroi();
      *     tulokset.getLkm() === 0;
-     *     tulokset.korvaaTaiLisaa(tulos1); tulokset.getLkm() === 1;
-     *     tulokset.korvaaTaiLisaa(tulos2); tulokset.getLkm() === 2;
+     *     tulokset.korvaaTaiLisaa(tulos1);
+     *     tulokset.getLkm() === 1;
+     *     tulokset.korvaaTaiLisaa(tulos2);
+     *     tulokset.getLkm() === 2;
      *     Tulos tulos3 = tulos1.clone();
      *     tulos3.aseta(2, "xxx");
      *     Iterator<Tulos> it = tulokset.iterator();
@@ -226,37 +228,6 @@ public class Tulokset implements Iterable<Tulos>{
         }
         lisaa(tulos);
     }
-    
-//    /**
-//     * @param hakuehto hakuehto
-//     * @param k etsittävän kentän indeksi
-//     * @return paivat listassa
-//     * @throws SailoException poikkeus
-//     */
-//    public Collection<Paiva> etsi(String hakuehto, int k) throws SailoException {
-//        String ehto = hakuehto;
-//        String kysymys = aputulos.getKysymys(k);
-//        if ( k < 0 ) { kysymys = aputulos.getKysymys(0); ehto = ""; }
-//        // Avataan yhteys tietokantaan try .. with lohkossa.
-//        try ( Connection con = kanta.annaKantayhteys();
-//              PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE " + kysymys + " LIKE ?") ) {
-//            ArrayList<Paiva> loytyneet = new ArrayList<Paiva>();
-//            
-//            sql.setString(1, "%" + ehto + "%");     //Ehto tulee ehkä väärässä muodossaS
-//            try ( ResultSet tulokset = sql.executeQuery() ) {
-//                while ( tulokset.next() ) {
-//                    
-//                    Paiva j = new Paiva();
-//                    j.parse(tulokset);
-//                    loytyneet.add(j);
-//                }
-//            }
-//            return loytyneet;
-//        } catch ( SQLException e ) {
-//            e.printStackTrace();
-//            throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-//        }
-//    }
 
 
 
@@ -272,14 +243,13 @@ public class Tulokset implements Iterable<Tulos>{
     }
 
 
-    /**
-     * Tallentaa tulokset tiedostoon.  
-     * TODO Kesken.
-     * @throws SailoException jos talletus epäonnistuu
-     */
-    public void talleta() throws SailoException {
-        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
-    }
+   // /**
+   //  * Tallentaa tulokset tiedostoon.
+   //  * @throws SailoException jos talletus epäonnistuu
+   //  */
+   // public void talleta() throws SailoException {
+   //     throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+   // }
     
     //Lisätty tyo7
     /**
@@ -311,12 +281,12 @@ public class Tulokset implements Iterable<Tulos>{
      * <pre name="test">
      *  #THROWS SailoException
      *
-     *  Tulos pitsi21 = new Tulos(2); pitsi21.vastaaTulos(2); tulokset.lisaa(pitsi21);
-     *  Tulos pitsi11 = new Tulos(1); pitsi11.vastaaTulos(1); tulokset.lisaa(pitsi11);
-     *  Tulos pitsi22 = new Tulos(2); pitsi22.vastaaTulos(2); tulokset.lisaa(pitsi22);
-     *  Tulos pitsi12 = new Tulos(1); pitsi12.vastaaTulos(1); tulokset.lisaa(pitsi12);
-     *  Tulos pitsi23 = new Tulos(2); pitsi23.vastaaTulos(2); tulokset.lisaa(pitsi23);
-     *  Tulos pitsi51 = new Tulos(5); pitsi51.vastaaTulos(5); tulokset.lisaa(pitsi51);
+     *  Tulos tulos21 = new Tulos(2); tulos21.vastaaTulos(2); tulokset.lisaa(tulos21);
+     *  Tulos tulos11 = new Tulos(1); tulos11.vastaaTulos(1); tulokset.lisaa(tulos11);
+     *  Tulos tulos22 = new Tulos(2); tulos22.vastaaTulos(2); tulokset.lisaa(tulos22);
+     *  Tulos tulos12 = new Tulos(1); tulos12.vastaaTulos(1); tulokset.lisaa(tulos12);
+     *  Tulos tulos23 = new Tulos(2); tulos23.vastaaTulos(2); tulokset.lisaa(tulos23);
+     *  Tulos tulos51 = new Tulos(5); tulos51.vastaaTulos(5); tulokset.lisaa(tulos51);
      *
      *
      *  List<Tulos> loytyneet;
@@ -325,12 +295,12 @@ public class Tulokset implements Iterable<Tulos>{
      *  loytyneet = tulokset.annaTulokset(1);
      *  loytyneet.size() === 2;
      *
-     *  loytyneet.get(0) === pitsi11;
-     *  loytyneet.get(1) === pitsi12;
+     *  loytyneet.get(0) === tulos11;
+     *  loytyneet.get(1) === tulos12;
      *
      *  loytyneet = tulokset.annaTulokset(5);
      *  loytyneet.size() === 1;
-     *  loytyneet.get(0) === pitsi51;
+     *  loytyneet.get(0) === tulos51;
      * </pre>
      */
     public List<Tulos> annaTulokset(int tunnusnro) throws SailoException {
@@ -354,6 +324,14 @@ public class Tulokset implements Iterable<Tulos>{
         }
         return loydetyt;
     }
+
+    /**
+     * Antaa tuloksen
+     * @param pvTunnusNro tunnusnumero jolle päivälle tulos haetaan
+     * @param tulTunnusNro tunnusnumero jolle tulokselle haetaan
+     * @return tul tulos
+     * @throws SailoException jos tietokannasta ei löydy tulosta
+     */
     
     public Tulos annaTulos(int pvTunnusNro, int tulTunnusNro) throws SailoException {
         
@@ -375,25 +353,7 @@ public class Tulokset implements Iterable<Tulos>{
         }
         return null;
     }
-    /*
-    public Tulos annnTulos(int tunnusnro1, int tunnusnro2) throws SailoException {
-        try ( Connection con = kanta.annaKantayhteys();
-                PreparedStatement sql = con.prepareStatement("SELECT * FROM Tulokset WHERE paivaID = ?")
-                  ) {
-              sql.setInt(1, tunnusnro1);
-              try ( ResultSet tulokset = sql.executeQuery() )  {
-                  while ( tulokset.next() ) {
-                      if (if )
-                  }
-              }
-              
-          } catch (SQLException e) {
-              e.printStackTrace();
-              throw new SailoException("Ongelmia tietokannan kanssa:" + e.getMessage());
-          }
-        return;
-    }
-    */
+
 
 
     /**
@@ -403,20 +363,20 @@ public class Tulokset implements Iterable<Tulos>{
     public static void main(String args[])  {
         try {
             Tulokset harrasteet = new Tulokset("treenikokeiluTulokset");
-            Tulos pitsi1 = new Tulos();
-            pitsi1.vastaaTulos(2);
-            Tulos pitsi2 = new Tulos();
-            pitsi2.vastaaTulos(1);
-            Tulos pitsi3 = new Tulos();
-            pitsi3.vastaaTulos(2);
-            Tulos pitsi4 = new Tulos();
-            pitsi4.vastaaTulos(2);
+            Tulos tulos1 = new Tulos();
+            tulos1.vastaaTulos(2);
+            Tulos tulos2 = new Tulos();
+            tulos2.vastaaTulos(1);
+            Tulos tulos3 = new Tulos();
+            tulos3.vastaaTulos(2);
+            Tulos tulos4 = new Tulos();
+            tulos4.vastaaTulos(2);
 
-            harrasteet.lisaa(pitsi1);
-            harrasteet.lisaa(pitsi2);
-            harrasteet.lisaa(pitsi3);
-            harrasteet.lisaa(pitsi2);
-            harrasteet.lisaa(pitsi4);
+            harrasteet.lisaa(tulos1);
+            harrasteet.lisaa(tulos2);
+            harrasteet.lisaa(tulos3);
+            harrasteet.lisaa(tulos2);
+            harrasteet.lisaa(tulos4);
             
             System.out.println("============= Tulokset testi =================");
     
