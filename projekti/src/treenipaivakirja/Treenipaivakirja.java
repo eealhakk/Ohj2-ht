@@ -101,8 +101,8 @@ public class Treenipaivakirja {
      * @throws SailoException poikkeus
      * @example
      * <pre name="test">
+     * #THROWS SailoException
      * #import java.util.*;
-     * 
      *  Treenipaivakirja treenipaivakirja = new Treenipaivakirja();
      *  Paiva otus1 = new Paiva(), otus2 = new Paiva(), otus3 = new Paiva();
      *  otus1.rekisteroi(); otus2.rekisteroi(); otus3.rekisteroi();
@@ -295,7 +295,7 @@ public class Treenipaivakirja {
 //    * Paiva aku2 = new Paiva(); aku2.vastaaEsimerkkiTreeni(); 
 //    * treenipaivakirja.lisaa(aku1);
 //    * treenipaivakirja.lisaa(aku2);
-//    * treenipaivakirja.lisaa(aku2);  #THROWS SailoException // samaa ei saa laittaa kahdesti
+//    * treenipaivakirja.lisaa(aku2);
 //    * Collection<Paiva> loytyneet = treenipaivakirja.etsi(aku1.getPvm(), 1);
 //    * loytyneet.size() === 1;
 //    * loytyneet.iterator().next() === aku1;

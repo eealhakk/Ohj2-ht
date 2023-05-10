@@ -1,7 +1,8 @@
 package treenipaivakirja;
 
+import varasto.Treeni;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Antti ja Eeli
