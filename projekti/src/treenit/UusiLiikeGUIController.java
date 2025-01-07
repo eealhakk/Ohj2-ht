@@ -18,7 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import kanta.Tietue;
+
 import org.w3c.dom.DOMStringList;
 import treenipaivakirja.Paiva;
 import treenipaivakirja.SailoException;

@@ -77,6 +77,10 @@ public class Treenipaivakirja {
         return paivat.getlkm();
     }
     
+    public Treenipaivakirja() {
+        //
+    }
+    
     /**
      * Palauttaa i:n paivan
      * @param i monesko paiva palautetaan
@@ -222,20 +226,20 @@ public class Treenipaivakirja {
      * Etsitään samalla tunnusnumerolla oleva paiva.  Jos ei löydy, 
      * niin lisätään uutena paivana. 
      * @param paiva lisätäävän jäsenen viite.  Huom tietorakenne muuttuu omistajaksi 
-     * @throws SailoException jos tietorakenne on jo täynnä 
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException  
+     *  alustaTreenipaivakirja();
+     *  treenipaivakirja.etsi("*",0).size() === 2;
+     *  treenipaivakirja.korvaaTaiLisaa(aku1);
+     *  treenipaivakirja.etsi("*",0).size() === 2;
+     * </pre>
      */ 
     public void korvaaTaiLisaa(Paiva paiva) throws SailoException { 
         paivat.korvaaTaiLisaa(paiva); 
     }
-    
-//    * @example
-//    * <pre name="test">
-//    * #THROWS SailoException  
-//    *  alustaTreenipaivakirja();
-//    *  treenipaivakirja.etsi("*",0).size() === 2;
-//    *  treenipaivakirja.korvaaTaiLisaa(aku1);
-//    *  treenipaivakirja.etsi("*",0).size() === 2;
-//    * </pre>
+ 
     
     /** 
      * Korvaa harrastuksen tietorakenteessa.  Ottaa harrastuksen omistukseensa. 
