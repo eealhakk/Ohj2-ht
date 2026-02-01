@@ -1,9 +1,10 @@
-Projekti treenipaivakirja kesken.
+Ohjelmointi2 kurssin projekti
 
-Ohjelmalla pystyy luomaan vuosikohtaisesti treenimuistiinpanon. 
-Ohjelmaan pystyy kirjaanaam päiväkohtaisesti esimerkiksi salitreenit.
+Ohjelma toimii työkaluna salitreenien kirjanpitoon. Ohjelmalla pystyy luomaan vuosikohtaisesti treenimuistiinpanon. 
+Asennus ja käyttö
+Windows
 
-
-Ohjelman saa käynnistettyä projekti / src / treenit / TreenipaivakirjaMain.java
-
-Pohja kevään 2023 harjoitustöiden GIT-repoille - ohjelmlointi2
+    Lataa ohjelman uusin versio
+    Laita .jar-tiedosto haluamaasi kansioon
+    Aja ohjelma (java -jar tiedoto.jar))
+    Seuraa sovelluksen sisäisiä ohjeita
